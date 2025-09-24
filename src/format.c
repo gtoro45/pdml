@@ -19,7 +19,18 @@ void extract(char* pcap_path) {
     }
     // Child process
     else if(pid == 0) {
-        //TODO: call zeek script with execvp()
+        //call zeek script with execvp()
+        char* cmd = "/usr/local/zeek/bin/zeek";
+        char* argv[3];
+        agrv[0] = cmd;
+        argv[1] = "-r";
+        argv[2] = pcap_path;
+        argv[3] = "extract.zeek";
+        argv[4] = NULL; 
+        if(execvp(cmd, argv) < 0) {     //execvp being called here inside if statement to check for failure
+            perror("zeek extraction process exec failed");
+            exit(1); 
+        }
     }
     // Parent process
     else {
