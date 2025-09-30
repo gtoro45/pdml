@@ -1,3 +1,4 @@
 benign_1_min/
 zeek/
 src/logs/*
+.vscode/
