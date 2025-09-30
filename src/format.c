@@ -5,17 +5,17 @@
 
 */
 #define _GNU_SOURCE
-#include <stdio.h>
-#include <stdlib.h>
+#include "zeek_csv.h"
 #include <unistd.h>
 #include <pthread.h>
 #include <sched.h>
-#include <fcntl.h>
 #include <stdbool.h>
 #include <sys/stat.h>
 #include <sys/time.h>
 #include <sys/wait.h>
 #include <errno.h>
+
+
 
 /************************ General Helper Functions ************************/
 
@@ -24,10 +24,9 @@
 char** input_queue;
 
 void format(char* pcap_path) {
-    // temp function
-    printf("%s\n", pcap_path);
+    // tokenize the log file
 
-    //TODO: FORMAT THEN FIFO
+    // TODO: FORMAT THEN FIFO
 }
 
 void* extract(void* arg) {
