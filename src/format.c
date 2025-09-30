@@ -87,6 +87,8 @@ void* extract(void* arg) {
 
         //call formatting function
         format(pcap_path);
+
+        // TODO: decrement the active thread counter
     }
 }
 
