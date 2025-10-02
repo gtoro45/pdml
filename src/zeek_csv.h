@@ -11,15 +11,31 @@
 #include <string.h>
 #include <unistd.h>
 #include <fcntl.h>
-#define TOKENIZER_BUF_SIZE 4096
+
+#define EXTRACTION_BUF_SIZE 65536   // 64k buffer for very large log files
+#define EXTRACTION_LINE_SIZE 1024   // 1k line buffer for parsing 
+#define ZEEK_DELIM "\x09"
+
+// TODO
+// enum LogType {
+    
+// }
 
 
 /**
- * Tokenize the lines of the given log file into a char** (2D array)
- * tokenize_lines[0]:    contains the column information
- * tokenize_lines[:len]: contains the data  
+ * Extract the lines of the given log file into a char** (2D array)
+ * extract_lines[0]:    contains the column information
+ * extract_lines[:len]: contains the data as space separated strings
+ * NOTE: THIS FUNCTION'S RETURN IS ALLOCATED MEMORY AND MUST BE FREED
  */
-char** tokenize_lines(char* log_path);
+char** extract_lines(char* log_path);
+
+/**
+ * Takes a space-separated line from a Zeek log file and returns
+ * a csv-formatted, comma-delimited line 
+ * NOTE: THIS FUNCTION'S RETURN IS ALLOCATED MEMORY AND MUST BE FREED
+ */
+char* csvify_line(char* line);
 
 
 

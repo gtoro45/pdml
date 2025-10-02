@@ -24,7 +24,7 @@
 char** input_queue;
 
 void format(char* pcap_path) {
-    // tokenize the log file
+    // identify all the important log files in the path
 
     // TODO: FORMAT THEN FIFO
 }
@@ -94,36 +94,50 @@ void* extract(void* arg) {
 
 /************************ Main Program ************************/
 int main() {
-    char* pcap_path1 = "../benign_1_min/Node 1 (Child 3)/node-child3-1757872962.pcap";
-    char* pcap_path2 = "../benign_1_min/Node 2 (Child 4)/fixed_node-child4-1757872963.pcap";
-    char* pcap_path3 = "../benign_1_min/Camera Pod/camera-usb-camera-two-1757872962.pcap";
-    char* pcap_path4 = "../benign_1_min/NGINX Pod/webserver-nginx-5c5d44f994-hswwh-1757872964.pcap";
-    char* pcap_path5 = "../benign_1_min/LiDAR Pod/lidar-usb-lidar-1757872963.pcap";
+    char* log_path = "../src/logs/1756495414760718325/conn.log";
+    char** lines = extract_lines(log_path); // needs to be freed
+    int i = 0;
+    while(lines[i] != NULL) {
+        char* formatted = csvify_line(lines[i]);
+        printf("%s", formatted);
+        free(formatted);
+        free(lines[i]);
+        i++;
+    }
+    printf("\n");
+
+
+
+    // char* pcap_path1 = "../benign_1_min/Node 1 (Child 3)/node-child3-1757872962.pcap";
+    // char* pcap_path2 = "../benign_1_min/Node 2 (Child 4)/fixed_node-child4-1757872963.pcap";
+    // char* pcap_path3 = "../benign_1_min/Camera Pod/camera-usb-camera-two-1757872962.pcap";
+    // char* pcap_path4 = "../benign_1_min/NGINX Pod/webserver-nginx-5c5d44f994-hswwh-1757872964.pcap";
+    // char* pcap_path5 = "../benign_1_min/LiDAR Pod/lidar-usb-lidar-1757872963.pcap";
     
 
-    // detect environment
-    long nprocs = sysconf(_SC_NPROCESSORS_ONLN);
+    // // detect environment
+    // long nprocs = sysconf(_SC_NPROCESSORS_ONLN);
 
-    // create threads
-    pthread_t thread1;
-    pthread_t thread2;
-    pthread_t thread3;
-    pthread_t thread4;
-    pthread_t thread5;
+    // // create threads
+    // pthread_t thread1;
+    // pthread_t thread2;
+    // pthread_t thread3;
+    // pthread_t thread4;
+    // pthread_t thread5;
 
-    // spawn threads
-    pthread_create(&thread1, NULL, extract, pcap_path1);
-    pthread_create(&thread2, NULL, extract, pcap_path2);
-    pthread_create(&thread3, NULL, extract, pcap_path3);
-    pthread_create(&thread4, NULL, extract, pcap_path4);
-    pthread_create(&thread5, NULL, extract, pcap_path5);
+    // // spawn threads
+    // pthread_create(&thread1, NULL, extract, pcap_path1);
+    // pthread_create(&thread2, NULL, extract, pcap_path2);
+    // pthread_create(&thread3, NULL, extract, pcap_path3);
+    // pthread_create(&thread4, NULL, extract, pcap_path4);
+    // pthread_create(&thread5, NULL, extract, pcap_path5);
 
-    // join threads
-    pthread_join(thread1, NULL);
-    pthread_join(thread2, NULL);
-    pthread_join(thread3, NULL);
-    pthread_join(thread4, NULL);
-    pthread_join(thread5, NULL);
+    // // join threads
+    // pthread_join(thread1, NULL);
+    // pthread_join(thread2, NULL);
+    // pthread_join(thread3, NULL);
+    // pthread_join(thread4, NULL);
+    // pthread_join(thread5, NULL);
 
     
 
