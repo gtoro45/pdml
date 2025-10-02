@@ -72,7 +72,7 @@ char* csvify_line(char* line) {
         //        a null pointer and uses the position right 
         //        after the end of the last token as the new 
         //        starting location for scanning" (Docs)
-        tok = strtok(NULL, delim);
+        tok = strtok(NULL, ZEEK_DELIM);
         if(tok) {
             strcat(formatted, ",");
         }
