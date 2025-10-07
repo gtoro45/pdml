@@ -4,6 +4,18 @@
     "files.associations": {
         "time.h": "c",
         "zeek_csv.h": "c",
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "bitset": "c",
+        "string": "c",
+        "vector": "c",
+        "memory": "c",
+        "optional": "c",
+        "string_view": "c",
+        "system_error": "c",
+        "variant": "c",
+        "__locale": "c",
+        "__threading_support": "c",
+        "type_traits": "c",
+        "utility": "c"
     }
 }
