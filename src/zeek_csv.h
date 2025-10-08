@@ -31,9 +31,15 @@
 char** extract_lines(char* log_path);
 
 /**
+ * Extract the most recent line from a live zeek extraction session
+ */
+char* extract_latest_line(char* log_path);
+
+/**
  * Takes a space-separated line from a Zeek log file and returns
  * a csv-formatted, comma-delimited line 
- * NOTE: THIS FUNCTION'S RETURN IS ALLOCATED MEMORY AND MUST BE FREED
+ * @param line The extracted line from the Zeek log file; must be a malloc'd line 
+ * @note THIS FUNCTION'S RETURN IS ALLOCATED MEMORY AND MUST BE FREED
  */
 char* csvify_line(char* line);
 

@@ -3,3 +3,4 @@ zeek/
 src/logs/*
 .vscode/
 tests/
+src/*.o

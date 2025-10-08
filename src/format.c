@@ -44,5 +44,11 @@ void launch_zeek(char* interface, char* script_path) {
 int main() {
     // to be launched for all interfaces being read
     launch_zeek("eth0", NULL);
+    // launch_zeek("eth0", NULL);
+    // launch_zeek("eth0", NULL);
+    // launch_zeek("eth0", NULL);
+    // launch_zeek("eth0", NULL);
+
+    
     return 0;
 }
