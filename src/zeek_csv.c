@@ -52,19 +52,21 @@ char** extract_lines(char* log_path) {
     return lines;
 }
 
-char* csvify_line(char* line) {
+char** tokenize_line(char* line, LogType logfile_type) {
     // declare the formatted line
-    char formatted[EXTRACTION_LINE_SIZE];
-    formatted[0] = '\0';
-    
+    char* formatted[EXTRACTION_MAX_TOKENS];
+    int formatted_idx = 0;
+
     // set up the use of strtok
     char* tmp = line;
     char* tok = strtok(tmp, ZEEK_DELIM);
 
     // iterate through strtok
-    while(tok) {
+    while(tok && formatted_idx < EXTRACTION_MAX_TOKENS) {
         // append the token
-        strcat(formatted, tok);
+        formatted[formatted_idx] = malloc(strlen(tok) + 1);
+        strcpy(formatted[formatted_idx], tok);
+        formatted_idx++;
 
         // iterate to the next token via a new strtok() call
         // check that the token exists before adding a "," in between
@@ -73,18 +75,8 @@ char* csvify_line(char* line) {
         //        after the end of the last token as the new 
         //        starting location for scanning" (Docs)
         tok = strtok(NULL, ZEEK_DELIM);
-        if(tok) {
-            strcat(formatted, ",");
-        }
     }
-
-    strcat(formatted, "\n");
     
     // return heap allocated copy
-    int len = strlen(formatted) + 1;
-    char* copy = malloc(len);
-    if(copy) {
-        memcpy(copy, formatted, len);
-    }
-    return copy;
+    // TODO
 }

@@ -13,13 +13,17 @@
 #include <fcntl.h>
 
 #define EXTRACTION_BUF_SIZE 65536   // 64k buffer for very large log files
+#define EXTRACTION_MAX_TOKENS 256   // max number of tokens in a zeek log line
 #define EXTRACTION_LINE_SIZE 1024   // 1k line buffer for parsing 
 #define ZEEK_DELIM "\x09"
 
-// TODO
-// enum LogType {
-    
-// }
+enum LogType {
+    CONN,
+    DNS,
+    HTTP,
+    SSL,
+    WEIRD
+}
 
 
 /**
@@ -37,13 +41,12 @@ char* extract_latest_line(char* log_path);
 
 /**
  * Takes a space-separated line from a Zeek log file and returns
- * a csv-formatted, comma-delimited line 
+ * a tokenized version of the line, as an array of strings.
  * @param line The extracted line from the Zeek log file; must be a malloc'd line 
+ * @param logfile_type The type of log file being processed
  * @note THIS FUNCTION'S RETURN IS ALLOCATED MEMORY AND MUST BE FREED
  */
-char* csvify_line(char* line);
-
-
+char** tokenize_line(char* line, LogType logfile_type);
 
 
 #endif
