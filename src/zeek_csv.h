@@ -11,33 +11,41 @@
 #include <string.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <stdbool.h>
 
 #define EXTRACTION_BUF_SIZE 65536   // 64k buffer for very large log files
 #define EXTRACTION_MAX_TOKENS 256   // max number of tokens in a zeek log line
 #define EXTRACTION_LINE_SIZE 1024   // 1k line buffer for parsing 
 #define ZEEK_DELIM "\x09"
 
-enum LogType {
+typedef enum {
     CONN,
     DNS,
     HTTP,
     SSL,
     WEIRD
-}
+} LogType;
+
+typedef struct {
+    char** lines;
+    char* incomplete_line;
+    bool incomplete_flag;
+} LineBuffer;
 
 
 /**
  * Extract the lines of the given log file into a char** (2D array)
  * extract_lines[0]:    contains the column information
  * extract_lines[:len]: contains the data as space separated strings
+ * @param fd The file descriptor pointing to the log file to be opened
  * NOTE: THIS FUNCTION'S RETURN IS ALLOCATED MEMORY AND MUST BE FREED
  */
-char** extract_lines(char* log_path);
+char** extract_lines(int fd);
 
 /**
- * Extract the most recent line from a live zeek extraction session
+ * free the malloc'd lines char** from extract_lines()
  */
-char* extract_latest_line(char* log_path);
+void free_lines(char** lines);
 
 /**
  * Takes a space-separated line from a Zeek log file and returns
@@ -48,5 +56,9 @@ char* extract_latest_line(char* log_path);
  */
 char** tokenize_line(char* line, LogType logfile_type);
 
+/**
+ * free the malloc'd tokens char** from tokenize_line()
+ */
+void free_tokens(char** tokens);
 
 #endif

@@ -1,13 +1,6 @@
 #include "zeek_csv.h"
 
-char** extract_lines(char* log_path) {
-    // open the file
-    int fd = open(log_path, O_RDONLY);
-    if(fd < 0) {
-        perror("File could not be opened");
-        exit(1);
-    }
-    
+char** extract_lines(int fd) {
     // read file into large buffer (in chunks) to minimize syscalls
     char buf[EXTRACTION_BUF_SIZE];
     int n;
@@ -43,13 +36,26 @@ char** extract_lines(char* log_path) {
                 line_buf[line_buf_idx] = buf[i];
                 line_buf_idx++;
             }
+
+            // EDGE CASE: file was written to mid read(), so final line is incomplete
+            // i.e. no "\n" to terminate the line
+            if(i == n - 1 && buf[i] != '\n') {
+                off_t after = lseek(fd, -(line_buf_idx), SEEK_CUR);
+                printf("fd after lseek: %lld\n", (long long)after);
+            }
         }
     }
 
     lines[line_idx] = NULL;
-    close(fd);
 
     return lines;
+}
+
+void free_lines(char** lines) {
+    for(int i = 0; lines[i] != NULL; i++) {
+        free(lines[i]);
+    }
+    free(lines);
 }
 
 char** tokenize_line(char* line, LogType logfile_type) {
@@ -63,6 +69,9 @@ char** tokenize_line(char* line, LogType logfile_type) {
 
     // iterate through strtok
     while(tok && formatted_idx < EXTRACTION_MAX_TOKENS) {
+        // Filter the token
+        // TODO
+        
         // append the token
         formatted[formatted_idx] = malloc(strlen(tok) + 1);
         strcpy(formatted[formatted_idx], tok);
@@ -76,7 +85,26 @@ char** tokenize_line(char* line, LogType logfile_type) {
         //        starting location for scanning" (Docs)
         tok = strtok(NULL, ZEEK_DELIM);
     }
+ 
     
-    // return heap allocated copy
-    // TODO
+    // return heap allocated copy without any extra malloc'd bytes
+    // that came form unused space from EXTRACTION_MAX_TOKENS
+    // formatted_idx + 1 is for NULL termination
+    char** result = malloc((formatted_idx + 1) * sizeof(char*));
+    int i;
+    for(i = 0; i < formatted_idx; i++) {
+        result[i] = formatted[i];
+    }
+
+    // terminate the array of tokens
+    result[i] = NULL; 
+
+    return result;
+}
+
+void free_tokens(char** tokens) {
+    for(int i = 0; tokens[i] != NULL; i++) {
+        free(tokens[i]);
+    }
+    free(tokens);
 }
