@@ -34,13 +34,11 @@ typedef struct {
 
 
 /**
- * Extract the lines of the given log file into a char** (2D array)
- * extract_lines[0]:    contains the column information
- * extract_lines[:len]: contains the data as space separated strings
+ * Extract the lines of the given log file into a LineBuffer struct
  * @param fd The file descriptor pointing to the log file to be opened
  * NOTE: THIS FUNCTION'S RETURN IS ALLOCATED MEMORY AND MUST BE FREED
  */
-char** extract_lines(int fd);
+LineBuffer extract_lines(int fd);
 
 /**
  * free the malloc'd lines char** from extract_lines()

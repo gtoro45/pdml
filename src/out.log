@@ -1,0 +1,7 @@
+rm -f pdml format.o zeek_csv.o
+gcc -Wall -c format.c
+gcc -Wall -c zeek_csv.c
+gcc -Wall -o pdml format.o zeek_csv.o
+[./tests/conn.log] Zeek log file being established... (0)
+[./tests/dns.log] Zeek log file being established... (0)
+[./tests/dns.log] Zeek log file being established... (5)

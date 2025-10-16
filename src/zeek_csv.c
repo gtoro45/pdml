@@ -1,12 +1,14 @@
 #include "zeek_csv.h"
 
-char** extract_lines(int fd) {
+LineBuffer extract_lines(int fd) {
     // read file into large buffer (in chunks) to minimize syscalls
     char buf[EXTRACTION_BUF_SIZE];
     int n;
     int lines_cap = 64;
     char** lines = malloc(lines_cap * sizeof(char*));
     int line_idx = 0;                           // current index in lines (char**)
+    char* incomplete_line;                      // to store the incomplete line
+    bool incomplete = false;                    // flag if a read was incomplete (no '\n')
     while((n = read(fd, buf, sizeof(buf))) > 0) {
         // read the chunk of data stored in buf
         int line_buf_idx = 0;                       // current index in the line buffer
@@ -40,15 +42,21 @@ char** extract_lines(int fd) {
             // EDGE CASE: file was written to mid read(), so final line is incomplete
             // i.e. no "\n" to terminate the line
             if(i == n - 1 && buf[i] != '\n') {
-                off_t after = lseek(fd, -(line_buf_idx), SEEK_CUR);
-                printf("fd after lseek: %lld\n", (long long)after);
+                incomplete_line = malloc(line_buf_idx + 2);             // add extra byte for '\0'
+                memcpy(incomplete_line, line_buf, line_buf_idx + 1);    // copy over current buffer
+                incomplete_line[line_buf_idx + 1] = '\0';               // null terminate the string
+                incomplete = true;
             }
         }
     }
-
     lines[line_idx] = NULL;
 
-    return lines;
+    LineBuffer result;
+    result.lines = lines;
+    result.incomplete_line = (incomplete) ? incomplete_line : NULL;
+    result.incomplete_flag = incomplete;
+
+    return result;
 }
 
 void free_lines(char** lines) {

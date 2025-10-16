@@ -16,21 +16,45 @@ void* format(void* log_path) {
     int fd;
     int timeout = 0;
     while((fd = open(path, O_RDONLY)) < 0) {
-        printf("Zeek log file being established... (%d)\n", timeout);
+        printf("[%s] Zeek log file being established... (%d)\n", path, timeout);
         fflush(stdout);
-        sleep(1);
-        timeout++;
-        if(timeout == 30) {
+        sleep(5);
+        timeout += 5;
+        if(timeout == 60) {
             perror("File could not be opened");
             exit(1);
         }
     }
 
     // continuously monitor the file for new lines to be added
+    LineBuffer buf = {0};                               // previous buffer
+    buf.incomplete_flag = false;
     while(1) {
-        char** lines = extract_lines(fd);
-        for(int i = 0; lines[i] != NULL; i++) {
-            char** line_tokens = tokenize_line(lines[i], HTTP);
+        LineBuffer new_buf = extract_lines(fd);         // new buffer
+        // check for previously incomplete flags (garbage collection hell)
+        if(buf.incomplete_flag && new_buf.lines[0]) {
+            /* -- Concatenation Logic --*/
+            int len1 = strlen(buf.incomplete_line);                                 // record length of the incomplete line
+            int len2 = strlen(new_buf.lines[0]);                                    // record length of the 2nd part of the incomplete line
+            buf.incomplete_line = realloc(buf.incomplete_line, len1 + len2 + 1);    // realloc incomplete line memory to create space for 2nd part
+            strcat(buf.incomplete_line, new_buf.lines[0]);                          // concatenate 2nd part of line to end of incomplete line --> complete line atp
+            free(new_buf.lines[0]);                                                 // free the 0th element of lines, which contains the 2nd part of the line that we just concatenated
+            new_buf.lines[0] = malloc((len1 + len2 + 1) * sizeof(char));            // malloc 0th element now to have enough space for the final, complete line
+            strcpy(new_buf.lines[0], buf.incomplete_line);                          // copy over the complete line into that memory we just malloc'd
+            free(buf.incomplete_line);                                              // free the old buffer's incomplete line, we are done with it
+            buf.incomplete_line = NULL;
+            buf.incomplete_flag = false;                                            // reset the previous buffer incomplete flag
+        }
+
+        // update the buffer state between loop iterations
+        free_lines(buf.lines);
+        buf.lines = NULL;
+        buf.incomplete_line = new_buf.incomplete_line;
+        buf.incomplete_flag = new_buf.incomplete_flag;
+        
+        // parse individual lines
+        for(int i = 0; new_buf.lines[i] != NULL; i++) {
+            char** line_tokens = tokenize_line(new_buf.lines[i], CONN);
             
             printf("[%s]: ", path);
             for(int j = 0; line_tokens[j] != NULL; j++) {
@@ -40,7 +64,7 @@ void* format(void* log_path) {
             
             free_tokens(line_tokens);
         }
-        free_lines(lines);
+        free_lines(new_buf.lines);
     }
     
     // close the file upon loop exit
@@ -48,7 +72,6 @@ void* format(void* log_path) {
 }
 
 int main() {
-
     pthread_t thread1;
     pthread_t thread2;
 
