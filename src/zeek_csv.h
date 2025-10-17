@@ -12,19 +12,29 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdbool.h>
+#include <poll.h>
+#include <errno.h>
 
 #define EXTRACTION_BUF_SIZE 65536   // 64k buffer for very large log files
 #define EXTRACTION_MAX_TOKENS 256   // max number of tokens in a zeek log line
 #define EXTRACTION_LINE_SIZE 1024   // 1k line buffer for parsing 
 #define ZEEK_DELIM "\x09"
 
+/**
+ * enum identifying the key logfile types to be processed by the program.
+ * Each enum holds a value equal to the number of key columns each logfile
+ * needs to have
+ */
 typedef enum {
     CONN,
     DNS,
     HTTP,
     SSL,
-    WEIRD
+    WEIRD,
+    UNKNOWN
 } LogType;
+
+const char* logtype_to_str(LogType type);
 
 typedef struct {
     char** lines;
@@ -58,5 +68,13 @@ char** tokenize_line(char* line, LogType logfile_type);
  * free the malloc'd tokens char** from tokenize_line()
  */
 void free_tokens(char** tokens);
+
+/**
+ * Take the tokens generate by free_tokens and return a single,
+ * csv-formatted string
+ * @param tokens The tokens returned by tokenize_line()
+ * @note THIS FUNCTION'S RETURN IS ALLOCATED MEMORY AND MUST BE FREED
+ */
+char* csvify_tokens(char** tokens);
 
 #endif
