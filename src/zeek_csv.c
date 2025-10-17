@@ -88,34 +88,116 @@ char** tokenize_line(char* line, LogType logfile_type) {
     int num_cols = 0;
 
     switch (logfile_type) {
+        /* ===================== conn.log =====================
+        * Key Columns:
+        *  0  -> ts              (timestamp)
+        *  1  -> uid             (unique ID for connection)
+        *  2  -> id.orig_h       (originator host)
+        *  4  -> id.resp_h       (responder host)
+        *  6  -> proto           (protocol, e.g. TCP/UDP)
+        *  8  -> duration        (connection duration)
+        *  9  -> orig_bytes      (bytes sent by originator)
+        * 10  -> resp_bytes      (bytes sent by responder)
+        * 11  -> conn_state      (connection state code)
+        * 12  -> local_orig      (T if originator is local)
+        * 13  -> local_resp      (T if responder is local)
+        * 16  -> orig_pkts       (# of packets sent by originator)
+        * 17  -> orig_ip_bytes   (IP bytes sent by originator)
+        * 18  -> resp_pkts       (# of packets sent by responder)
+        * 19  -> resp_ip_bytes   (IP bytes sent by responder)
+        * ===================================================== */
         case CONN: {
             static int cols[] = {0, 1, 2, 4, 6, 8, 9, 10, 11, 12, 13, 16, 17, 18, 19};
             log_columns = cols;
-            num_cols = sizeof(cols) / sizeof(cols[0]);
+            num_cols = CONN;
             break;
         }
+        
+        /* ===================== dns.log ======================
+        * Key Columns:
+        *  0  -> ts              (timestamp)
+        *  1  -> uid             (connection UID)
+        *  2  -> id.orig_h       (originator host)
+        *  4  -> id.resp_h       (responder host)
+        *  6  -> proto           (transport protocol)
+        *  8  -> query           (DNS query name)
+        *  9  -> qclass          (DNS query class)
+        * 12  -> qtype           (DNS query type)
+        * 13  -> rcode           (DNS response code)
+        * 14  -> rtt             (round-trip time)
+        * 15  -> query_len       (length of query)
+        * 21  -> answers         (list of response records)
+        * 22  -> TTLs            (time-to-live values)
+        * ===================================================== */
         case DNS: {
             static int cols[] = {0, 1, 2, 4, 6, 8, 9, 12, 13, 14, 15, 21, 22};
             log_columns = cols;
-            num_cols = sizeof(cols) / sizeof(cols[0]);
+            num_cols = DNS;
             break;
         }
+
+        /* ===================== http.log =====================
+        * Key Columns:
+        *  0  -> ts              (timestamp)
+        *  1  -> uid             (connection UID)
+        *  2  -> id.orig_h       (originator host)
+        *  4  -> id.resp_h       (responder host)
+        *  7  -> method          (HTTP method, e.g. GET/POST)
+        *  8  -> host            (HTTP host header)
+        *  9  -> uri             (URI requested)
+        * 12  -> referrer        (HTTP referrer)
+        * 14  -> user_agent      (HTTP user agent string)
+        * 15  -> request_body_len (length of request body)
+        * 16  -> response_body_len (length of response body)
+        * 17  -> status_code     (HTTP response status code)
+        * 21  -> resp_mime_types (list of MIME types in response)
+        * 22  -> resp_fuids      (file unique IDs for response)
+        * 25  -> orig_fuids      (file unique IDs for request)
+        * 26  -> orig_filenames  (file names for request)
+        * 28  -> resp_filenames  (file names for response)
+        * 29  -> trans_depth     (pipeline depth of HTTP transaction)
+        * ===================================================== */
         case HTTP: {
             static int cols[] = {0, 1, 2, 4, 7, 8, 9, 12, 14, 15, 16, 17, 21, 22, 25, 26, 28, 29};
             log_columns = cols;
-            num_cols = sizeof(cols) / sizeof(cols[0]);
+            num_cols = HTTP;
             break;
         }
+
+        /* ===================== ssl.log ======================
+        * Key Columns:
+        *  0  -> ts              (timestamp)
+        *  1  -> uid             (connection UID)
+        *  2  -> id.orig_h       (originator host)
+        *  4  -> id.resp_h       (responder host)
+        *  7  -> version         (SSL/TLS version)
+        *  8  -> cipher          (negotiated cipher suite)
+        *  9  -> curve           (elliptic curve used, if any)
+        * 14  -> validation_status (certificate validation result)
+        * ===================================================== */
         case SSL: {
             static int cols[] = {0, 1, 2, 4, 7, 8, 9, 14};
             log_columns = cols;
-            num_cols = sizeof(cols) / sizeof(cols[0]);
+            num_cols = SSL;
             break;
         }
+
+        /* ===================== weird.log ====================
+        * Key Columns:
+        *  0  -> ts              (timestamp)
+        *  1  -> uid             (connection UID, may be empty)
+        *  2  -> id.orig_h       (originator host)
+        *  4  -> id.resp_h       (responder host)
+        *  6  -> name            (type of weird event)
+        *  7  -> addl            (additional info string)
+        *  8  -> notice          (T if turned into notice)
+        *  9  -> peer            (reporting peer name)
+        * 10  -> source          (source of weird event)
+        * ===================================================== */
         case WEIRD: {
             static int cols[] = {0, 1, 2, 4, 6, 7, 8, 9, 10};
             log_columns = cols;
-            num_cols = sizeof(cols) / sizeof(cols[0]);
+            num_cols = WEIRD;
             break;
         }
         default:

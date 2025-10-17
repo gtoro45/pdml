@@ -55,16 +55,18 @@ void* format(void* log_path) {
     int fd;
     int timeout = 0;
     while((fd = open(path, O_RDONLY | O_NONBLOCK)) < 0) {
-        printf("[%s] Zeek log file being established... (%d)\n", path, timeout);
-        fflush(stdout);
-        sleep(5);
-        timeout += 5;
+        if(timeout % 5 == 0) {
+            printf("[%s] Zeek log file being established... (%d)\n", path, timeout);
+            fflush(stdout);
+        }
+        sleep(1);
+        timeout += 1;
         if(timeout == 60) {
             perror("File could not be opened");
             exit(1);
         }
     }
-    printf("[%s]: Connection Established!\n", path);
+    printf("[%s]: Connection Established! (%d) \n", path, timeout);
     fflush(stdout);
 
     // mark the kind of log file the function is extracting
@@ -104,30 +106,38 @@ void* format(void* log_path) {
         
         // parse individual lines
         for(int i = 0; new_buf.lines[i] != NULL; i++) {
-            // tokenize line
-            char** line_tokens = tokenize_line(new_buf.lines[i], log_type);
-            
-            // catch incomplete line and alert user
-            // TODO 
-
-            // convert tokens to csv-readable string
-            char* line_csv = csvify_tokens(line_tokens);
-            
             if(header_counter >= 8) {
+                // tokenize line
+                char** line_tokens = tokenize_line(new_buf.lines[i], log_type);
+
+                // convert tokens to csv-readable string
+                char* line_csv = csvify_tokens(line_tokens);
+
+                // catch incomplete line and alert user
+                // free all allocated memory atp
+                int count = 0;
+                while (line_tokens[count] != NULL) count++;
+                if(count != log_type) {
+                    printf("[%s]: ERROR, unfinished line: %s", log_type_str, line_csv);
+                    // TODO - fill with blanks to send partial data to FIFO
+                    free_tokens(line_tokens);
+                    free(line_csv);
+                    continue;
+                }
+
                 // debug printing
                 printf("[%s]: %s", log_type_str, line_csv);
                 fflush(stdout);
                 
                 // write line to the UNIX FIFO 
                 // TODO
+                
+                free_tokens(line_tokens);
+                free(line_csv);
             }
             else {
                 header_counter++;
             }
-            
-            
-            free_tokens(line_tokens);
-            free(line_csv);
         }
         free_lines(new_buf.lines);
     }

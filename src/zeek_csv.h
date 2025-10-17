@@ -26,16 +26,23 @@
  * needs to have
  */
 typedef enum {
-    CONN,
-    DNS,
-    HTTP,
-    SSL,
-    WEIRD,
-    UNKNOWN
+    CONN = 15,
+    DNS = 13,
+    HTTP = 18,
+    SSL = 8,
+    WEIRD = 9,
+    UNKNOWN = -1
 } LogType;
 
 const char* logtype_to_str(LogType type);
 
+/**
+ * struct that holds multi-line information and state from read() calls
+ * that may be incomplete
+ * @param lines dynamic array of lines read from Zeek log file at a given instant
+ * @param incomplete_line stores an incomplete, non-'\n' terminated line
+ * @param incomplete_flag flag if incomplete_line is not NULL
+ */
 typedef struct {
     char** lines;
     char* incomplete_line;
