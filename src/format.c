@@ -362,21 +362,86 @@ void* format(void* log_path) {
     close(fd2);
 }
 
-int main() {
-    pthread_t thread1;
-    pthread_t thread2;
+int main(int argc, char* argv[]) {
+    if(argc <= 1) {
+        perror("Missing path argument to log files");
+        exit(1);
+    }
+    char* folder_path = argv[1];
+    char* module_type = argv[2];
 
-    if(pthread_create(&thread1, NULL, format, "./tests/dns.log") < 0) {
-        perror("pthread_create");
-    }
-    if(pthread_create(&thread2, NULL, format, "./tests/conn.log") < 0) {
-        perror("pthread_create");
-    }
+    // Build the log file paths
+    char conn_path[256];
+    char dns_path[256];
+    char http_path[256];
+    char ssl_path[256];
+    char weird_path[256];
     
-    pthread_join(thread1, NULL);
-    pthread_join(thread2, NULL);
+    switch(module_type) {
+        case "daemon-logs": {
+            snprintf(conn_path, sizeof(conn_path), "%s/conn.log", folder_path);
+            snprintf(dns_path, sizeof(conn_path), "%s/dns.log", folder_path);
+            snprintf(http_path, sizeof(conn_path), "%s/http.log", folder_path);
+            snprintf(ssl_path, sizeof(conn_path), "%s/ssl.log", folder_path);
+            snprintf(weird_path, sizeof(conn_path), "%s/weird.log", folder_path);
+            break;
+        }
 
-    pthread_mutex_destroy(&m);
+        case "zeek-logs-camera": {
+            snprintf(conn_path, sizeof(conn_path), "%s/conn.log", folder_path);
+            snprintf(dns_path, sizeof(conn_path), "%s/dns.log", folder_path);
+            snprintf(http_path, sizeof(conn_path), "%s/http.log", folder_path);
+            snprintf(ssl_path, sizeof(conn_path), "NULL");
+            snprintf(weird_path, sizeof(conn_path), "%s/weird.log", folder_path);
+            break;
+        }
 
-    return 0;
+        case "zeek-logs-lidar": {
+            snprintf(conn_path, sizeof(conn_path), "%s/conn.log", folder_path);
+            snprintf(dns_path, sizeof(conn_path), "%s/dns.log", folder_path);
+            snprintf(http_path, sizeof(conn_path), "NULL");
+            snprintf(ssl_path, sizeof(conn_path), "NULL");
+            snprintf(weird_path, sizeof(conn_path), "%s/weird.log", folder_path);
+            break;
+        }
+
+        case "zeek-logs-nginx": {
+            snprintf(conn_path, sizeof(conn_path), "%s/conn.log", folder_path);
+            snprintf(dns_path, sizeof(conn_path), "%s/dns.log", folder_path);
+            snprintf(http_path, sizeof(conn_path), "%s/http.log", folder_path);
+            snprintf(ssl_path, sizeof(conn_path), "%s/ssl.log", folder_path);
+            snprintf(weird_path, sizeof(conn_path), "%s/weird.log", folder_path);
+            break;
+        }
+    }
+
+    printf("Paths found: \n");
+    printf("\t%s\n", conn_path); 
+    printf("\t%s\n", dns_path); 
+    printf("\t%s\n", http_path); 
+    printf("\t%s\n", ssl_path); 
+    printf("\t%s\n", weird_path);
+
+    // Launch the threads on the files
+    // TODO
+
 }
+
+// int main() {
+//     pthread_t thread1;
+//     pthread_t thread2;
+
+//     if(pthread_create(&thread1, NULL, format, "./tests/dns.log") < 0) {
+//         perror("pthread_create");
+//     }
+//     if(pthread_create(&thread2, NULL, format, "./tests/conn.log") < 0) {
+//         perror("pthread_create");
+//     }
+    
+//     pthread_join(thread1, NULL);
+//     pthread_join(thread2, NULL);
+
+//     pthread_mutex_destroy(&m);
+
+//     return 0;
+// }
