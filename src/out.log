@@ -3,138 +3,14 @@ gcc -Wall -c format.c
 gcc -Wall -c zeek_csv.c
 gcc -Wall -o pdml format.o zeek_csv.o
 [./tests/dns.log] Zeek log file being established... (0)
+[./tests/conn.log] Zeek log file being established... (0)
+[./tests/conn.log]: Connection Established! (1) 
+[CONN]: 1761685935.287673,CBd8Sm01xZNt6tSVf,172.29.147.79,20.42.65.94,tcp,-,-,-,OTH,T,F,0,0,0,0
 [./tests/dns.log] Zeek log file being established... (5)
-[./tests/dns.log] Zeek log file being established... (10)
-[./tests/dns.log]: Connection Established! (12) 
-[DNS]: 1760676973.814958,C9I5zg2Z0VuwhNPyy9,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdneu13.northeurope.cloudapp.azure.com,20.50.73.4,19.000000,25.000000,5.000000
-[DNS]: 1760676973.821068,C9I5zg2Z0VuwhNPyy9,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdcus02.centralus.cloudapp.azure.com,35.000000,36.000000
-[DNS]: 1760677017.860793,Ce93Pt3jdwjtm5lhl3,172.29.144.1,224.0.0.251,udp,-,desktop-aa7ptlo._dosvc._tcp.local,255,*,0,NOERROR,desktop-aa7ptlo._dosvc._tcp.local,0.000000
-[DNS]: 1760677017.861027,C87jOQ11T8HD7zHjMf,fe80::4bd1:2441:31c:518d,ff02::fb,udp,-,desktop-aa7ptlo._dosvc._tcp.local,255,*,0,NOERROR,desktop-aa7ptlo._dosvc._tcp.local,0.000000
-[DNS]: 1760677018.122730,Ce93Pt3jdwjtm5lhl3,172.29.144.1,224.0.0.251,udp,0.527728,desktop-aa7ptlo._dosvc._tcp.local,255,*,0,NOERROR,desktop-aa7ptlo._dosvc._tcp.local,4500.000000
-[DNS]: 1760677018.122942,C87jOQ11T8HD7zHjMf,fe80::4bd1:2441:31c:518d,ff02::fb,udp,0.527809,desktop-aa7ptlo._dosvc._tcp.local,255,*,0,NOERROR,desktop-aa7ptlo._dosvc._tcp.local,4500.000000
-[DNS]: 1760677018.385894,Ce93Pt3jdwjtm5lhl3,172.29.144.1,224.0.0.251,udp,0.265028,desktop-aa7ptlo._dosvc._tcp.local,255,*,0,NOERROR,desktop-aa7ptlo.local,120.000000
-[DNS]: 1760677018.386110,C87jOQ11T8HD7zHjMf,fe80::4bd1:2441:31c:518d,ff02::fb,udp,0.265149,desktop-aa7ptlo._dosvc._tcp.local,255,*,0,NOERROR,desktop-aa7ptlo.local,120.000000
-[DNS]: 1760677022.234172,CoQxCyjZshBVbpLQ5,172.29.147.79,8.8.8.8,udp,-,-,-,-,0,NOERROR,-,-
-[DNS]: 1760677022.234522,CoQxCyjZshBVbpLQ5,172.29.147.79,8.8.8.8,udp,-,api.github.com,-,-,0,NOERROR,140.82.114.6,60.000000
-[DNS]: 1760677024.213751,C4OP0c3hPlA9i9k9l3,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdeus07.eastus.cloudapp.azure.com,74.000000,14.000000
-[DNS]: 1760677024.213525,C4OP0c3hPlA9i9k9l3,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdeus21.eastus.cloudapp.azure.com,20.42.73.31,104.000000,45.000000,5.000000
-[DNS]: 1760677026.459738,ChrmSE4NGpe7dLTgJa,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdwus04.westus.cloudapp.azure.com,20.189.173.5,68.000000,34.000000,4.000000
-[DNS]: 1760677026.462947,ChrmSE4NGpe7dLTgJa,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdwus23.westus.cloudapp.azure.com,83.000000,7.000000
-[DNS]: 1760677028.568885,CTBqZT1u9xCzbALVM5,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdeus10.eastus.cloudapp.azure.com,84.000000,30.000000
-[DNS]: 1760677028.567809,CTBqZT1u9xCzbALVM5,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdweu02.westeurope.cloudapp.azure.com,52.178.17.2,14.000000,34.000000,4.000000
-[DNS]: ERROR, unfinished line: -,-,0,F,F,0,mobile.events.data.trafficmanager.net,onedscolprdeus07.eastus.cloudapp.azure.com,52.168.117.168
-[DNS]: 1760677030.714281,CtDc1KbemmetKhzbg,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdeus07.eastus.cloudapp.azure.com,68.000000,8.000000
-[DNS]: 1760677031.187175,Cub2go3YJ8bErEtftl,172.29.147.79,8.8.8.8,udp,-,api.github.com,-,-,0,NOERROR,140.82.114.6,51.000000
-[DNS]: 1760677031.191718,Cub2go3YJ8bErEtftl,172.29.147.79,8.8.8.8,udp,-,-,-,-,0,NOERROR,-,-
-[DNS]: 1760677031.228964,CY8nXk4IRH6koHkiRk,172.29.147.79,8.8.8.8,udp,-,-,-,-,0,NOERROR,-,-
-[DNS]: 1760677031.233735,CY8nXk4IRH6koHkiRk,172.29.147.79,8.8.8.8,udp,-,api.github.com,-,-,0,NOERROR,140.82.113.5,60.000000
-[DNS]: 1760677032.850891,CyTAiT2KWIKHPaqLA7,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdeus10.eastus.cloudapp.azure.com,52.168.117.169,80.000000,26.000000,2.000000
-[DNS]: 1760677032.857543,CyTAiT2KWIKHPaqLA7,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdeus07.eastus.cloudapp.azure.com,66.000000,6.000000
-[DNS]: 1760677036.755188,CArAAz39oiiOGhsY8d,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdeus07.eastus.cloudapp.azure.com,62.000000,2.000000
-[DNS]: 1760677036.751290,CArAAz39oiiOGhsY8d,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdwus04.westus.cloudapp.azure.com,20.189.173.5,58.000000,24.000000,4.000000
-[DNS]: 1760677067.455306,CN0ai04MapZK013Lri,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdcus15.centralus.cloudapp.azure.com,13.89.179.11,31.000000,31.000000,1.000000
-[DNS]: 1760677067.462134,CN0ai04MapZK013Lri,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdcus15.centralus.cloudapp.azure.com,31.000000,31.000000
-[DNS]: 1760677071.164783,CI2m9e4WCOuozBxUcc,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdwus00.westus.cloudapp.azure.com,20.189.173.1,41.000000,47.000000,7.000000
-[DNS]: 1760677071.165270,CI2m9e4WCOuozBxUcc,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdcus19.centralus.cloudapp.azure.com,23.000000,49.000000
-[DNS]: 1760677073.505537,CfPl6K2LwyvVH14xZk,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdcus15.centralus.cloudapp.azure.com,13.89.179.11,25.000000,25.000000,5.000000
-[DNS]: 1760677073.505355,CfPl6K2LwyvVH14xZk,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdwus00.westus.cloudapp.azure.com,39.000000,45.000000
-[DNS]: 1760677075.819567,Catp8z3ase3joc8ua,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdcus15.centralus.cloudapp.azure.com,13.89.179.11,23.000000,23.000000,3.000000
-[DNS]: 1760677075.819193,Catp8z3ase3joc8ua,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdeus22.eastus.cloudapp.azure.com,34.000000,18.000000
-[DNS]: ERROR, unfinished line: ft.com,-,-,-,NOERROR,F,F,mobile.events.data.trafficmanager.net,onedscolprdcus15.centralus.cloudapp.azure.com,13.89.179.11,17.000000,17.000000,7.000000,F
-[DNS]: 1760677081.308153,Ch6ira2ljThRMoiVe1,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdcus15.centralus.cloudapp.azure.com,17.000000,17.000000
-[DNS]: 1760677083.742261,CRmtF14zS0IBqAoKJc,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdcus15.centralus.cloudapp.azure.com,15.000000,15.000000
-[DNS]: 1760677083.742260,CRmtF14zS0IBqAoKJc,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdwus03.westus.cloudapp.azure.com,20.189.173.4,79.000000,39.000000,9.000000
-[DNS]: 1760677086.168690,Cl4mHOBbQoSXBDepc,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdeus20.eastus.cloudapp.azure.com,20.42.65.93,42.000000,43.000000,3.000000
-[DNS]: 1760677086.174925,Cl4mHOBbQoSXBDepc,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdwus03.westus.cloudapp.azure.com,76.000000,36.000000
-[DNS]: 1760677088.194748,CQknv44V0d5jy6w2vi,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdcus15.centralus.cloudapp.azure.com,13.89.179.11,10.000000,10.000000,10.000000
-[DNS]: 1760677088.194697,CQknv44V0d5jy6w2vi,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdcus19.centralus.cloudapp.azure.com,6.000000,32.000000
-[DNS]: 1760677090.928808,C2xigN3AQniNOmkeEf,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdcus15.centralus.cloudapp.azure.com,13.89.179.11,8.000000,8.000000,8.000000
-[DNS]: 1760677090.935495,C2xigN3AQniNOmkeEf,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdwus00.westus.cloudapp.azure.com,21.000000,27.000000
-[DNS]: 1760677093.524757,Cn57h44wDufo7qRRm8,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdcus15.centralus.cloudapp.azure.com,13.89.179.11,5.000000,5.000000,5.000000
-[DNS]: 1760677093.524757,Cn57h44wDufo7qRRm8,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdcus15.centralus.cloudapp.azure.com,5.000000,5.000000
-[DNS]: 1760677095.723725,Cim9ol4cwD48hbg0u,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdwus00.westus.cloudapp.azure.com,20.189.173.1,17.000000,23.000000,3.000000
-[DNS]: 1760677095.728544,Cim9ol4cwD48hbg0u,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdcus19.centralus.cloudapp.azure.com,119.000000,25.000000
-[DNS]: 1760677098.706188,CeyOTx2TO91ivDaDE6,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdeus20.eastus.cloudapp.azure.com,30.000000,31.000000
-[DNS]: 1760677098.706188,CeyOTx2TO91ivDaDE6,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdcus19.centralus.cloudapp.azure.com,52.182.143.214,116.000000,22.000000,2.000000
-[DNS]: ERROR, unfinished line: osoft.com,-,-,-,NOERROR,F,F,mobile.events.data.trafficmanager.net,onedscolprdcus12.centralus.cloudapp.azure.com,13.89.179.10,116.000000,56.000000,6.000000,F
-[DNS]: 1760677102.070438,Ci15Zm3XO7zKrLzW9e,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdeus20.eastus.cloudapp.azure.com,26.000000,27.000000
-[DNS]: 1760677104.152198,CPmqKtELlt5XtieT7,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdcus19.centralus.cloudapp.azure.com,52.182.143.214,110.000000,16.000000,6.000000
-[DNS]: 1760677104.159025,CPmqKtELlt5XtieT7,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdwus11.westus.cloudapp.azure.com,5.000000,49.000000
-[DNS]: 1760677106.217927,CHW1V93rGVH0BYfOvi,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdcus19.centralus.cloudapp.azure.com,108.000000,14.000000
-[DNS]: 1760677106.217155,CHW1V93rGVH0BYfOvi,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdcus19.centralus.cloudapp.azure.com,52.182.143.214,108.000000,14.000000,4.000000
-[DNS]: 1760677109.968446,Cqd4hY16ZLcV8HQZrg,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdwus03.westus.cloudapp.azure.com,20.189.173.4,52.000000,12.000000,2.000000
-[DNS]: 1760677109.973625,Cqd4hY16ZLcV8HQZrg,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdwus00.westus.cloudapp.azure.com,2.000000,8.000000
-[DNS]: 1760677112.101643,CVb74h4ohotWrRkXAh,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdeus20.eastus.cloudapp.azure.com,16.000000,17.000000
-[DNS]: 1760677112.095165,CVb74h4ohotWrRkXAh,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdeus20.eastus.cloudapp.azure.com,20.42.65.93,16.000000,17.000000,7.000000
-[DNS]: 1760677114.751012,CrsO7dWFqzDS278vk,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdcus19.centralus.cloudapp.azure.com,100.000000,6.000000
-[DNS]: 1760677114.746476,CrsO7dWFqzDS278vk,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdcus12.centralus.cloudapp.azure.com,13.89.179.10,104.000000,44.000000,4.000000
-[DNS]: 1760677122.247986,CHTfmn2Jom6C6rKDT2,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdeus20.eastus.cloudapp.azure.com,6.000000,7.000000
-[DNS]: 1760677122.241850,CHTfmn2Jom6C6rKDT2,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdeus20.eastus.cloudapp.azure.com,20.42.65.93,6.000000,7.000000,7.000000
-[DNS]: 1760677126.044254,C5H5M0494qG6cCQWyk,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdcus12.centralus.cloudapp.azure.com,13.89.179.10,92.000000,32.000000,2.000000
-[DNS]: 1760677126.051328,C5H5M0494qG6cCQWyk,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdcus12.centralus.cloudapp.azure.com,92.000000,32.000000
-[DNS]: ERROR, unfinished line: ._tcp.local,1,C_INTERNET,*,NOERROR,F,F,desktop-aa7ptlo._dosvc._tcp.local,0.000000,F
-[DNS]: 1760677138.658808,C3OojP36R8KEU0OEI,fe80::4bd1:2441:31c:518d,ff02::fb,udp,-,desktop-aa7ptlo._dosvc._tcp.local,255,*,0,NOERROR,desktop-aa7ptlo._dosvc._tcp.local,0.000000
-[DNS]: 1760677128.725860,CVhcF233yi0QK8I1Z2,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdcus12.centralus.cloudapp.azure.com,13.89.179.10,90.000000,30.000000,10.000000
-[DNS]: 1760677128.725932,CVhcF233yi0QK8I1Z2,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdcus12.centralus.cloudapp.azure.com,90.000000,30.000000
-[DNS]: 1760677138.921926,C0zMsV3R5QVvS8uITl,172.29.144.1,224.0.0.251,udp,0.528260,desktop-aa7ptlo._dosvc._tcp.local,255,*,0,NOERROR,desktop-aa7ptlo._dosvc._tcp.local,4500.000000
-[DNS]: 1760677138.922176,C3OojP36R8KEU0OEI,fe80::4bd1:2441:31c:518d,ff02::fb,udp,0.528258,desktop-aa7ptlo._dosvc._tcp.local,255,*,0,NOERROR,desktop-aa7ptlo._dosvc._tcp.local,4500.000000
-[DNS]: 1760677139.185076,C0zMsV3R5QVvS8uITl,172.29.144.1,224.0.0.251,udp,0.265574,desktop-aa7ptlo._dosvc._tcp.local,255,*,0,NOERROR,desktop-aa7ptlo.local,120.000000
-[DNS]: 1760677139.185293,C3OojP36R8KEU0OEI,fe80::4bd1:2441:31c:518d,ff02::fb,udp,0.265557,desktop-aa7ptlo._dosvc._tcp.local,255,*,0,NOERROR,desktop-aa7ptlo.local,120.000000
-[DNS]: 1760677130.950380,CIwO481uvuwVYpG6W4,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdcus05.centralus.cloudapp.azure.com,83.000000,49.000000
-[DNS]: 1760677130.951229,CIwO481uvuwVYpG6W4,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdcus11.centralus.cloudapp.azure.com,104.208.16.89,117.000000,58.000000,8.000000
-[DNS]: 1760677133.437164,CEuoVO2j0ggTHXegF7,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdeus04.eastus.cloudapp.azure.com,52.168.112.67,99.000000,45.000000,4.000000
-[DNS]: 1760677133.437164,CEuoVO2j0ggTHXegF7,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdcus12.centralus.cloudapp.azure.com,85.000000,25.000000
-[DNS]: 1760677139.263824,CFKx8F24PHT30zFf4c,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdcus05.centralus.cloudapp.azure.com,20.44.10.123,75.000000,41.000000,2.000000
-[DNS]: 1760677139.263823,CFKx8F24PHT30zFf4c,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdcus12.centralus.cloudapp.azure.com,79.000000,19.000000
-[DNS]: 1760677142.320739,Cjr0m320N2oQvbcSoa,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdeus04.eastus.cloudapp.azure.com,90.000000,36.000000
-[DNS]: 1760677142.314131,Cjr0m320N2oQvbcSoa,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdcus12.centralus.cloudapp.azure.com,13.89.179.10,76.000000,16.000000,6.000000
-[DNS]: 1760677144.793684,Cnfgi510EjxqGZ4TG4,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdcus12.centralus.cloudapp.azure.com,74.000000,14.000000
-[DNS]: ERROR, unfinished line: events.data.trafficmanager.net,onedscolprdcus05.centralus.cloudapp.azure.com,20.44.10.123,70.000000,36.000000,7.000000,F
-[DNS]: 1760677147.479483,ChMCxx38ZFUwczBXek,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdcus12.centralus.cloudapp.azure.com,13.89.179.10,71.000000,11.000000,1.000000
-[DNS]: 1760677147.484455,ChMCxx38ZFUwczBXek,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdeus00.eastus.cloudapp.azure.com,101.000000,42.000000
-[DNS]: 1760677150.537319,C3ZeY125ty36y2kXah,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdcus12.centralus.cloudapp.azure.com,13.89.179.10,68.000000,8.000000,8.000000
-[DNS]: 1760677150.543117,C3ZeY125ty36y2kXah,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdcus12.centralus.cloudapp.azure.com,68.000000,8.000000
-[DNS]: 1760677167.072465,CbxwyOJD3glqjI9v9,172.29.147.79,8.8.8.8,udp,-,-,-,-,0,NOERROR,-,-
-[DNS]: 1760677167.077015,CbxwyOJD3glqjI9v9,172.29.147.79,8.8.8.8,udp,-,api.github.com,-,-,0,NOERROR,140.82.112.6,60.000000
-[DNS]: 1760677169.045323,Cnni3q2ZPnmICjAlZ3,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdcus05.centralus.cloudapp.azure.com,20.44.10.123,45.000000,11.000000,2.000000
-[DNS]: 1760677169.051420,Cnni3q2ZPnmICjAlZ3,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdcus05.centralus.cloudapp.azure.com,45.000000,11.000000
-[DNS]: 1760677171.380583,Cb7HC01ubcxC2L7HYg,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdeus03.eastus.cloudapp.azure.com,20.42.73.24,47.000000,47.000000,7.000000
-[DNS]: 1760677171.381623,Cb7HC01ubcxC2L7HYg,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdcus05.centralus.cloudapp.azure.com,43.000000,9.000000
-[DNS]: 1760677173.451111,C5WgWN28gXOnFDAvK2,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdcus05.centralus.cloudapp.azure.com,41.000000,7.000000
-[DNS]: 1760677173.445006,C5WgWN28gXOnFDAvK2,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdeus00.eastus.cloudapp.azure.com,20.42.72.131,75.000000,16.000000,8.000000
-[DNS]: 1760677175.686267,CThrvH3KMQ0OoYXe4h,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdeus00.eastus.cloudapp.azure.com,20.42.72.131,73.000000,14.000000,6.000000
-[DNS]: 1760677175.690780,CThrvH3KMQ0OoYXe4h,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdeus00.eastus.cloudapp.azure.com,73.000000,14.000000
-[DNS]: 1760677176.055332,CXCSuz4j654Kv6dsJi,172.29.147.79,8.8.8.8,udp,-,api.github.com,-,-,0,NOERROR,140.82.113.6,60.000000
-[DNS]: 1760677176.052746,CXCSuz4j654Kv6dsJi,172.29.147.79,8.8.8.8,udp,-,-,-,-,0,NOERROR,-,-
-[DNS]: 1760677176.091988,CwJHl4Yl1PJ3ikdqf,172.29.147.79,8.8.8.8,udp,-,api.github.com,-,-,0,NOERROR,140.82.112.6,51.000000
-[DNS]: 1760677176.096518,CwJHl4Yl1PJ3ikdqf,172.29.147.79,8.8.8.8,udp,-,-,-,-,0,NOERROR,-,-
-[DNS]: ERROR, unfinished line: -,-,-,NOERROR,F,T,0,F
-[DNS]: 1760677177.806706,CIEubp2z3isG692Z1i,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdeus00.eastus.cloudapp.azure.com,20.42.72.131,71.000000,12.000000,4.000000
-[DNS]: 1760677259.464958,CR5yeR3Z6qOz9OcSJg,172.29.144.1,224.0.0.251,udp,-,desktop-aa7ptlo._dosvc._tcp.local,255,*,0,NOERROR,desktop-aa7ptlo._dosvc._tcp.local,0.000000
-[DNS]: 1760677259.465293,CZYhHv30bKpyEpkvy9,fe80::4bd1:2441:31c:518d,ff02::fb,udp,-,desktop-aa7ptlo._dosvc._tcp.local,255,*,0,NOERROR,desktop-aa7ptlo._dosvc._tcp.local,0.000000
-[DNS]: 1760677259.727507,CR5yeR3Z6qOz9OcSJg,172.29.144.1,224.0.0.251,udp,0.524439,desktop-aa7ptlo._dosvc._tcp.local,255,*,0,NOERROR,desktop-aa7ptlo._dosvc._tcp.local,4500.000000
-[DNS]: 1760677259.727859,CZYhHv30bKpyEpkvy9,fe80::4bd1:2441:31c:518d,ff02::fb,udp,0.524347,desktop-aa7ptlo._dosvc._tcp.local,255,*,0,NOERROR,desktop-aa7ptlo._dosvc._tcp.local,4500.000000
-[DNS]: 1760677259.989375,CR5yeR3Z6qOz9OcSJg,172.29.144.1,224.0.0.251,udp,0.263027,desktop-aa7ptlo._dosvc._tcp.local,255,*,0,NOERROR,desktop-aa7ptlo.local,120.000000
-[DNS]: 1760677259.989590,CZYhHv30bKpyEpkvy9,fe80::4bd1:2441:31c:518d,ff02::fb,udp,0.263019,desktop-aa7ptlo._dosvc._tcp.local,255,*,0,NOERROR,desktop-aa7ptlo.local,120.000000
-[DNS]: 1760677257.962303,CGS5B64ivoM8jofNbk,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdcus10.centralus.cloudapp.azure.com,80.000000,20.000000
-[DNS]: 1760677257.957796,CGS5B64ivoM8jofNbk,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdcus19.centralus.cloudapp.azure.com,52.182.143.214,76.000000,42.000000,2.000000
-[DNS]: 1760677263.017122,CpBr401QGmPnCXPEmd,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdeus11.eastus.cloudapp.azure.com,20.42.65.89,105.000000,46.000000,6.000000
-[DNS]: 1760677263.020737,CpBr401QGmPnCXPEmd,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdcus10.centralus.cloudapp.azure.com,75.000000,15.000000
-[DNS]: 1760677265.692053,C9De3G3LezwahnNFk,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdwus18.westus.cloudapp.azure.com,17.000000,37.000000
-[DNS]: 1760677265.686361,C9De3G3LezwahnNFk,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdcus10.centralus.cloudapp.azure.com,52.182.143.210,73.000000,13.000000,3.000000
-[DNS]: 1760677270.132721,CAFofs1qY3aF9Zu8df,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdcus10.centralus.cloudapp.azure.com,64.000000,30.000000
-[DNS]: 1760677270.128219,CAFofs1qY3aF9Zu8df,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdcus19.centralus.cloudapp.azure.com,52.182.143.214,64.000000,30.000000,10.000000
-[DNS]: 1760677272.687847,Czlt3c47fp09cWz37j,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdcus10.centralus.cloudapp.azure.com,62.000000,28.000000
-[DNS]: ERROR, unfinished line: fficmanager.net,onedscolprdcus10.centralus.cloudapp.azure.com,52.182.143.210,66.000000,6.000000,6.000000,F
-[DNS]: 1760677276.876678,CKMSFV2oXGDeRcEzP3,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdeus11.eastus.cloudapp.azure.com,20.42.65.89,92.000000,33.000000,3.000000
-[DNS]: 1760677276.883653,CKMSFV2oXGDeRcEzP3,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdcus10.centralus.cloudapp.azure.com,62.000000,2.000000
-[DNS]: 1760677278.905864,CK7JtvUACHyu3YIu7,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdeus11.eastus.cloudapp.azure.com,20.42.65.89,90.000000,31.000000,1.000000
-[DNS]: 1760677278.911616,CK7JtvUACHyu3YIu7,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdwus03.westus.cloudapp.azure.com,71.000000,55.000000
-[DNS]: 1760677290.546394,CnV4vu4RnyqMXiPnZk,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdwus12.westus.cloudapp.azure.com,20.189.173.13,48.000000,48.000000,5.000000
-[DNS]: 1760677290.553818,CnV4vu4RnyqMXiPnZk,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdwus14.westus.cloudapp.azure.com,62.000000,8.000000
-[DNS]: 1760677293.355373,CTV4pZGsfTUUZyLGa,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdwus03.westus.cloudapp.azure.com,56.000000,40.000000
-[DNS]: 1760677293.348636,CTV4pZGsfTUUZyLGa,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdwus12.westus.cloudapp.azure.com,20.189.173.13,45.000000,45.000000,2.000000
-[DNS]: 1760677311.783951,CTZHjk3wYKAz8QQMR7,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdcus21.centralus.cloudapp.azure.com,13.89.179.13,23.000000,49.000000,9.000000
-[DNS]: 1760677311.791876,CTZHjk3wYKAz8QQMR7,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdwus16.westus.cloudapp.azure.com,41.000000,47.000000
-[DNS]: 1760677332.990580,CGDxn34ZC946phlQIj,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdwus12.westus.cloudapp.azure.com,5.000000,5.000000
-[DNS]: 1760677332.984008,CGDxn34ZC946phlQIj,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdeus08.eastus.cloudapp.azure.com,20.42.65.88,35.000000,36.000000,6.000000
+[CONN]: 1761685935.333445,CqyeRHrJRbp9NmuQd,172.29.147.79,20.42.65.94,tcp,0.211672,0,5157,SHR,T,F,0,0,13,5841
+[CONN]: 1761685942.665027,CcorLzy6GYHdN1jl,172.29.147.79,20.42.65.94,tcp,-,-,-,OTH,T,F,0,0,0,0
+[CONN]: 1761685935.267959,CNlJgAlgzhXXiOOld,172.29.147.79,8.8.8.8,udp,0.019570,0,385,SHR,T,F,0,0,2,441
+[./tests/dns.log]: Connection Established! (10) 
+[DNS]: 1761685935.281171,CNlJgAlgzhXXiOOld,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdeus23.eastus.cloudapp.azure.com,20.42.65.94,117.000000,13.000000,3.000000
+[DNS]: 1761685935.287529,CNlJgAlgzhXXiOOld,172.29.147.79,8.8.8.8,udp,-,mobile.events.data.microsoft.com,-,-,0,NOERROR,mobile.events.data.trafficmanager.net,onedscolprdeus23.eastus.cloudapp.azure.com,117.000000,13.000000
+[CONN]: 1761685942.709796,CIeJv84DXF8Rihz3Yb,172.29.147.79,20.42.65.94,tcp,0.211736,0,5157,SHR,T,F,0,0,12,5789

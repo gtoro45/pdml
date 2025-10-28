@@ -20,7 +20,20 @@ LineBuffer extract_lines(int fd) {
     int line_idx = 0;                           // current index in lines (char**)
     char* incomplete_line = NULL;               // to store the incomplete line
     bool incomplete = false;                    // flag if a read was incomplete (no '\n')
-    while((n = read(fd, buf, sizeof(buf))) > 0) {
+    
+    n = read(fd, buf, sizeof(buf));
+    if(n < 0) {
+        perror("Read");
+        LineBuffer result = {lines, NULL, false};
+        return result;
+    }
+    else if(n == 0) {
+        //EOF or no data
+        lines[0] = NULL;
+        LineBuffer result = {lines, NULL, false};
+        return result;
+    }
+    else {
         /* -- Data Processing -- */
         // read the chunk of data stored in buf
         int line_buf_idx = 0;                       // current index in the line buffer
@@ -50,17 +63,18 @@ LineBuffer extract_lines(int fd) {
                 line_buf[line_buf_idx] = buf[i];
                 line_buf_idx++;
             }
+        }
 
-            // EDGE CASE: file was written to mid read(), so final line is incomplete
-            // i.e. no "\n" to terminate the line
-            if(i == n - 1 && buf[i] != '\n') {
-                line_buf[line_buf_idx] = '\0';                          // null terminate the string
-                incomplete_line = malloc(line_buf_idx + 1);             // add extra byte for '\0'
-                memcpy(incomplete_line, line_buf, line_buf_idx + 1);    // copy over current buffer
-                incomplete = true;
-            }
+        // EDGE CASE: file was written to mid read(), so final line is incomplete
+        // i.e. no "\n" to terminate the line --> line_buf_idx was never reset to 0
+        if(line_buf_idx > 0) {
+            line_buf[line_buf_idx] = '\0';                          // null terminate the string
+            incomplete_line = malloc(line_buf_idx + 1);             // add extra byte for '\0'
+            memcpy(incomplete_line, line_buf, line_buf_idx + 1);    // copy over current buffer
+            incomplete = true;
         }
     }
+
     lines[line_idx] = NULL;
 
     LineBuffer result;
@@ -200,6 +214,16 @@ char** tokenize_line(char* line, LogType logfile_type) {
             num_cols = WEIRD;
             break;
         }
+
+        /**
+         * Use this case to tokenize the entirety of the line, no specifics
+         */
+        case UNKNOWN: {
+            log_columns = NULL;
+            num_cols = -1;
+            break;
+        }
+
         default:
             log_columns = NULL;
             num_cols = 0;
@@ -207,8 +231,11 @@ char** tokenize_line(char* line, LogType logfile_type) {
     }
         
 
-    // set up the use of strtok
-    char* tmp = line;
+    // set up the use of strtok (copy because strtok modifies the string)
+    int line_len = strlen(line);
+    char* tmp = malloc(line_len + 1);
+    memcpy(tmp, line, line_len + 1);
+
     char* tok = strtok(tmp, ZEEK_DELIM);
 
     // iterate through strtok
@@ -216,12 +243,19 @@ char** tokenize_line(char* line, LogType logfile_type) {
     while(tok && formatted_idx < EXTRACTION_MAX_TOKENS) {
         // filter the column 
         bool keep = false;
-        for(int k = 0; k < num_cols; k++) {
-            if(ind == log_columns[k]) {
-                keep = true;
-                break;
-            }
+        if(num_cols < 0) {
+            // UNKNOWN case → keep all tokens
+            keep = true;
         }
+        else {
+            // normal filtering by log_columns
+            for(int k = 0; k < num_cols; k++) {
+                if(ind == log_columns[k]) {
+                    keep = true;
+                    break;
+                }
+            }
+        }   
 
         // append the token if passed filter
         if(keep) {
@@ -292,3 +326,29 @@ char* csvify_tokens(char** tokens) {
     return result;
 }
 
+char* logify_tokens(char** tokens) {
+    char* result = NULL;
+    for(int i = 0; tokens[i] != NULL; i++) {
+        int tok_len = strlen(tokens[i]);
+        if(i == 0) {
+            result = malloc((tok_len + 2) * sizeof(char));      // +2 for separator AND '\0'
+            strcpy(result, tokens[0]);
+        }
+        else {
+            int curr_len = strlen(result);
+            result = realloc(result, curr_len + tok_len + 2);   // +2 for separator AND '\0'
+            strcat(result, tokens[i]);
+        }
+
+        // append "\x09"
+        if(tokens[i + 1] != NULL) {     
+            strcat(result, ZEEK_DELIM);
+        }
+        // return --> don't want newline when doing substr matching
+        else {                      
+            return result;
+        }
+    }   
+
+    return NULL;
+}

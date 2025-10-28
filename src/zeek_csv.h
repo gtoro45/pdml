@@ -14,6 +14,7 @@
 #include <stdbool.h>
 #include <poll.h>
 #include <errno.h>
+#include <time.h>
 
 #define EXTRACTION_BUF_SIZE 65536   // 64k buffer for very large log files
 #define EXTRACTION_MAX_TOKENS 256   // max number of tokens in a zeek log line
@@ -83,5 +84,14 @@ void free_tokens(char** tokens);
  * @note THIS FUNCTION'S RETURN IS ALLOCATED MEMORY AND MUST BE FREED
  */
 char* csvify_tokens(char** tokens);
+
+
+/** 
+ * Opposite function of csvify_tokens() --> return tokens to
+ * Zeek-formatted line. This will be used for reverse searching for corrupted strings
+ * @param tokens The tokens returned by tokenize_line()
+ * @note THIS FUNCTION'S RETURN IS ALLOCATED MEMORY AND MUST BE FREED
+ */
+char* logify_tokens(char** tokens);
 
 #endif
