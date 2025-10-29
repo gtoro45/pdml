@@ -164,11 +164,43 @@ char* get_lost_line(int fd2, char* incomplete_line, char* prev_line) {
 }
 
 /**
- * Function that formats the log file as it is updated live
+ * Function that checks the tokens for errors in the line. This
+ * is usually caused by incomplete lines not caught by the logic in extract_lines().
+ * @param tokens the tokens to be verified
+ * @param log_type the LogType to check against
+ * @return true if erroneous, false otherwise
  */
-void* format(void* log_path) {
-    // open the file once
-    char* path = (char*) log_path;
+bool erroneous_tokens(char** tokens, LogType log_type) {
+    /*************************************** TODO ***************************************/
+    bool error = false;
+    int delim_count = 0;
+    while(tokens[delim_count] != NULL) delim_count++;
+    
+    if(delim_count == log_type) {
+        error = false;
+        // int tok0_len = strlen(line_tokens[0]);  // most common missing token when (count == logtype)
+        // int tok1_len = strlen(line_tokens[1]);  // most common missing token when (count == logtype)
+        // if(tok0_len != 17) {
+        //     error = true;
+        // } 
+        // if(tok1_len != 17 || tok1_len != 18) {
+        //     error = true;
+        // }
+    }
+    else {
+        error = true;
+    }
+    /*************************************** TODO ***************************************/
+    return error;
+}
+
+/**
+ * Function that attempts to open the log file specified by path. This function
+ * polls the file every second for 60 seconds, after which it will timeout
+ * @param path the file to open
+ * @return the file descriptor to the file
+ */
+int open_file_with_retry(char* path) {
     int fd;
     int timeout = 0;
     while((fd = open(path, O_RDONLY)) < 0) {
@@ -185,6 +217,16 @@ void* format(void* log_path) {
     }
     printf("[%s]: Connection Established! (%d) \n", path, timeout);
     fflush(stdout);
+    return fd;
+}
+
+/**
+ * Function that formats the log file as it is updated live
+ */
+void* format(void* log_path) {
+    // open the file once
+    char* path = (char*) log_path;
+    int fd = open_file_with_retry(path);
 
     // mark the kind of log file the function is extracting
     LogType log_type = get_type(path);
@@ -254,27 +296,7 @@ void* format(void* log_path) {
                 char* line_csv = csvify_tokens(line_tokens);
 
                 // erroneous line detection
-                /*************************************** TODO ***************************************/
-                bool error = false;
-                int delim_count = 0;
-                while(line_tokens[delim_count] != NULL) delim_count++;
-                
-                if(delim_count == log_type) {
-                    error = false;
-                    // int tok0_len = strlen(line_tokens[0]);  // most common missing token when (count == logtype)
-                    // int tok1_len = strlen(line_tokens[1]);  // most common missing token when (count == logtype)
-                    // if(tok0_len != 17) {
-                    //     error = true;
-                    // } 
-                    // if(tok1_len != 17 || tok1_len != 18) {
-                    //     error = true;
-                    // }
-                }
-                else {
-                    error = true;
-                }
-                /*************************************** TODO ***************************************/
-                
+                bool error = erroneous_tokens(line_tokens, log_type);
 
                 /**************** THREAD SAFETY: BEGIN MUTEX LOCK ****************/
                 pthread_mutex_lock(&m);
@@ -321,7 +343,7 @@ void* format(void* log_path) {
                 // handle normal lines
                 else {
                     printf("[%s]: %s", log_type_str, line_csv);
-                    // write line to the UNIX FIFO 
+                    // write line to the buffer file
                     // TODO
                 }
                 fflush(stdout);
@@ -362,86 +384,91 @@ void* format(void* log_path) {
     close(fd2);
 }
 
-int main(int argc, char* argv[]) {
-    if(argc <= 1) {
-        perror("Missing path argument to log files");
-        exit(1);
-    }
-    char* folder_path = argv[1];
-    char* module_type = argv[2];
+/* Local Main Function */
+int main() {
+    pthread_mutex_init(&m, NULL);
 
-    // Build the log file paths
-    char conn_path[256];
-    char dns_path[256];
-    char http_path[256];
-    char ssl_path[256];
-    char weird_path[256];
+    pthread_t thread1;
+    pthread_t thread2;
+
+    if(pthread_create(&thread1, NULL, format, "./tests/dns.log") < 0) {
+        perror("pthread_create");
+    }
+    if(pthread_create(&thread2, NULL, format, "./tests/conn.log") < 0) {
+        perror("pthread_create");
+    }
     
-    switch(module_type) {
-        case "daemon-logs": {
-            snprintf(conn_path, sizeof(conn_path), "%s/conn.log", folder_path);
-            snprintf(dns_path, sizeof(conn_path), "%s/dns.log", folder_path);
-            snprintf(http_path, sizeof(conn_path), "%s/http.log", folder_path);
-            snprintf(ssl_path, sizeof(conn_path), "%s/ssl.log", folder_path);
-            snprintf(weird_path, sizeof(conn_path), "%s/weird.log", folder_path);
-            break;
-        }
+    pthread_join(thread1, NULL);
+    pthread_join(thread2, NULL);
 
-        case "zeek-logs-camera": {
-            snprintf(conn_path, sizeof(conn_path), "%s/conn.log", folder_path);
-            snprintf(dns_path, sizeof(conn_path), "%s/dns.log", folder_path);
-            snprintf(http_path, sizeof(conn_path), "%s/http.log", folder_path);
-            snprintf(ssl_path, sizeof(conn_path), "NULL");
-            snprintf(weird_path, sizeof(conn_path), "%s/weird.log", folder_path);
-            break;
-        }
+    pthread_mutex_destroy(&m);
 
-        case "zeek-logs-lidar": {
-            snprintf(conn_path, sizeof(conn_path), "%s/conn.log", folder_path);
-            snprintf(dns_path, sizeof(conn_path), "%s/dns.log", folder_path);
-            snprintf(http_path, sizeof(conn_path), "NULL");
-            snprintf(ssl_path, sizeof(conn_path), "NULL");
-            snprintf(weird_path, sizeof(conn_path), "%s/weird.log", folder_path);
-            break;
-        }
-
-        case "zeek-logs-nginx": {
-            snprintf(conn_path, sizeof(conn_path), "%s/conn.log", folder_path);
-            snprintf(dns_path, sizeof(conn_path), "%s/dns.log", folder_path);
-            snprintf(http_path, sizeof(conn_path), "%s/http.log", folder_path);
-            snprintf(ssl_path, sizeof(conn_path), "%s/ssl.log", folder_path);
-            snprintf(weird_path, sizeof(conn_path), "%s/weird.log", folder_path);
-            break;
-        }
-    }
-
-    printf("Paths found: \n");
-    printf("\t%s\n", conn_path); 
-    printf("\t%s\n", dns_path); 
-    printf("\t%s\n", http_path); 
-    printf("\t%s\n", ssl_path); 
-    printf("\t%s\n", weird_path);
-
-    // Launch the threads on the files
-    // TODO
-
+    return 0;
 }
 
-// int main() {
-//     pthread_t thread1;
-//     pthread_t thread2;
+/* Cluster Main Function */
+// int main(int argc, char* argv[]) {
+//     if(argc <= 1) {
+//         perror("Missing path argument to log files");
+//         exit(1);
+//     }
+//     char* folder_path = argv[1];
+//     char* module_type = argv[2];
 
-//     if(pthread_create(&thread1, NULL, format, "./tests/dns.log") < 0) {
-//         perror("pthread_create");
-//     }
-//     if(pthread_create(&thread2, NULL, format, "./tests/conn.log") < 0) {
-//         perror("pthread_create");
-//     }
+//     // Build the log file paths
+//     char conn_path[256];
+//     char dns_path[256];
+//     char http_path[256];
+//     char ssl_path[256];
+//     char weird_path[256];
     
-//     pthread_join(thread1, NULL);
-//     pthread_join(thread2, NULL);
+//     switch(module_type) {
+//         case "daemon-logs": {
+//             snprintf(conn_path, sizeof(conn_path), "%s/conn.log", folder_path);
+//             snprintf(dns_path, sizeof(conn_path), "%s/dns.log", folder_path);
+//             snprintf(http_path, sizeof(conn_path), "%s/http.log", folder_path);
+//             snprintf(ssl_path, sizeof(conn_path), "%s/ssl.log", folder_path);
+//             snprintf(weird_path, sizeof(conn_path), "%s/weird.log", folder_path);
+//             break;
+//         }
 
-//     pthread_mutex_destroy(&m);
+//         case "zeek-logs-camera": {
+//             snprintf(conn_path, sizeof(conn_path), "%s/conn.log", folder_path);
+//             snprintf(dns_path, sizeof(conn_path), "%s/dns.log", folder_path);
+//             snprintf(http_path, sizeof(conn_path), "%s/http.log", folder_path);
+//             snprintf(ssl_path, sizeof(conn_path), "NULL");
+//             snprintf(weird_path, sizeof(conn_path), "%s/weird.log", folder_path);
+//             break;
+//         }
 
-//     return 0;
+//         case "zeek-logs-lidar": {
+//             snprintf(conn_path, sizeof(conn_path), "%s/conn.log", folder_path);
+//             snprintf(dns_path, sizeof(conn_path), "%s/dns.log", folder_path);
+//             snprintf(http_path, sizeof(conn_path), "NULL");
+//             snprintf(ssl_path, sizeof(conn_path), "NULL");
+//             snprintf(weird_path, sizeof(conn_path), "%s/weird.log", folder_path);
+//             break;
+//         }
+
+//         case "zeek-logs-nginx": {
+//             snprintf(conn_path, sizeof(conn_path), "%s/conn.log", folder_path);
+//             snprintf(dns_path, sizeof(conn_path), "%s/dns.log", folder_path);
+//             snprintf(http_path, sizeof(conn_path), "%s/http.log", folder_path);
+//             snprintf(ssl_path, sizeof(conn_path), "%s/ssl.log", folder_path);
+//             snprintf(weird_path, sizeof(conn_path), "%s/weird.log", folder_path);
+//             break;
+//         }
+//     }
+
+//     printf("Paths found: \n");
+//     printf("\t%s\n", conn_path); 
+//     printf("\t%s\n", dns_path); 
+//     printf("\t%s\n", http_path); 
+//     printf("\t%s\n", ssl_path); 
+//     printf("\t%s\n", weird_path);
+
+//     // Launch the threads on the files
+//     // TODO
+
 // }
+
