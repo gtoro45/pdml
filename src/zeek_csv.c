@@ -93,10 +93,6 @@ void free_lines(char** lines) {
 }
 
 char** tokenize_line(char* line, LogType logfile_type) {
-    // declare the formatted line
-    char* formatted[EXTRACTION_MAX_TOKENS];
-    int formatted_idx = 0;
-
     // Identify the token columns based on the LogType
     int* log_columns = NULL;
     int num_cols = 0;
@@ -134,17 +130,17 @@ char** tokenize_line(char* line, LogType logfile_type) {
         *  2  -> id.orig_h       (originator host)
         *  4  -> id.resp_h       (responder host)
         *  6  -> proto           (transport protocol)
-        *  8  -> query           (DNS query name)
-        *  9  -> qclass          (DNS query class)
+        *  8  -> rtt             (round-trip time)
+        *  9  -> query           (DNS query name)
         * 12  -> qtype           (DNS query type)
-        * 13  -> rcode           (DNS response code)
-        * 14  -> rtt             (round-trip time)
-        * 15  -> query_len       (length of query)
+        * 13  -> qtype_name      (DNS query type name)
+        * 14  -> rcode           (DNS response code)
+        * 15  -> rcode_name      (DNS response code name)
         * 21  -> answers         (list of response records)
         * 22  -> TTLs            (time-to-live values)
         * ===================================================== */
         case DNS: {
-            static int cols[] = {0, 1, 2, 4, 6, 8, 9, 12, 13, 14, 15, 21, 22};
+            static int cols[] = {0, 1, 2, 4, 6, 8, 9, 12, 13, 14, 15, 21, 22, 23};
             log_columns = cols;
             num_cols = DNS;
             break;
@@ -159,17 +155,17 @@ char** tokenize_line(char* line, LogType logfile_type) {
         *  7  -> method          (HTTP method, e.g. GET/POST)
         *  8  -> host            (HTTP host header)
         *  9  -> uri             (URI requested)
-        * 12  -> referrer        (HTTP referrer)
-        * 14  -> user_agent      (HTTP user agent string)
-        * 15  -> request_body_len (length of request body)
-        * 16  -> response_body_len (length of response body)
-        * 17  -> status_code     (HTTP response status code)
-        * 21  -> resp_mime_types (list of MIME types in response)
-        * 22  -> resp_fuids      (file unique IDs for response)
-        * 25  -> orig_fuids      (file unique IDs for request)
-        * 26  -> orig_filenames  (file names for request)
+        * 12  -> user_agent      (HTTP user agent string)
+        * 14  -> request_body_len (length of request body)
+        * 15  -> response_body_len (length of response body)
+        * 16  -> status_code     (HTTP response status code)
+        * 17  -> status_message  (HTTP response message)
+        * 21  -> username
+        * 22  -> password
+        * 25  -> orig_filenames
+        * 26  -> orig_mime_types
         * 28  -> resp_filenames  (file names for response)
-        * 29  -> trans_depth     (pipeline depth of HTTP transaction)
+        * 29  -> resp_mime_types (list of MIME types in response)
         * ===================================================== */
         case HTTP: {
             static int cols[] = {0, 1, 2, 4, 7, 8, 9, 12, 14, 15, 16, 17, 21, 22, 25, 26, 28, 29};
@@ -184,10 +180,10 @@ char** tokenize_line(char* line, LogType logfile_type) {
         *  1  -> uid             (connection UID)
         *  2  -> id.orig_h       (originator host)
         *  4  -> id.resp_h       (responder host)
-        *  7  -> version         (SSL/TLS version)
-        *  8  -> cipher          (negotiated cipher suite)
-        *  9  -> curve           (elliptic curve used, if any)
-        * 14  -> validation_status (certificate validation result)
+        *  7  -> cipher          (negotiated cipher suite)
+        *  8  -> curve           (elliptic curve used, if any)
+        *  9  -> server_name
+        *  14 -> ssl_history
         * ===================================================== */
         case SSL: {
             static int cols[] = {0, 1, 2, 4, 7, 8, 9, 14};
@@ -230,7 +226,10 @@ char** tokenize_line(char* line, LogType logfile_type) {
             break;
     }
         
-
+    // declare the formatted line
+    char* formatted[EXTRACTION_MAX_TOKENS] = {NULL};
+    int formatted_idx = 0;
+    
     // set up the use of strtok (copy because strtok modifies the string)
     int line_len = strlen(line);
     char* tmp = malloc(line_len + 1);
@@ -289,6 +288,7 @@ char** tokenize_line(char* line, LogType logfile_type) {
     // terminate the array of tokens
     result[i] = NULL; 
 
+    free(tmp);
     return result;
 }
 
@@ -299,10 +299,25 @@ void free_tokens(char** tokens) {
     free(tokens);
 }
 
-char* csvify_tokens(char** tokens) {
-    char* result = NULL;
+char* csvify_tokens(char** tokens, LogType log_type) {
+    // append the logtype to the csv line for Python parsing
+    // TODO --> use logtype_to_str(log_type)
+    const char* logtype_str = logtype_to_str(log_type);
+    int logtype_len = strlen(logtype_str);
+    char* result = malloc((logtype_len + 2) * sizeof(char));  // +2 for comma and '\0'
+    strcpy(result, logtype_str);
+    strcat(result, ",");
+
+    // csvify the line
     for(int i = 0; tokens[i] != NULL; i++) {
+        // no longer using if(i == 0) checks since result was previously malloc'd
+        // only reallocs needed now
         int tok_len = strlen(tokens[i]);
+        int curr_len = strlen(result);
+        result = realloc(result, curr_len + tok_len + 2);   // +2 for separator AND '\0'
+        strcat(result, tokens[i]);
+
+        /*  OLD CODE  
         if(i == 0) {
             result = malloc((tok_len + 2) * sizeof(char));      // +2 for separator AND '\0'
             strcpy(result, tokens[0]);
@@ -312,6 +327,7 @@ char* csvify_tokens(char** tokens) {
             result = realloc(result, curr_len + tok_len + 2);   // +2 for separator AND '\0'
             strcat(result, tokens[i]);
         }
+        */
 
         // append ','
         if(tokens[i + 1] != NULL) {     

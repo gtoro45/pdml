@@ -15,7 +15,16 @@ reset
 # cd /mnt/c/Users/gabri/Desktop/School/capstone/pdml/src  # Gabe LAPTOP
 cd /home/gabrieltoro45/capstone/pdml/src                         # Gabe Desktop
 make clean
-make
-./pdml
+make debug
+mv *.o pdml ../bin/
+cd /home/gabrieltoro45/capstone/pdml/bin   
 
+# Run with Valgrind
+taskset -c 0-3 valgrind -s --leak-check=full --show-leak-kinds=all --track-origins=yes ./pdml
+
+# Run with -fsanitize debug tools
+# taskset -c 0-3 ./pdml
+
+
+# Kill off Zeek
 sudo pkill zeek

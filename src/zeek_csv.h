@@ -83,7 +83,7 @@ void free_tokens(char** tokens);
  * @param tokens The tokens returned by tokenize_line()
  * @note THIS FUNCTION'S RETURN IS ALLOCATED MEMORY AND MUST BE FREED
  */
-char* csvify_tokens(char** tokens);
+char* csvify_tokens(char** tokens, LogType log_type);
 
 
 /** 

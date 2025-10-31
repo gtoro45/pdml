@@ -10,6 +10,9 @@
 // the mutex to allow for safe writing to stdout/file
 pthread_mutex_t m;
 
+// the global file descriptor for the 
+int csv_fd;
+
 /** 
  * Function that identifies the .log file being read and returns the correct
  * enum type
@@ -103,10 +106,10 @@ char* get_lost_line(int fd2, char* incomplete_line, char* prev_line) {
             prev_line_norm[len - 1] = '\0';               // remove trailing newline
         }
     }
-    // int len = strlen(prev_line);
-    // if(prev_line[len - 1] == '\n') {
-    //     prev_line[len - 1] = '\0';
-    // }
+    else {
+        printf("Previous line NULL\n");
+        return NULL;
+    }
 
     // read char by char, slow and steady (line by line parsing)
     // this is slow and will need to be replaced with something else later
@@ -164,37 +167,6 @@ char* get_lost_line(int fd2, char* incomplete_line, char* prev_line) {
 }
 
 /**
- * Function that checks the tokens for errors in the line. This
- * is usually caused by incomplete lines not caught by the logic in extract_lines().
- * @param tokens the tokens to be verified
- * @param log_type the LogType to check against
- * @return true if erroneous, false otherwise
- */
-bool erroneous_tokens(char** tokens, LogType log_type) {
-    /*************************************** TODO ***************************************/
-    bool error = false;
-    int delim_count = 0;
-    while(tokens[delim_count] != NULL) delim_count++;
-    
-    if(delim_count == log_type) {
-        error = false;
-        // int tok0_len = strlen(line_tokens[0]);  // most common missing token when (count == logtype)
-        // int tok1_len = strlen(line_tokens[1]);  // most common missing token when (count == logtype)
-        // if(tok0_len != 17) {
-        //     error = true;
-        // } 
-        // if(tok1_len != 17 || tok1_len != 18) {
-        //     error = true;
-        // }
-    }
-    else {
-        error = true;
-    }
-    /*************************************** TODO ***************************************/
-    return error;
-}
-
-/**
  * Function that attempts to open the log file specified by path. This function
  * polls the file every second for 60 seconds, after which it will timeout
  * @param path the file to open
@@ -218,6 +190,52 @@ int open_file_with_retry(char* path) {
     printf("[%s]: Connection Established! (%d) \n", path, timeout);
     fflush(stdout);
     return fd;
+}
+
+/**
+ * Function that creates the csv buffer file that the format function writes to and
+ * is read by the Data Analysis portion of the program. 
+ * @param path the path to save the buffer to
+ * @return the file descriptor to the file
+ */
+int open_csv(char* path) {
+    int fd;
+    fd = open(path, O_WRONLY | O_CREAT | O_TRUNC, S_IRWXO);
+    if(fd < 0) {
+        perror("csv file could not be created");
+        exit(1);
+    }
+    return fd;
+}
+
+/**
+ * Function that checks the tokens for errors in the line. This
+ * is usually caused by incomplete lines not caught by the logic in extract_lines().
+ * @param tokens the tokens to be verified
+ * @param log_type the LogType to check against
+ * @return true if erroneous, false otherwise
+ */
+bool erroneous_tokens(char** tokens, LogType log_type) {
+    int count = 0;
+    while(tokens[count] != NULL) count++;
+
+    if(count != log_type) {
+        printf("[%s]: ERROR - unfinished line: num tokens does not match expected (%d vs. %d)\n", logtype_to_str(log_type), count, log_type);
+        return true;
+    }
+    
+    int tok0_len = strlen(tokens[0]);  // most common missing token when (count == logtype)
+    int tok1_len = strlen(tokens[1]);  // most common missing token when (count == logtype)
+    if(tok0_len != 17) {                        // timestamp floating point length = 17 
+        printf("[%s]: ERROR - unfinished line: timestamp corrupted or incomplete (%s)\n", logtype_to_str(log_type), tokens[0]);
+        return true;
+    } 
+    if(tok1_len < 16) {
+        printf("[%s]: ERROR - unfinished line: uid corrupted or incomplete (%s)\n", logtype_to_str(log_type), tokens[1]);
+        return true;
+    }
+
+    return false;
 }
 
 /**
@@ -293,14 +311,14 @@ void* format(void* log_path) {
                 char** line_tokens = tokenize_line(new_buf.lines[i], log_type);
 
                 // convert tokens to csv-readable string
-                char* line_csv = csvify_tokens(line_tokens);
-
-                // erroneous line detection
-                bool error = erroneous_tokens(line_tokens, log_type);
+                char* line_csv = csvify_tokens(line_tokens, log_type);
 
                 /**************** THREAD SAFETY: BEGIN MUTEX LOCK ****************/
                 pthread_mutex_lock(&m);
                 /*****************************************************************/
+                
+                // erroneous line detection
+                bool error = erroneous_tokens(line_tokens, log_type);
 
                 // catch incomplete line and search for it
                 if(error) { 
@@ -308,7 +326,7 @@ void* format(void* log_path) {
                     clock_t start_time = clock();
                     char** new_tokens = tokenize_line(new_buf.lines[i], UNKNOWN);                   // tokenize the incomplete line in full, not just to a LogType
                     char* log_line_incomplete = logify_tokens(new_tokens);                          // reconstruct the line in Zeek-log format
-                    char* complete_line = get_lost_line(fd2, log_line_incomplete, saved_prev);     // get the complete line in the Zeek log (incomplete + prev line inputs)
+                    char* complete_line = get_lost_line(fd2, log_line_incomplete, saved_prev);      // get the complete line in the Zeek log (incomplete + prev line inputs)
                     
                     free(new_buf.lines[i]);                                                         // free the current line in the buffer to replace with the complete line
                     new_buf.lines[i] = malloc(strlen(complete_line) + 1);                           // malloc enough space for the complete line
@@ -320,10 +338,11 @@ void* format(void* log_path) {
                     free_tokens(line_tokens);                                                       // free the incomplete tokens to place the new tokens
                     line_tokens = tokenize_line(new_buf.lines[i], log_type);                        // tokenize the new, complete line which is now stored at lines[i]
                     free(line_csv);                                                                 // free the previous csv'd line to make the new csv line
-                    line_csv = csvify_tokens(line_tokens);                                          // convert new tokens to CSV-readable string
+                    line_csv = csvify_tokens(line_tokens, log_type);                                          // convert new tokens to CSV-readable string
 
                     clock_t end_time = clock();
                     double cpu_time_used = ((double)(end_time - start_time)) / CLOCKS_PER_SEC;
+                    printf("\tIncomplete line: %s\n", new_buf.lines[i]);
                     printf("\tLogified line: %s\n", log_line_incomplete);
                     printf("\tPrevious line: %s\n", saved_prev);
                     printf("\tComplete line: %s\n", complete_line);
@@ -336,6 +355,13 @@ void* format(void* log_path) {
                     }
                     printf("\tSearch took %f ms to execute\n}\n", cpu_time_used * 1000);
 
+                    // write line to the buffer file
+                    int nbytes_w = write(csv_fd, line_csv, strlen(line_csv));
+                    if(nbytes_w < 0) {
+                        perror("write");
+                        exit(1);
+                    }
+
                     free_tokens(new_tokens);
                     free(log_line_incomplete);
                     free(complete_line);
@@ -344,7 +370,11 @@ void* format(void* log_path) {
                 else {
                     printf("[%s]: %s", log_type_str, line_csv);
                     // write line to the buffer file
-                    // TODO
+                    int nbytes_w = write(csv_fd, line_csv, strlen(line_csv));
+                    if(nbytes_w < 0) {
+                        perror("write");
+                        exit(1);
+                    }
                 }
                 fflush(stdout);
                 
@@ -366,9 +396,17 @@ void* format(void* log_path) {
                     exit(1);
                 }
                 strcpy(saved_prev, new_buf.lines[i]);
-
             }
             else {
+                if(header_counter == 7) {
+                    // ensure previous line is never empty
+                    saved_prev = malloc(strlen(new_buf.lines[i]) + 1);
+                    if(saved_prev == NULL) {
+                        fprintf(stderr, "Memory allocation failed while saving previous line");
+                        exit(1);
+                    }   
+                    strcpy(saved_prev, new_buf.lines[i]);
+                }
                 header_counter++;
             }
         }
@@ -386,20 +424,35 @@ void* format(void* log_path) {
 
 /* Local Main Function */
 int main() {
+    // create the csv file buffer
+    csv_fd = open_csv("../buf/eth0.csv");
+
+    // set up the format() threads
     pthread_mutex_init(&m, NULL);
 
     pthread_t thread1;
     pthread_t thread2;
+    pthread_t thread3;
+    pthread_t thread4;
 
-    if(pthread_create(&thread1, NULL, format, "./tests/dns.log") < 0) {
+    if(pthread_create(&thread1, NULL, format, "../src/tests/dns.log") < 0) {
         perror("pthread_create");
     }
-    if(pthread_create(&thread2, NULL, format, "./tests/conn.log") < 0) {
+    if(pthread_create(&thread2, NULL, format, "../src/tests/conn.log") < 0) {
+        perror("pthread_create");
+    }
+    if(pthread_create(&thread3, NULL, format, "../src/tests/ssl.log") < 0) {
+        perror("pthread_create");
+    }
+    if(pthread_create(&thread4, NULL, format, "../src/tests/weird.log") < 0) {
         perror("pthread_create");
     }
     
+    
     pthread_join(thread1, NULL);
     pthread_join(thread2, NULL);
+    pthread_join(thread3, NULL);
+    pthread_join(thread4, NULL);
 
     pthread_mutex_destroy(&m);
 
