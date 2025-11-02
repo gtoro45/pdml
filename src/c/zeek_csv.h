@@ -23,15 +23,14 @@
 
 /**
  * enum identifying the key logfile types to be processed by the program.
- * Each enum holds a value equal to the number of key columns each logfile
- * needs to have
+ * Each enum holds a value equal to the number of columns each logfile has.
  */
 typedef enum {
-    CONN = 15,
-    DNS = 13,
-    HTTP = 18,
-    SSL = 8,
-    WEIRD = 9,
+    CONN = 22,  // in extracted, not training
+    DNS = 24,
+    HTTP = 30,
+    SSL = 18,
+    WEIRD = 11,
     UNKNOWN = -1
 } LogType;
 
@@ -65,12 +64,24 @@ void free_lines(char** lines);
 
 /**
  * Takes a space-separated line from a Zeek log file and returns
- * a tokenized version of the line, as an array of strings.
+ * a tokenized version of the line, as an array of strings. Only certain
+ * features are extracted based on the LogType
  * @param line The extracted line from the Zeek log file; must be a malloc'd line 
  * @param logfile_type The type of log file being processed
  * @note THIS FUNCTION'S RETURN IS ALLOCATED MEMORY AND MUST BE FREED
+ * @deprecated This function has been replaced with tokenize_full_line(), with
+ * specific features being extracted in Python
  */
 char** tokenize_line(char* line, LogType logfile_type);
+
+/**
+ * Takes a space-separated line from a Zeek log file and returns
+ * a tokenized version of the line, as an array of strings. All column
+ * data is extracted
+ * @param line The extracted line from the Zeek log file; must be a malloc'd line 
+ * @note THIS FUNCTION'S RETURN IS ALLOCATED MEMORY AND MUST BE FREED
+ */
+char** tokenize_full_line(char* line);
 
 /**
  * free the malloc'd tokens char** from tokenize_line()

@@ -230,7 +230,7 @@ bool erroneous_tokens(char** tokens, LogType log_type) {
         printf("[%s]: ERROR - unfinished line: timestamp corrupted or incomplete (%s)\n", logtype_to_str(log_type), tokens[0]);
         return true;
     } 
-    if(tok1_len < 16) {
+    if(tok1_len < 15) {
         printf("[%s]: ERROR - unfinished line: uid corrupted or incomplete (%s)\n", logtype_to_str(log_type), tokens[1]);
         return true;
     }
@@ -308,7 +308,7 @@ void* format(void* log_path) {
         for(int i = 0; new_buf.lines[i] != NULL; i++) {
             if(header_counter >= 8) {
                 // tokenize line
-                char** line_tokens = tokenize_line(new_buf.lines[i], log_type);
+                char** line_tokens = tokenize_full_line(new_buf.lines[i]);
 
                 // convert tokens to csv-readable string
                 char* line_csv = csvify_tokens(line_tokens, log_type);
@@ -323,8 +323,9 @@ void* format(void* log_path) {
                 // catch incomplete line and search for it
                 if(error) { 
                     printf("[%s]: ERROR - unfinished line: beginning search\n{\n", log_type_str);
+                    printf("\tIncomplete line: %s\n", new_buf.lines[i]);
                     clock_t start_time = clock();
-                    char** new_tokens = tokenize_line(new_buf.lines[i], UNKNOWN);                   // tokenize the incomplete line in full, not just to a LogType
+                    char** new_tokens = tokenize_full_line(new_buf.lines[i]);                       // tokenize the incomplete line in full, not just to a LogType
                     char* log_line_incomplete = logify_tokens(new_tokens);                          // reconstruct the line in Zeek-log format
                     char* complete_line = get_lost_line(fd2, log_line_incomplete, saved_prev);      // get the complete line in the Zeek log (incomplete + prev line inputs)
                     
@@ -336,13 +337,12 @@ void* format(void* log_path) {
                     }
                     strcpy(new_buf.lines[i], complete_line);                                        // copy the complete line into the current line
                     free_tokens(line_tokens);                                                       // free the incomplete tokens to place the new tokens
-                    line_tokens = tokenize_line(new_buf.lines[i], log_type);                        // tokenize the new, complete line which is now stored at lines[i]
+                    line_tokens = tokenize_full_line(new_buf.lines[i]);                             // tokenize the new, complete line which is now stored at lines[i]
                     free(line_csv);                                                                 // free the previous csv'd line to make the new csv line
                     line_csv = csvify_tokens(line_tokens, log_type);                                          // convert new tokens to CSV-readable string
 
                     clock_t end_time = clock();
                     double cpu_time_used = ((double)(end_time - start_time)) / CLOCKS_PER_SEC;
-                    printf("\tIncomplete line: %s\n", new_buf.lines[i]);
                     printf("\tLogified line: %s\n", log_line_incomplete);
                     printf("\tPrevious line: %s\n", saved_prev);
                     printf("\tComplete line: %s\n", complete_line);
@@ -432,27 +432,27 @@ int main() {
 
     pthread_t thread1;
     pthread_t thread2;
-    pthread_t thread3;
-    pthread_t thread4;
+    // pthread_t thread3;
+    // pthread_t thread4;
 
-    if(pthread_create(&thread1, NULL, format, "../src/tests/dns.log") < 0) {
+    if(pthread_create(&thread1, NULL, format, "../src/tests/conn.log") < 0) {    // these paths are relative to pdml/bin/
         perror("pthread_create");
     }
-    if(pthread_create(&thread2, NULL, format, "../src/tests/conn.log") < 0) {
+    if(pthread_create(&thread2, NULL, format, "../src/tests/dns.log") < 0) {
         perror("pthread_create");
     }
-    if(pthread_create(&thread3, NULL, format, "../src/tests/ssl.log") < 0) {
-        perror("pthread_create");
-    }
-    if(pthread_create(&thread4, NULL, format, "../src/tests/weird.log") < 0) {
-        perror("pthread_create");
-    }
+    // if(pthread_create(&thread3, NULL, format, "../src/tests/ssl.log") < 0) {
+    //     perror("pthread_create");
+    // }
+    // if(pthread_create(&thread4, NULL, format, "../src/tests/weird.log") < 0) {
+    //     perror("pthread_create");
+    // }
     
     
     pthread_join(thread1, NULL);
     pthread_join(thread2, NULL);
-    pthread_join(thread3, NULL);
-    pthread_join(thread4, NULL);
+    // pthread_join(thread3, NULL);
+    // pthread_join(thread4, NULL);
 
     pthread_mutex_destroy(&m);
 

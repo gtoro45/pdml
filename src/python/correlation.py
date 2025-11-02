@@ -60,7 +60,31 @@ def get_logtype(path):
     return 'UNKNOWN'
 
 # Load the Zeek datasets
-paths = [
+paths_laptop = [
+    # Node 1 (Child 3)
+    "../benign_1_min/node-1-child-3/csv files/node1_conn.csv",
+    "../benign_1_min/node-1-child-3/csv files/node1_dns.csv",
+    "../benign_1_min/node-1-child-3/csv files/node1_http.csv",
+    "../benign_1_min/node-1-child-3/csv files/node1_ssl.csv",
+    
+    # Node 2 (Child 4)
+    "../benign_1_min/node-2-child-4/csv files/node2_conn.csv",
+    "../benign_1_min/node-2-child-4/csv files/node2_dns.csv",
+    "../benign_1_min/node-2-child-4/csv files/node2_http.csv",
+    "../benign_1_min/node-2-child-4/csv files/node2_ssl.csv",
+    
+    # Camera Pod
+    "../benign_1_min/cam-pod/csv files/camera_conn.csv",
+    
+    # LiDAR Pod
+    "../benign_1_min/lidar-pod/csv files/lidar_conn.csv",
+    
+    # NGINX Pod
+    "../benign_1_min/nginx-pod/csv files/NGINX_conn.csv",
+    "../benign_1_min/nginx-pod/csv files/NGINX_dns.csv"
+]
+
+paths_desktop = [
     # Node 1 (Child 3)
     "../benign_1_min/Node 1 (Child 3)/csv files/node1_conn.csv",
     "../benign_1_min/Node 1 (Child 3)/csv files/node1_dns.csv",
@@ -84,14 +108,18 @@ paths = [
     "../benign_1_min/NGINX Pod/csv files/NGINX_dns.csv"
 ]
 
-for path in paths:
+for path in paths_laptop:
     print("****************************************************************************************************")
     print(path)
     columns = get_column_names(get_logtype(path))
     df = pd.read_csv(path, na_values=['-'])[columns]
 
-    # Select only numeric columns
-    df_numeric = df.select_dtypes(include=[np.number]) 
+    # Select only numeric columns and exclude timestamp (skews heatmap)
+    df_numeric = df.select_dtypes(include=[np.number])
+    df_numeric = df_numeric.drop(['ts'], axis=1)
+    if(df_numeric.empty):
+        print("Empty dataset")
+        continue
     print(df_numeric)
 
     # Compute mean vector, covariance matrix, and correlation matrix
@@ -102,23 +130,23 @@ for path in paths:
     print(corr_matrix)
     print("****************************************************************************************************\n")
 
-# # Plot them
-# fig, axes = plt.subplots(1, 3, figsize=(18, 5))
+    # Plot them
+    fig, axes = plt.subplots(1, 3, figsize=(18, 5))
+    
+    # Mean vector (bar chart)
+    axes[0].bar(mu.index, mu.values)
+    axes[0].set_title("Mean Vector (μ)")
+    axes[0].set_xticklabels(mu.index, rotation=90)
 
-# # Mean vector (bar chart)
-# axes[0].bar(mu.index, mu.values)
-# axes[0].set_title("Mean Vector (μ)")
-# axes[0].set_xticklabels(mu.index, rotation=90)
+    # Covariance matrix
+    sns.heatmap(cov_matrix, ax=axes[1], cmap="coolwarm", cbar=True, center=0)
+    axes[1].set_title("Covariance Matrix (Σ)")
 
-# # Covariance matrix
-# sns.heatmap(cov_matrix, ax=axes[1], cmap="coolwarm", cbar=True, center=0)
-# axes[1].set_title("Covariance Matrix (Σ)")
+    # Correlation matrix
+    sns.heatmap(corr_matrix, ax=axes[2], cmap="coolwarm", cbar=True, center=0, annot=True, fmt=".2f")
+    axes[2].set_title("Correlation Matrix (R)")
+    axes[2].xaxis.set_ticks_position('bottom')
+    axes[2].xaxis.set_label_position('bottom')
 
-# # Correlation matrix
-# sns.heatmap(corr_matrix, ax=axes[2], cmap="coolwarm", cbar=True, center=0)
-# axes[2].set_title("Correlation Matrix (R)")
-# axes[2].xaxis.set_ticks_position('bottom')
-# axes[2].xaxis.set_label_position('bottom')
-
-# plt.tight_layout()
-# plt.show()
+    plt.tight_layout()
+    plt.show()

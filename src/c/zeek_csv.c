@@ -92,6 +92,7 @@ void free_lines(char** lines) {
     free(lines);
 }
 
+/* DEPRECATED */
 char** tokenize_line(char* line, LogType logfile_type) {
     // Identify the token columns based on the LogType
     int* log_columns = NULL;
@@ -273,6 +274,53 @@ char** tokenize_line(char* line, LogType logfile_type) {
         //        starting location for scanning" (Docs)
         tok = strtok(NULL, ZEEK_DELIM);
         ind++;
+    }
+ 
+    
+    // return heap allocated copy without any extra malloc'd bytes
+    // that came form unused space from EXTRACTION_MAX_TOKENS
+    // formatted_idx + 1 is for NULL termination
+    char** result = malloc((formatted_idx + 1) * sizeof(char*));
+    int i;
+    for(i = 0; i < formatted_idx; i++) {
+        result[i] = formatted[i];
+    }
+
+    // terminate the array of tokens
+    result[i] = NULL; 
+
+    free(tmp);
+    return result;
+}
+
+char** tokenize_full_line(char* line) {
+    // declare the formatted line
+    char* formatted[EXTRACTION_MAX_TOKENS] = {NULL};
+    int formatted_idx = 0;
+    
+    // set up the use of strtok (copy because strtok modifies the string)
+    int line_len = strlen(line);
+    char* tmp = malloc(line_len + 1);
+    memcpy(tmp, line, line_len + 1);
+
+    char* tok = strtok(tmp, ZEEK_DELIM);
+
+    // iterate through strtok
+    while(tok && formatted_idx < EXTRACTION_MAX_TOKENS) {
+        // append the token
+        formatted[formatted_idx] = malloc(strlen(tok) + 1);
+        if(formatted[formatted_idx] != NULL) {
+            strcpy(formatted[formatted_idx], tok);
+            formatted_idx++;
+        }
+
+        // iterate to the next token via a new strtok() call
+        // check that the token exists before adding a "," in between
+        // Note: "In subsequent calls, the function expects 
+        //        a null pointer and uses the position right 
+        //        after the end of the last token as the new 
+        //        starting location for scanning" (Docs)
+        tok = strtok(NULL, ZEEK_DELIM);
     }
  
     
