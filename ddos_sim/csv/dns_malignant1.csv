@@ -1,0 +1,74 @@
+ts,uid,id.orig_h,id.orig_p,id.resp_h,id.resp_p,proto,trans_id,rtt,query,qclass,qclass_name,qtype,qtype_name,rcode,rcode_name,AA,TC,RD,RA,Z,answers,TTLs,rejected
+1762226382.442962,CRKDOU8n3dWIf5QSk,192.168.1.120,5353,224.0.0.251,5353,udp,0,0.000864,streaming stick 4k._airplay._tcp.local,32769,qclass-32769,33,SRV,0,NOERROR,T,F,F,F,0,x02500tw0j2g.local,120.000000,F
+1762226382.443492,CbSTpZ36FNpXYNtmF9,fe80::d6be:dcff:fe5d:faae,5353,ff02::fb,5353,udp,0,0.000607,streaming stick 4k._airplay._tcp.local,32769,qclass-32769,33,SRV,0,NOERROR,T,F,F,F,0,x02500tw0j2g.local,120.000000,F
+1762226399.899779,C1xR8S1mB512Zi0Y52,192.168.1.132,5353,224.0.0.251,5353,udp,0,-,_homekit._tcp.local,32769,qclass-32769,12,PTR,-,-,F,F,F,F,0,-,-,F
+1762226399.901255,CL3jhp4Vfux5EGir6k,fe80::4e8:9bca:678b:5c68,5353,ff02::fb,5353,udp,0,-,_homekit._tcp.local,32769,qclass-32769,12,PTR,-,-,F,F,F,F,0,-,-,F
+1762226400.292009,CCNnc63EyXjggZRDrh,192.168.1.226,3791,192.168.1.1,53,udp,21975,-,mobile.events.data.microsoft.com,-,-,-,-,0,NOERROR,F,F,F,T,0,"mobile.events.data.trafficmanager.net,onedscolprdeus05.eastus.cloudapp.azure.com","84.000000,59.000000",F
+1762226400.322216,CgqKnH1MYPDtUoMXDj,192.168.1.226,41432,192.168.1.1,53,udp,60917,-,mobile.events.data.microsoft.com,-,-,-,-,0,NOERROR,F,F,F,T,0,"mobile.events.data.trafficmanager.net,onedscolprdwus03.westus.cloudapp.azure.com,20.189.173.4","77.000000,27.000000,2.000000",F
+1762226400.382955,CCS3pD8D0SECfkY,192.168.1.226,5826,192.168.1.1,53,udp,15013,-,-,-,-,-,-,0,NOERROR,F,F,F,F,0,-,-,F
+1762226430.438470,CVcpj324xvh7jkFJwb,192.168.1.226,2826,192.168.1.1,53,udp,44242,-,signaler-pa.googleapis.com,-,-,-,-,0,NOERROR,F,F,F,T,0,"142.251.186.95,142.250.115.95,142.250.114.95,142.250.113.95,142.251.116.95,173.194.208.95","131.000000,131.000000,131.000000,131.000000,131.000000,131.000000",F
+1762226430.455012,CrlJmr2uqeaRaPrJ6c,192.168.1.226,50953,192.168.1.1,53,udp,29525,-,-,-,-,-,-,0,NOERROR,F,F,F,F,0,-,-,F
+1762226446.106580,COsJ6z1irabvljtYi2,192.168.1.226,60822,192.168.1.1,53,udp,30609,-,-,-,-,-,-,0,NOERROR,F,F,F,F,0,-,-,F
+1762226446.111891,CGXAac4hcVBZca8vn3,192.168.1.226,34500,192.168.1.1,53,udp,50988,-,accounts.google.com,-,-,-,-,0,NOERROR,F,F,F,T,0,142.251.116.84,253.000000,F
+1762226446.221274,C0yD8R3X4BMVqxDSAj,192.168.1.226,10770,192.168.1.1,53,udp,5166,-,bam.nr-data.net,-,-,-,-,0,NOERROR,F,F,F,T,0,"bam.cell.nr-data.net,fastly-tls12-bam.nr-data.net","2326.000000,286.000000",F
+1762226446.221323,CoLBnJcQn4hcQEKkh,192.168.1.226,20228,192.168.1.1,53,udp,9538,-,bam.nr-data.net,-,-,-,-,0,NOERROR,F,F,F,T,0,"bam.cell.nr-data.net,fastly-tls12-bam.nr-data.net,162.247.243.29","2326.000000,292.000000,2857.000000",F
+1762226446.325757,CGBXqk4sETb4VWm2bi,192.168.1.226,28587,192.168.1.1,53,udp,37219,-,-,-,-,-,-,0,NOERROR,F,F,F,F,0,-,-,F
+1762226462.752612,Cr9Bec4btskGIA95u6,192.168.1.226,59234,192.168.1.1,53,udp,27222,-,mobile.events.data.microsoft.com,-,-,-,-,0,NOERROR,F,F,F,T,0,"mobile.events.data.trafficmanager.net,onedscolprdcus00.centralus.cloudapp.azure.com","15.000000,21.000000",F
+1762226462.792960,CVTbJ93kAl1m9qfend,192.168.1.226,58011,192.168.1.1,53,udp,2182,-,mobile.events.data.microsoft.com,-,-,-,-,0,NOERROR,F,F,F,T,0,"mobile.events.data.trafficmanager.net,onedscolprdcus00.centralus.cloudapp.azure.com,13.89.178.26","15.000000,21.000000,7.000000",F
+1762226467.981907,Cr46Rzyg0njpgeUW4,192.168.1.226,3548,192.168.1.1,53,udp,30513,-,-,-,-,-,-,0,NOERROR,F,F,F,F,0,-,-,F
+1762226488.559259,ClP32Y3aAutgtgdho9,192.168.1.226,59784,192.168.1.1,53,udp,50993,-,connectivity-check.ubuntu.com,-,-,-,-,0,NOERROR,F,F,F,T,0,"185.125.190.48,91.189.91.98,185.125.190.96,185.125.190.18,185.125.190.97,185.125.190.49,91.189.91.48,91.189.91.97,185.125.190.98,185.125.190.17,91.189.91.96,91.189.91.49","10.000000,10.000000,10.000000,10.000000,10.000000,10.000000,10.000000,10.000000,10.000000,10.000000,10.000000,10.000000",F
+1762226511.687843,Cjhzcz4VOrbe2oXU2,192.168.1.226,32161,192.168.1.1,53,udp,49902,-,main.vscode-cdn.net,-,-,-,-,0,NOERROR,F,F,F,T,0,"vscode-cdn.z01.azurefd.net,mr-z01.tm-azurefd.net,shed.dual-low.part-0029.t-0009.t-msedge.net,part-0029.t-0009.t-msedge.net,13.107.246.57,13.107.213.57","2255.000000,16.000000,9.000000,60.000000,27.000000,27.000000",F
+1762226511.688237,CXkWYJ3LS8ulrCzyfl,192.168.1.226,62920,192.168.1.1,53,udp,15641,-,main.vscode-cdn.net,-,-,-,-,0,NOERROR,F,F,F,T,0,"vscode-cdn.z01.azurefd.net,mr-z01.tm-azurefd.net,shed.dual-low.part-0029.t-0009.t-msedge.net","2204.000000,47.000000,39.000000",F
+1762226511.738780,CWZuFe4H1MmkXYCvB4,192.168.1.226,38543,192.168.1.1,53,udp,3023,-,-,-,-,-,-,0,NOERROR,F,F,F,F,0,-,-,F
+1762226523.675825,CuBb8Y2JeJMPYohBTk,192.168.1.226,48800,192.168.1.1,53,udp,13132,-,-,-,-,-,-,0,NOERROR,F,F,F,F,0,-,-,F
+1762226536.983461,C8jLSxWJRMuTT3Ui7,192.168.1.226,41326,192.168.1.1,53,udp,44558,-,www.googleapis.com,-,-,-,-,0,NOERROR,F,F,F,T,0,"142.251.116.95,173.194.208.95,142.251.186.95,142.250.115.95,142.250.114.95,142.250.113.95","153.000000,153.000000,153.000000,153.000000,153.000000,153.000000",F
+1762226537.025750,CaP0ZD4QgXNOtXqZM9,192.168.1.226,16375,192.168.1.1,53,udp,53988,-,-,-,-,-,-,0,NOERROR,F,F,F,F,0,-,-,F
+1762226537.446966,CHx0Wo3382lnlad5t,192.168.1.226,22755,192.168.1.1,53,udp,25255,-,-,-,-,-,-,0,NOERROR,F,F,F,F,0,-,-,F
+1762226537.490334,C4DmZA2Ia87tsdhXy4,192.168.1.226,48253,192.168.1.1,53,udp,58028,-,passwordsleakcheck-pa.googleapis.com,-,-,-,-,0,NOERROR,F,F,F,T,0,"142.250.113.95,142.251.116.95,142.250.138.95,173.194.208.95,192.178.220.95,142.251.186.95,142.250.115.95,142.250.114.95","59.000000,59.000000,59.000000,59.000000,59.000000,59.000000,59.000000,59.000000",F
+1762226550.517538,CBpwhw1JcqXcE0crVi,192.168.1.120,5353,224.0.0.251,5353,udp,0,0.001650,streaming stick 4k._airplay._tcp.local,32769,qclass-32769,33,SRV,0,NOERROR,T,F,F,F,0,x02500tw0j2g.local,120.000000,F
+1762226550.518245,CtjTCtHtofd28TMb8,fe80::d6be:dcff:fe5d:faae,5353,ff02::fb,5353,udp,0,0.001509,streaming stick 4k._airplay._tcp.local,32769,qclass-32769,33,SRV,0,NOERROR,T,F,F,F,0,x02500tw0j2g.local,120.000000,F
+1762226583.782380,C8Jq4r2ER1wfeNrksg,192.168.1.226,51853,192.168.1.1,53,udp,61113,-,mobile.events.data.microsoft.com,-,-,-,-,0,NOERROR,F,F,F,T,0,"mobile.events.data.trafficmanager.net,onedscolprdcus02.centralus.cloudapp.azure.com","118.000000,12.000000",F
+1762226583.807648,CjlDqa3bpMwiXGBW1g,192.168.1.226,6261,192.168.1.1,53,udp,12995,-,-,-,-,-,-,0,NOERROR,F,F,F,F,0,-,-,F
+1762226583.837731,C3Jq7o1droFZqtbIId,192.168.1.226,55491,192.168.1.1,53,udp,40273,-,mobile.events.data.microsoft.com,-,-,-,-,0,NOERROR,F,F,F,T,0,"mobile.events.data.trafficmanager.net,onedscolprdcus17.centralus.cloudapp.azure.com,104.208.16.91","13.000000,44.000000,4.000000",F
+1762226580.108493,CyOzhu2dHbBu9Mq6Y5,192.168.1.132,5353,224.0.0.251,5353,udp,0,-,_homekit._tcp.local,32769,qclass-32769,12,PTR,-,-,F,F,F,F,0,-,-,F
+1762226581.111280,CyOzhu2dHbBu9Mq6Y5,192.168.1.132,5353,224.0.0.251,5353,udp,0,-,_homekit._tcp.local,1,C_INTERNET,12,PTR,-,-,F,F,F,F,0,-,-,F
+1762226584.118751,CyOzhu2dHbBu9Mq6Y5,192.168.1.132,5353,224.0.0.251,5353,udp,0,-,_homekit._tcp.local,1,C_INTERNET,12,PTR,-,-,F,F,F,F,0,-,-,F
+1762226593.138126,CyOzhu2dHbBu9Mq6Y5,192.168.1.132,5353,224.0.0.251,5353,udp,0,-,_homekit._tcp.local,1,C_INTERNET,12,PTR,-,-,F,F,F,F,0,-,-,F
+1762226580.109036,CrRJgR2dohh4TYaHR7,fe80::4e8:9bca:678b:5c68,5353,ff02::fb,5353,udp,0,-,_homekit._tcp.local,32769,qclass-32769,12,PTR,-,-,F,F,F,F,0,-,-,F
+1762226581.112074,CrRJgR2dohh4TYaHR7,fe80::4e8:9bca:678b:5c68,5353,ff02::fb,5353,udp,0,-,_homekit._tcp.local,1,C_INTERNET,12,PTR,-,-,F,F,F,F,0,-,-,F
+1762226584.119928,CrRJgR2dohh4TYaHR7,fe80::4e8:9bca:678b:5c68,5353,ff02::fb,5353,udp,0,-,_homekit._tcp.local,1,C_INTERNET,12,PTR,-,-,F,F,F,F,0,-,-,F
+1762226593.139164,CrRJgR2dohh4TYaHR7,fe80::4e8:9bca:678b:5c68,5353,ff02::fb,5353,udp,0,-,_homekit._tcp.local,1,C_INTERNET,12,PTR,-,-,F,F,F,F,0,-,-,F
+1762226639.867171,Cdp47r1Pv7gkF0pEE1,192.168.1.172,5353,224.0.0.251,5353,udp,0,-,_companion-link._tcp.local,-,-,-,-,0,NOERROR,T,F,F,F,0,"joey’s ipad._companion-link._tcp.local,TXT 12 model=J181AP","4500.000000,4500.000000",F
+1762226652.095276,CGCe381hzY46UwhMEf,192.168.1.226,18410,192.168.1.1,53,udp,60159,-,mobile.events.data.microsoft.com,-,-,-,-,0,NOERROR,F,F,F,T,0,"mobile.events.data.trafficmanager.net,onedscolprdcus19.centralus.cloudapp.azure.com","49.000000,55.000000",F
+1762226652.101422,C0ITSB1ApeZsRxvgRj,192.168.1.226,26134,192.168.1.1,53,udp,51255,-,mobile.events.data.microsoft.com,-,-,-,-,0,NOERROR,F,F,F,T,0,"mobile.events.data.trafficmanager.net,onedscolprdcus22.centralus.cloudapp.azure.com,52.182.143.215","56.000000,31.000000,8.000000",F
+1762226652.155040,CMOReW2mre72Tx9wVd,192.168.1.226,32072,192.168.1.1,53,udp,51908,-,-,-,-,-,-,0,NOERROR,F,F,F,F,0,-,-,F
+1762226640.608841,C9f08H24rlBMCH5Ow2,192.168.1.132,5353,224.0.0.251,5353,udp,0,-,_homekit._tcp.local,1,C_INTERNET,12,PTR,-,-,F,F,F,F,0,-,-,F
+1762226643.616550,C9f08H24rlBMCH5Ow2,192.168.1.132,5353,224.0.0.251,5353,udp,0,-,_homekit._tcp.local,1,C_INTERNET,12,PTR,-,-,F,F,F,F,0,-,-,F
+1762226652.638568,C9f08H24rlBMCH5Ow2,192.168.1.132,5353,224.0.0.251,5353,udp,0,-,_homekit._tcp.local,1,C_INTERNET,12,PTR,-,-,F,F,F,F,0,-,-,F
+1762226640.608987,CDSdYx2btVPIS7KRdk,fe80::4e8:9bca:678b:5c68,5353,ff02::fb,5353,udp,0,-,_homekit._tcp.local,1,C_INTERNET,12,PTR,-,-,F,F,F,F,0,-,-,F
+1762226643.617336,CDSdYx2btVPIS7KRdk,fe80::4e8:9bca:678b:5c68,5353,ff02::fb,5353,udp,0,-,_homekit._tcp.local,1,C_INTERNET,12,PTR,-,-,F,F,F,F,0,-,-,F
+1762226652.638714,CDSdYx2btVPIS7KRdk,fe80::4e8:9bca:678b:5c68,5353,ff02::fb,5353,udp,0,-,_homekit._tcp.local,1,C_INTERNET,12,PTR,-,-,F,F,F,F,0,-,-,F
+1762226679.689639,CcUZnU2VNVDUIFEnhl,192.168.1.132,5353,224.0.0.251,5353,udp,0,-,_homekit._tcp.local,1,C_INTERNET,12,PTR,-,-,F,F,F,F,0,-,-,F
+1762226679.689936,CFM7vd3Jdo0gQFjz8a,fe80::4e8:9bca:678b:5c68,5353,ff02::fb,5353,udp,0,-,_homekit._tcp.local,1,C_INTERNET,12,PTR,-,-,F,F,F,F,0,-,-,F
+1762226698.536232,C5skCE1QLFAxQpqXz,192.168.1.226,18461,192.168.1.1,53,udp,50420,-,connectivity-check.ubuntu.com,-,-,-,-,0,NOERROR,F,F,F,T,0,"2001:67c:1562::23,2620:2d:4000:1::22,2001:67c:1562::24,2620:2d:4002:1::196,2620:2d:4000:1::2a,2620:2d:4000:1::97,2620:2d:4000:1::96,2620:2d:4000:1::98,2620:2d:4000:1::2b,2620:2d:4000:1::23,2620:2d:4002:1::197,2620:2d:4002:1::198","11.000000,11.000000,11.000000,11.000000,11.000000,11.000000,11.000000,11.000000,11.000000,11.000000,11.000000,11.000000",F
+1762226718.587531,CNcksm17SSA4hFcooi,192.168.1.120,5353,224.0.0.251,5353,udp,0,0.000316,streaming stick 4k._airplay._tcp.local,32769,qclass-32769,33,SRV,0,NOERROR,T,F,F,F,0,x02500tw0j2g.local,120.000000,F
+1762226718.587698,Cam3kp1V3DRzU5afxg,fe80::d6be:dcff:fe5d:faae,5353,ff02::fb,5353,udp,0,0.000258,streaming stick 4k._airplay._tcp.local,32769,qclass-32769,33,SRV,0,NOERROR,T,F,F,F,0,x02500tw0j2g.local,120.000000,F
+1762226712.699558,CcinFbTZxVld6WnIk,192.168.1.226,16730,192.168.1.1,53,udp,43504,-,mobile.events.data.microsoft.com,-,-,-,-,0,NOERROR,F,F,F,T,0,"mobile.events.data.trafficmanager.net,onedscolprdwus10.westus.cloudapp.azure.com,20.189.173.11","108.000000,27.000000,4.000000",F
+1762226717.745489,CAZ15K2OTFg29Nq063,192.168.1.226,42885,192.168.1.1,53,udp,24242,-,mobile.events.data.microsoft.com,-,-,-,-,0,NOERROR,F,F,F,T,0,"mobile.events.data.trafficmanager.net,onedscolprdeus19.eastus.cloudapp.azure.com","77.000000,56.000000",F
+1762226717.762157,C9k8cr3Pn7AbkeWdg4,192.168.1.226,33596,192.168.1.1,53,udp,54718,-,-,-,-,-,-,0,NOERROR,F,F,F,F,0,-,-,F
+1762226760.853609,CpgCTg2cvL4MdTROJk,192.168.1.132,5353,224.0.0.251,5353,udp,0,-,_homekit._tcp.local,1,C_INTERNET,12,PTR,-,-,F,F,F,F,0,-,-,F
+1762226760.854295,CCseGs2NqcuFq2PQU9,fe80::4e8:9bca:678b:5c68,5353,ff02::fb,5353,udp,0,-,_homekit._tcp.local,1,C_INTERNET,12,PTR,-,-,F,F,F,F,0,-,-,F
+1762226771.443019,CS8Buh4GRRATYYUSq7,192.168.1.226,17453,192.168.1.1,53,udp,29570,-,clientservices.googleapis.com,-,-,-,-,0,NOERROR,F,F,F,T,0,142.250.115.94,247.000000,F
+1762226771.450176,C0JcyA42cdTloA8RQi,192.168.1.226,15641,192.168.1.1,53,udp,14233,-,-,-,-,-,-,0,NOERROR,F,F,F,F,0,-,-,F
+1762226774.081762,CJY33c3FBqxpeCi6cg,192.168.1.226,3043,192.168.1.1,53,udp,50119,-,mobile.events.data.microsoft.com,-,-,-,-,0,NOERROR,F,F,F,T,0,"mobile.events.data.trafficmanager.net,onedscolprdcus08.centralus.cloudapp.azure.com,104.208.16.88","39.000000,45.000000,4.000000",F
+1762226774.081097,CRG6GM1dynFsxAieUd,192.168.1.226,20183,192.168.1.1,53,udp,23319,-,mobile.events.data.microsoft.com,-,-,-,-,0,NOERROR,F,F,F,T,0,"mobile.events.data.trafficmanager.net,onedscolprdeus23.eastus.cloudapp.azure.com","46.000000,21.000000",F
+1762226774.092780,CZJrT81TpgzpTOBI6f,192.168.1.226,20402,192.168.1.1,53,udp,17057,-,-,-,-,-,-,0,NOERROR,F,F,F,F,0,-,-,F
+1762226788.470664,CxU9IT3vJbwwo3iwOh,192.168.1.226,36852,192.168.1.1,53,udp,50731,-,connectivity-check.ubuntu.com,-,-,-,-,0,NOERROR,F,F,F,T,0,"185.125.190.48,185.125.190.96,185.125.190.98,185.125.190.17,91.189.91.49,91.189.91.97,185.125.190.18,91.189.91.96,91.189.91.98,185.125.190.97,91.189.91.48,185.125.190.49","3.000000,3.000000,3.000000,3.000000,3.000000,3.000000,3.000000,3.000000,3.000000,3.000000,3.000000,3.000000",F
+1762226776.416108,Cl6uvE260I7PNV27r2,192.168.1.132,5353,224.0.0.251,5353,udp,0,-,_homekit._tcp.local,32769,qclass-32769,12,PTR,-,-,F,F,F,F,0,-,-,F
+1762226777.419667,Cl6uvE260I7PNV27r2,192.168.1.132,5353,224.0.0.251,5353,udp,0,-,_homekit._tcp.local,1,C_INTERNET,12,PTR,-,-,F,F,F,F,0,-,-,F
+1762226780.429988,Cl6uvE260I7PNV27r2,192.168.1.132,5353,224.0.0.251,5353,udp,0,-,_homekit._tcp.local,1,C_INTERNET,12,PTR,-,-,F,F,F,F,0,-,-,F
+1762226789.449945,Cl6uvE260I7PNV27r2,192.168.1.132,5353,224.0.0.251,5353,udp,0,-,_homekit._tcp.local,1,C_INTERNET,12,PTR,-,-,F,F,F,F,0,-,-,F
+1762226776.416921,CZqhlp4hy5sspib69,fe80::4e8:9bca:678b:5c68,5353,ff02::fb,5353,udp,0,-,_homekit._tcp.local,32769,qclass-32769,12,PTR,-,-,F,F,F,F,0,-,-,F
+1762226777.420385,CZqhlp4hy5sspib69,fe80::4e8:9bca:678b:5c68,5353,ff02::fb,5353,udp,0,-,_homekit._tcp.local,1,C_INTERNET,12,PTR,-,-,F,F,F,F,0,-,-,F
+1762226780.430783,CZqhlp4hy5sspib69,fe80::4e8:9bca:678b:5c68,5353,ff02::fb,5353,udp,0,-,_homekit._tcp.local,1,C_INTERNET,12,PTR,-,-,F,F,F,F,0,-,-,F
+1762226789.450684,CZqhlp4hy5sspib69,fe80::4e8:9bca:678b:5c68,5353,ff02::fb,5353,udp,0,-,_homekit._tcp.local,1,C_INTERNET,12,PTR,-,-,F,F,F,F,0,-,-,F

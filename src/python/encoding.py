@@ -18,12 +18,14 @@ def encode_training_data(path, encoder=None, fit_encoder=True):
     """
     if 'conn' in path: 
         return encode_training_data_conn(conn_path=path, encoder=encoder, fit_encoder=fit_encoder)
-    if 'dns' in path: 
+    elif 'dns' in path: 
         return encode_training_data_dns(dns_path=path, encoder=encoder, fit_encoder=fit_encoder)
-    if 'ssl' in path: 
+    elif 'ssl' in path: 
         return encode_training_data_ssl(ssl_path=path, encoder=encoder, fit_encoder=fit_encoder)
-    if 'http' in path: 
+    elif 'http' in path: 
         return encode_training_data_http(http_path=path, encoder=encoder, fit_encoder=fit_encoder)
+    else:
+        raise ValueError(f"Unrecognized log type in path: {path}")
 
 # ========================
 # conn.log field types 
@@ -350,17 +352,3 @@ paths = [
     "../../benign_1_min/nginx-pod/csv files/NGINX_conn.csv",
     "../../benign_1_min/nginx-pod/csv files/NGINX_dns.csv"
 ]
-
-
-# testing
-# X = encode_training_data_dns(paths[1])
-# df = pd.read_csv(paths[1])
-# # answers_count = df['answers'].astype(str).apply(lambda x: 0 if x in ['-', 'nan', '<NA>'] else len(x.split(',')))
-# # ttls_count = df['TTLs'].astype(str).apply(lambda x: 0 if x in ['-', 'nan', '<NA>'] else len(x.split(',')))
-
-# for index, row in df.iterrows():
-#     ans = len(str(row['answers']).split(','))
-#     ttls = len(str(row['TTLs']).split(','))
-#     print(f"{ans} | {ttls}")
-#     if(ans != ttls):
-#         print(f"mismatch found at row {index}")

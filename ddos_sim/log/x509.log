@@ -1,0 +1,10 @@
+#separator \x09
+#set_separator	,
+#empty_field	(empty)
+#unset_field	-
+#path	x509
+#open	2025-11-03-21-19-54
+#fields	ts	fingerprint	certificate.version	certificate.serial	certificate.subject	certificate.issuer	certificate.not_valid_before	certificate.not_valid_after	certificate.key_alg	certificate.sig_alg	certificate.key_type	certificate.key_length	certificate.exponent	certificate.curve	san.dns	san.uri	san.email	san.ip	basic_constraints.ca	basic_constraints.path_len	host_cert	client_cert
+#types	time	string	count	string	string	string	time	time	string	string	string	count	string	string	vector[string]	vector[string]	vector[string]	vector[addr]	bool	count	bool	bool
+1762226394.632838	b63f176f6eeb934c76fa276e2889fbcb190682beba3ba16f513aef9bf1459232	1	7F534A6E4E8B3B6BE0DD1D5CFEC4DD96CBE0C808	CN=test.com,OU=Test,O=Test,L=Austin,ST=Texas,C=US	CN=test.com,OU=Test,O=Test,L=Austin,ST=Texas,C=US	1762222833.000000	2077582833.000000	id-ecPublicKey	ecdsa-with-SHA256	ecdsa	256	-	prime256v1	-	-	-	-	-	-	T	F
+#close	2025-11-03-21-26-45

@@ -425,7 +425,7 @@ void* format(void* log_path) {
 /* Local Main Function */
 int main() {
     // create the csv file buffer
-    csv_fd = open_csv("../buf/eth0.csv");
+    csv_fd = open_csv("../buf/eth0.csv");   // these paths are relative to pdml/bin/
 
     // set up the format() threads
     pthread_mutex_init(&m, NULL);
