@@ -1,0 +1,5 @@
+listening on enp7s0
+
+1762226389.641404 warning in /usr/local/zeek/share/zeek/base/misc/find-checksum-offloading.zeek, line 54: Your interface is likely receiving invalid TCP and UDP checksums, most likely from NIC checksum offloading.  By default, packets with invalid checksums are discarded by Zeek unless using the -C command-line option or toggling the 'ignore_checksums' variable.  Alternatively, disable checksum offloading by the network adapter to ensure Zeek analyzes the actual checksums that are transmitted.
+1762226804.878989 received termination signal
+1762226804.878989 99369960 packets received on interface enp7s0, 2532072 (2.48%) dropped, 336 (0.00%) not processed

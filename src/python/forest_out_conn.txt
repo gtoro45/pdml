@@ -1,0 +1,200 @@
+************************************************************************
+Model Trained with [../../benign_1_min/node-1-child-3/csv files/node1_conn.csv]
+************************************************************************
+
+Test set: ../../benign_1_min/node-1-child-3/csv files/node1_conn.csv 			 <-- same as training data
+Total benign test samples: 111536
+False positives: 2154
+False positive rate: 1.9312%
+
+Test set: ../../benign_1_min/node-2-child-4/csv files/node2_conn.csv
+Total benign test samples: 17517
+False positives: 2094
+False positive rate: 11.9541%
+
+Test set: ../../benign_1_min/cam-pod/csv files/camera_conn.csv
+Total benign test samples: 111
+False positives: 0
+False positive rate: 0.0000%
+
+Test set: ../../benign_1_min/lidar-pod/csv files/lidar_conn.csv
+Total benign test samples: 15
+False positives: 0
+False positive rate: 0.0000%
+
+Test set: ../../benign_1_min/nginx-pod/csv files/NGINX_conn.csv
+Total benign test samples: 292
+False positives: 78
+False positive rate: 26.7123%
+
+Test set: ../../benign_sim/csv/conn.csv 	 <-- BENIGN
+Total benign test samples: 682
+False positives: 595
+False positive rate: 87.2434%
+
+Test set: ../../ddos_sim/csv/conn_malignant1.csv 	 <-- MALIGNANT
+Total test samples: 475299
+Number of flagged transactions: 284730
+Accuracy: 59.9054%
+************************************************************************
+
+************************************************************************
+Model Trained with [../../benign_1_min/node-2-child-4/csv files/node2_conn.csv]
+************************************************************************
+
+Test set: ../../benign_1_min/node-1-child-3/csv files/node1_conn.csv
+Total benign test samples: 111536
+False positives: 478
+False positive rate: 0.4286%
+
+Test set: ../../benign_1_min/node-2-child-4/csv files/node2_conn.csv 			 <-- same as training data
+Total benign test samples: 17517
+False positives: 351
+False positive rate: 2.0038%
+
+Test set: ../../benign_1_min/cam-pod/csv files/camera_conn.csv
+Total benign test samples: 111
+False positives: 0
+False positive rate: 0.0000%
+
+Test set: ../../benign_1_min/lidar-pod/csv files/lidar_conn.csv
+Total benign test samples: 15
+False positives: 0
+False positive rate: 0.0000%
+
+Test set: ../../benign_1_min/nginx-pod/csv files/NGINX_conn.csv
+Total benign test samples: 292
+False positives: 2
+False positive rate: 0.6849%
+
+Test set: ../../benign_sim/csv/conn.csv 	 <-- BENIGN
+Total benign test samples: 682
+False positives: 299
+False positive rate: 43.8416%
+
+Test set: ../../ddos_sim/csv/conn_malignant1.csv 	 <-- MALIGNANT
+Total test samples: 475299
+Number of flagged transactions: 285220
+Accuracy: 60.0085%
+************************************************************************
+
+************************************************************************
+Model Trained with [../../benign_1_min/cam-pod/csv files/camera_conn.csv]
+************************************************************************
+
+Test set: ../../benign_1_min/node-1-child-3/csv files/node1_conn.csv
+Total benign test samples: 111536
+False positives: 13778
+False positive rate: 12.3530%
+
+Test set: ../../benign_1_min/node-2-child-4/csv files/node2_conn.csv
+Total benign test samples: 17517
+False positives: 2172
+False positive rate: 12.3994%
+
+Test set: ../../benign_1_min/cam-pod/csv files/camera_conn.csv 			 <-- same as training data
+Total benign test samples: 111
+False positives: 3
+False positive rate: 2.7027%
+
+Test set: ../../benign_1_min/lidar-pod/csv files/lidar_conn.csv
+Total benign test samples: 15
+False positives: 12
+False positive rate: 80.0000%
+
+Test set: ../../benign_1_min/nginx-pod/csv files/NGINX_conn.csv
+Total benign test samples: 292
+False positives: 135
+False positive rate: 46.2329%
+
+Test set: ../../benign_sim/csv/conn.csv 	 <-- BENIGN
+Total benign test samples: 682
+False positives: 394
+False positive rate: 57.7713%
+
+Test set: ../../ddos_sim/csv/conn_malignant1.csv 	 <-- MALIGNANT
+Total test samples: 475299
+Number of flagged transactions: 285573
+Accuracy: 60.0828%
+************************************************************************
+
+************************************************************************
+Model Trained with [../../benign_1_min/lidar-pod/csv files/lidar_conn.csv]
+************************************************************************
+
+Test set: ../../benign_1_min/node-1-child-3/csv files/node1_conn.csv
+Total benign test samples: 111536
+False positives: 80499
+False positive rate: 72.1731%
+
+Test set: ../../benign_1_min/node-2-child-4/csv files/node2_conn.csv
+Total benign test samples: 17517
+False positives: 11072
+False positive rate: 63.2072%
+
+Test set: ../../benign_1_min/cam-pod/csv files/camera_conn.csv
+Total benign test samples: 111
+False positives: 54
+False positive rate: 48.6486%
+
+Test set: ../../benign_1_min/lidar-pod/csv files/lidar_conn.csv 			 <-- same as training data
+Total benign test samples: 15
+False positives: 1
+False positive rate: 6.6667%
+
+Test set: ../../benign_1_min/nginx-pod/csv files/NGINX_conn.csv
+Total benign test samples: 292
+False positives: 261
+False positive rate: 89.3836%
+
+Test set: ../../benign_sim/csv/conn.csv 	 <-- BENIGN
+Total benign test samples: 682
+False positives: 284
+False positive rate: 41.6422%
+
+Test set: ../../ddos_sim/csv/conn_malignant1.csv 	 <-- MALIGNANT
+Total test samples: 475299
+Number of flagged transactions: 197
+Accuracy: 0.0414%
+************************************************************************
+
+************************************************************************
+Model Trained with [../../benign_1_min/nginx-pod/csv files/NGINX_conn.csv]
+************************************************************************
+
+Test set: ../../benign_1_min/node-1-child-3/csv files/node1_conn.csv
+Total benign test samples: 111536
+False positives: 7867
+False positive rate: 7.0533%
+
+Test set: ../../benign_1_min/node-2-child-4/csv files/node2_conn.csv
+Total benign test samples: 17517
+False positives: 142
+False positive rate: 0.8106%
+
+Test set: ../../benign_1_min/cam-pod/csv files/camera_conn.csv
+Total benign test samples: 111
+False positives: 0
+False positive rate: 0.0000%
+
+Test set: ../../benign_1_min/lidar-pod/csv files/lidar_conn.csv
+Total benign test samples: 15
+False positives: 0
+False positive rate: 0.0000%
+
+Test set: ../../benign_1_min/nginx-pod/csv files/NGINX_conn.csv 			 <-- same as training data
+Total benign test samples: 292
+False positives: 6
+False positive rate: 2.0548%
+
+Test set: ../../benign_sim/csv/conn.csv 	 <-- BENIGN
+Total benign test samples: 682
+False positives: 184
+False positive rate: 26.9795%
+
+Test set: ../../ddos_sim/csv/conn_malignant1.csv 	 <-- MALIGNANT
+Total test samples: 475299
+Number of flagged transactions: 285511
+Accuracy: 60.0698%
+************************************************************************
+

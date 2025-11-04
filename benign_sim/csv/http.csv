@@ -1,0 +1,6 @@
+ts,uid,id.orig_h,id.orig_p,id.resp_h,id.resp_p,trans_depth,method,host,uri,referrer,version,user_agent,origin,request_body_len,response_body_len,status_code,status_msg,info_code,info_msg,tags,username,password,proxied,orig_fuids,orig_filenames,orig_mime_types,resp_fuids,resp_filenames,resp_mime_types
+1762276574.890400,CGZ6JX2pe433hrst22,192.168.1.226,53452,185.125.190.49,80,1,-,-,-,-,1.1,-,-,0,0,204,No Content,-,-,(empty),-,-,-,-,-,-,-,-,-
+1762276874.795334,CdEkv52znqgrodCgzd,192.168.1.226,58686,91.189.91.49,80,1,-,-,-,-,1.1,-,-,0,0,204,No Content,-,-,(empty),-,-,-,-,-,-,-,-,-
+1762277174.758054,CBVvpG4eSIfcCDBpJj,192.168.1.226,53688,91.189.91.98,80,1,-,-,-,-,1.1,-,-,0,0,204,No Content,-,-,(empty),-,-,-,-,-,-,-,-,-
+1762277474.892275,CFumBq3TlbDbp9vxd1,192.168.1.226,41188,185.125.190.96,80,1,-,-,-,-,1.1,-,-,0,0,204,No Content,-,-,(empty),-,-,-,-,-,-,-,-,-
+1762277774.891925,CG5mYd45ih848owy3k,192.168.1.226,51886,185.125.190.97,80,1,-,-,-,-,1.1,-,-,0,0,204,No Content,-,-,(empty),-,-,-,-,-,-,-,-,-
