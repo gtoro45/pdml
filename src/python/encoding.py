@@ -1,7 +1,7 @@
 # encode Zeek csvs into readable data for random forest model
 import numpy as np
 import pandas as pd 
-from sklearn.preprocessing import OneHotEncoder
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
 def encode_training_data(path, encoder=None, fit_encoder=True):
     """
@@ -79,7 +79,10 @@ def encode_training_data_conn(conn_path, encoder=None, fit_encoder=True):
     # exclude the columns specified in the function header
     df = pd.read_csv(conn_path)
     df = df.drop(
-        ['ts', 'uid', 'id.orig_h', 'id.resp_h', 'id.orig_p', 'id.resp_p', 'tunnel_parents', 'ip_proto'], 
+        ['ts', 'uid', 'id.orig_h', 
+         'id.resp_h', 'id.orig_p', 
+         'id.resp_p', 'tunnel_parents', 
+         'ip_proto'], 
         axis='columns', 
         errors='ignore'
     )
@@ -93,10 +96,13 @@ def encode_training_data_conn(conn_path, encoder=None, fit_encoder=True):
     df['conn_state'] = df['conn_state'].fillna('unknown')
     
     # handle missing numeric values with a missing indicator column
-    num_cols_with_na = ['duration', 'orig_bytes', 'resp_bytes']
+    num_cols_with_na = ['duration', 'orig_bytes', 'resp_bytes', 'missed_bytes', 
+                        'orig_pkts', 'orig_ip_bytes', 'resp_pkts', 'resp_ip_bytes']
     for col in num_cols_with_na:
         if col in df.columns:
             df[f"{col}_missing"] = df[col].isna().astype(int)
+            # median_val = df[col].median()
+            # df[col] = pd.to_numeric(df[col], errors='coerce').fillna(median_val)
             df[col] = pd.to_numeric(df[col], errors='coerce').fillna(0)
     
     # handle booleans
@@ -119,18 +125,7 @@ def encode_training_data_conn(conn_path, encoder=None, fit_encoder=True):
     encoded_df = pd.DataFrame(encoded, columns=encoder.get_feature_names_out(cat_cols), index=df.index)
     df = pd.concat([df.drop(columns=cat_cols), encoded_df], axis=1)
     
-    # convert all remaining columns to numeric
-    # handles missed_bytes (0 is appropriate if N/A)
-    # handles orig_pkts
-    # handles orig_ip_bytes
-    # handles resp_pkts
-    # handles resp_ip_bytes
-    for c in df.columns:
-        df[c] = pd.to_numeric(df[c], errors='coerce').fillna(0)
-    
-    # print("************************************************************************")
-    # print(df)
-    # print("************************************************************************\n")
+    # return
     return df, encoder
 
 # ========================

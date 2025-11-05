@@ -30,12 +30,12 @@ http_paths = [
 
 # train on 1 of the 5 data sets, and test on the remaining 4
 # do this to see relative strength of training sets
-paths = conn_paths
+paths = dns_paths
 
 for path in paths:
     print("****************************************************************************************************")
     print(path)
-    df_numeric, _ = encode_training_data_conn(path, fit_encoder=True)
+    df_numeric, _ = encode_training_data(path, fit_encoder=True)
 
     # Compute mean vector, covariance matrix, and correlation matrix
     mu = df_numeric.mean()

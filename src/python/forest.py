@@ -2,37 +2,38 @@
 import pandas as pd
 import numpy as np
 from sklearn.ensemble import IsolationForest
-from sklearn.preprocessing import StandardScaler
 from encoding import *
 import matplotlib.pyplot as plt
 
 # specify the paths
 conn_paths = [
-    "../../benign_1_min/node-1-child-3/csv files/node1_conn.csv",
-    "../../benign_1_min/node-2-child-4/csv files/node2_conn.csv",
-    "../../benign_1_min/cam-pod/csv files/camera_conn.csv",
-    "../../benign_1_min/lidar-pod/csv files/lidar_conn.csv",
-    "../../benign_1_min/nginx-pod/csv files/NGINX_conn.csv",
-    "../../benign_sim/csv/conn.csv",                                          # benign
-    "../../ddos_sim/csv/conn_malignant1.csv"                                  # malignant
+    "../../train_test_data/benign_1_min/node-1-child-3/csv files/node1_conn.csv",
+    "../../train_test_data/benign_1_min/node-2-child-4/csv files/node2_conn.csv",
+    "../../train_test_data/benign_1_min/cam-pod/csv files/camera_conn.csv",
+    "../../train_test_data/benign_1_min/lidar-pod/csv files/lidar_conn.csv",
+    "../../train_test_data/benign_1_min/nginx-pod/csv files/NGINX_conn.csv",
+    "../../train_test_data/benign_sim/csv/conn.csv",                                          # benign
+    "../../train_test_data/ddos_sim/csv/conn_malignant1.csv"                                  # malignant
 ]
 
 dns_paths = [
-    "../../benign_1_min/node-1-child-3/csv files/node1_dns.csv",
-    "../../benign_1_min/node-2-child-4/csv files/node2_dns.csv",
-    "../../benign_1_min/nginx-pod/csv files/NGINX_dns.csv",
-    "../../benign_sim/csv/dns.csv",                                          # benign
-    "../../ddos_sim/csv/dns_malignant1.csv"                                  # malignant
+    "../../train_test_data/benign_1_min/node-1-child-3/csv files/node1_dns.csv",
+    "../../train_test_data/benign_1_min/node-1-child-3/csv files/node1_dns.csv",
+    "../../train_test_data/benign_1_min/node-1-child-3/csv files/node1_dns.csv",
+    "../../train_test_data/benign_1_min/node-2-child-4/csv files/node2_dns.csv",
+    "../../train_test_data/benign_1_min/nginx-pod/csv files/NGINX_dns.csv",
+    "../../train_test_data/benign_sim/csv/dns.csv",                                          # benign
+    "../../train_test_data/ddos_sim/csv/dns_malignant1.csv"                                  # malignant
 ]
 
 ssl_paths = [
-    "../../benign_1_min/node-1-child-3/csv files/node1_ssl.csv",
-    "../../benign_1_min/node-2-child-4/csv files/node2_ssl.csv"
+    "../../train_test_data/benign_1_min/node-1-child-3/csv files/node1_ssl.csv",
+    "../../train_test_data/benign_1_min/node-2-child-4/csv files/node2_ssl.csv"
 ]
 
 http_paths = [
-    "../../benign_1_min/node-1-child-3/csv files/node1_http.csv",
-    "../../benign_1_min/node-2-child-4/csv files/node2_http.csv"
+    "../../train_test_data/benign_1_min/node-1-child-3/csv files/node1_http.csv",
+    "../../train_test_data/benign_1_min/node-2-child-4/csv files/node2_http.csv"
 ]
 
 def train_and_test_iter(paths):
@@ -45,11 +46,7 @@ def train_and_test_iter(paths):
         print(f"Model Trained with [{train_path}]")
         print("************************************************************************\n")
         # prepare the training data, encoder, and frequency mappings
-        scaler = StandardScaler()
         X, encoder = encode_training_data(train_path, fit_encoder=True)
-        # X_scaled = scaler.fit_transform(X)                                  # fit transform for training
-
-        # scale the training data
 
         # initialize the isolation forest
         iso_forest = IsolationForest(
@@ -60,24 +57,22 @@ def train_and_test_iter(paths):
 
         # train the model
         iso_forest.fit(X)
-        # iso_forest.fit(X_scaled)
         
         # test the model on all the sets
         for j in range(len(paths)):
             test_path = paths[j]
-            if(i is not j) and (j < 3):
+            if(i is not j) and (j < 5):
                 print(f"Test set: {test_path}")
-            elif j == 3:
-                print(f"Test set: {test_path} \t <-- BENIGN")
-            elif j == 4:
-                print(f"Test set: {test_path} \t <-- MALIGNANT")
+            elif j == 5:
+                print(f"Test set: {test_path} \t\t\t <-- BENIGN")
+            elif j == 6:
+                print(f"Test set: {test_path} \t\t\t <-- MALIGNANT")
             else:
                 print(f"Test set: {test_path} \t\t\t <-- same as training data")
 
             # prepare the test data
             df_test = pd.read_csv(test_path)
-            X_test = encode_training_data_dns(test_path, encoder=encoder, fit_encoder=False)[0]
-            # X_test_scaled = scaler.transform(X_test)                      # transform for testing
+            X_test = encode_training_data(test_path, encoder=encoder, fit_encoder=False)[0]
 
             # predict anomalies and get scores
             y_pred = iso_forest.predict(X_test)
@@ -124,11 +119,25 @@ def stats(name, scores):
 
 
 # test the Isolation Forest model
+# train_and_test_iter(dns_paths)
 
-# encode and scale training data
-scaler = StandardScaler()
-X, encoder = encode_training_data(conn_paths[0], fit_encoder=True)
-X = scaler.fit_transform(X)
+
+# encode and COMBINED training data
+path1 = conn_paths[0]
+path2 = conn_paths[1]
+path3 = conn_paths[2]
+path4 = conn_paths[3]
+path5 = conn_paths[4]
+path6 = conn_paths[5]   # test benign set we made
+X1, encoder = encode_training_data(path1, fit_encoder=True)
+X2, _ = encode_training_data(path2, encoder=encoder, fit_encoder=False)
+# X3, _ = encode_training_data(path3, encoder=encoder, fit_encoder=False)
+# X4, _ = encode_training_data(path4, encoder=encoder, fit_encoder=False)
+# X5, _ = encode_training_data(path5, encoder=encoder, fit_encoder=False)
+# X6, _ = encode_training_data(path6, encoder=encoder, fit_encoder=False)
+# X = pd.concat([X1, X2, X3, X4, X5, X6], ignore_index=True)
+X = X1
+print(f"Training dataset size={len(X)}")
 
 # initialize the isolation forest
 iso_forest = IsolationForest(
@@ -141,69 +150,176 @@ iso_forest = IsolationForest(
 iso_forest.fit(X)
 
 # encode test data
-X_train, _ = encode_training_data_conn(conn_paths[0], encoder=encoder, fit_encoder=False)
-X_live, _ = encode_training_data_conn(conn_paths[5], encoder=encoder, fit_encoder=False)
-X_ddos, _ = encode_training_data_conn(conn_paths[6], encoder=encoder, fit_encoder=False)
-
-# scale test data
-X_train = scaler.transform(X_train)
-X_live = scaler.transform(X_live)
-X_ddos = scaler.transform(X_ddos)
+X_train1, _ = encode_training_data(conn_paths[0], encoder=encoder, fit_encoder=False)
+X_train2, _ = encode_training_data(conn_paths[1], encoder=encoder, fit_encoder=False)
+X_live, _ = encode_training_data(conn_paths[5], encoder=encoder, fit_encoder=False)
+X_ddos, _ = encode_training_data(conn_paths[6], encoder=encoder, fit_encoder=False)
 
 # run the model on test data
-y_train = iso_forest.predict(X_train)
+y_train1 = iso_forest.predict(X_train1)
+y_train2 = iso_forest.predict(X_train2)
 y_live = iso_forest.predict(X_live)
 y_ddos = iso_forest.predict(X_ddos)
 
-scores_train = iso_forest.decision_function(X_train)
+scores_train1 = iso_forest.decision_function(X_train1)
+scores_train2 = iso_forest.decision_function(X_train2)
 scores_live  = iso_forest.decision_function(X_live)
 scores_ddos  = iso_forest.decision_function(X_ddos)
 
+
 # analyze output
-s_train = stats("train", scores_train)
-s_live  = stats("live",  scores_live)
-s_ddos  = stats("ddos",  scores_ddos)
+n = 100
+# y_train1
+print("***********************************************************************")
+false_positives = (y_train1 == -1).sum()
+total = len(y_train1)
+print(f"Total benign test samples: {total}")
+print(f"False positives: {false_positives}")
+print(f"False positive rate: {false_positives / total:.4%}\n")
 
-for pct in [0.1, 0.5, 1, 2, 5, 10]:
-    thresh = np.percentile(scores_train, pct)
-    r_train = (scores_train < thresh).mean()
-    r_live  = (scores_live  < thresh).mean()
-    r_ddos  = (scores_ddos  < thresh).mean()
-    print(f"pct={pct:>4}% | thresh={thresh:.6f} | train={r_train:.4%} | live={r_live:.4%} | ddos={r_ddos:.4%}")
+# Claude code inject
+X_train_scored = X_train1.copy()
+X_train_scored['anomaly_score'] = scores_train1
+
+top_anomalies_train = X_train_scored.nsmallest(n, 'anomaly_score')
+top_benign_train = X_train_scored.nlargest(n, 'anomaly_score')
+
+print("\nFeature Comparison (Anomalies vs Benign):")
+comparison_train = pd.DataFrame({
+    'Anomalies_Mean': top_anomalies_train.drop('anomaly_score', axis=1).mean(),
+    'Benign_Mean': top_benign_train.drop('anomaly_score', axis=1).mean()
+})
+comparison_train['Difference'] = comparison_train['Anomalies_Mean'] - comparison_train['Benign_Mean']
+comparison_train['Abs_Difference'] = comparison_train['Difference'].abs()
+comparison_train = comparison_train.sort_values('Abs_Difference', ascending=False)
+print(comparison_train.head(10))
+print("***********************************************************************")
+
+# y_train2
+print("***********************************************************************")
+false_positives = (y_train2 == -1).sum()
+total = len(y_train2)
+print(f"Total benign test samples: {total}")
+print(f"False positives: {false_positives}")
+print(f"False positive rate: {false_positives / total:.4%}\n")
+
+# Claude code inject
+X_train_scored = X_train2.copy()
+X_train_scored['anomaly_score'] = scores_train2
+
+top_anomalies_train = X_train_scored.nsmallest(n, 'anomaly_score')
+top_benign_train = X_train_scored.nlargest(n, 'anomaly_score')
+
+print("\nFeature Comparison (Anomalies vs Benign):")
+comparison_train = pd.DataFrame({
+    'Anomalies_Mean': top_anomalies_train.drop('anomaly_score', axis=1).mean(),
+    'Benign_Mean': top_benign_train.drop('anomaly_score', axis=1).mean()
+})
+comparison_train['Difference'] = comparison_train['Anomalies_Mean'] - comparison_train['Benign_Mean']
+comparison_train['Abs_Difference'] = comparison_train['Difference'].abs()
+comparison_train = comparison_train.sort_values('Abs_Difference', ascending=False)
+print(comparison_train.head(10))
+print("***********************************************************************")
+
+# y_live
+print("***********************************************************************")
+false_positives = (y_live == -1).sum()
+total = len(y_live)
+print(f"Total benign test samples: {total}")
+print(f"False positives: {false_positives}")
+print(f"False positive rate: {false_positives / total:.4%}\n")
+
+# Claude code inject
+X_live_scored = X_live.copy()
+X_live_scored['anomaly_score'] = scores_live
+
+top_anomalies_live = X_live_scored.nsmallest(n, 'anomaly_score')
+top_benign_live = X_live_scored.nlargest(n, 'anomaly_score')
+
+print("\nFeature Comparison (Anomalies vs Benign):")
+comparison_live = pd.DataFrame({
+    'Anomalies_Mean': top_anomalies_live.drop('anomaly_score', axis=1).mean(),
+    'Benign_Mean': top_benign_live.drop('anomaly_score', axis=1).mean()
+})
+comparison_live['Difference'] = comparison_live['Anomalies_Mean'] - comparison_live['Benign_Mean']
+comparison_live['Abs_Difference'] = comparison_live['Difference'].abs()
+comparison_live = comparison_live.sort_values('Abs_Difference', ascending=False)
+print(comparison_live.head(10))
+print("***********************************************************************")
+
+# y_ddos
+print("***********************************************************************")
+flagged_transactions = (y_ddos == -1).sum()
+total_transactions = len(y_ddos)
+print(f"Total test samples: {total_transactions}")
+print(f"Number of flagged transactions: {flagged_transactions}")
+print(f"Accuracy: {flagged_transactions / total_transactions:.4%}")
+
+# Claude code inject
+X_ddos_scored = X_ddos.copy()
+X_ddos_scored['anomaly_score'] = scores_ddos
+
+# For DDoS, most anomalous = correctly detected attacks
+detected_attacks = X_ddos_scored.nsmallest(n, 'anomaly_score')
+# Least anomalous = missed attacks (false negatives)
+missed_attacks = X_ddos_scored.nlargest(n, 'anomaly_score')
+
+print("\nFeature Comparison (Detected vs Missed Attacks):")
+comparison_ddos = pd.DataFrame({
+    'Detected_Mean': detected_attacks.drop('anomaly_score', axis=1).mean(),
+    'Missed_Mean': missed_attacks.drop('anomaly_score', axis=1).mean()
+})
+comparison_ddos['Difference'] = comparison_ddos['Detected_Mean'] - comparison_ddos['Missed_Mean']
+comparison_ddos['Abs_Difference'] = comparison_ddos['Difference'].abs()
+comparison_ddos = comparison_ddos.sort_values('Abs_Difference', ascending=False)
+print(comparison_ddos.head(10))
+print("***********************************************************************")
 
 
-print(pd.DataFrame([s_train, s_live, s_ddos]).set_index("name").T)
+# s_train = stats("train", scores_train)
+# s_live  = stats("live",  scores_live)
+# s_ddos  = stats("ddos",  scores_ddos)
+
+# for pct in [0.1, 0.5, 1, 2, 5, 10]:
+#     thresh = np.percentile(scores_train, pct)
+#     r_train = (scores_train < thresh).mean()
+#     r_live  = (scores_live  < thresh).mean()
+#     r_ddos  = (scores_ddos  < thresh).mean()
+#     print(f"pct={pct:>4}% | thresh={thresh:.6f} | train={r_train:.4%} | live={r_live:.4%} | ddos={r_ddos:.4%}")
+
+
+# print(pd.DataFrame([s_train, s_live, s_ddos]).set_index("name").T)
 
 # plot the decision functions and compute threshold (2% lowest scores)
-threshold = np.percentile(scores_train, 2)  # since contamination = 0.02
-print(f"Isolation Forest anomaly threshold (2% cutoff): {threshold:.5f}")
-fig, axes = plt.subplots(3, 1, figsize=(10, 8), sharex=True)
+# threshold = np.percentile(scores_train, 2)  # since contamination = 0.02
+# print(f"\nIsolation Forest anomaly threshold (2% cutoff): {threshold:.5f}")
+# fig, axes = plt.subplots(3, 1, figsize=(10, 8), sharex=True)
 
-# 1 — training (benign)
-axes[0].hist(scores_train, bins=200, color='tab:blue', alpha=0.6)
-axes[0].axvline(threshold, color='black', linestyle='--', label=f'Threshold = {threshold:.3f}')
-axes[0].set_title("Train (benign)")
-axes[0].set_yscale('log')
-axes[0].legend()
-axes[0].grid(True, linestyle='--', alpha=0.3)
+# # 1 — training (benign)
+# axes[0].hist(scores_train, bins=200, color='tab:blue', alpha=0.6)
+# axes[0].axvline(threshold, color='black', linestyle='--', label=f'Threshold = {threshold:.3f}')
+# axes[0].set_title("Train (benign)")
+# axes[0].set_yscale('log')
+# axes[0].legend()
+# axes[0].grid(True, linestyle='--', alpha=0.3)
 
-# 2 — live 30-min
-axes[1].hist(scores_live, bins=200, color='tab:orange', alpha=0.6)
-axes[1].axvline(threshold, color='black', linestyle='--')
-axes[1].set_title("Live 30-min capture")
-axes[1].set_yscale('log')
-axes[1].grid(True, linestyle='--', alpha=0.3)
+# # 2 — live 30-min
+# axes[1].hist(scores_live, bins=200, color='tab:orange', alpha=0.6)
+# axes[1].axvline(threshold, color='black', linestyle='--')
+# axes[1].set_title("Live 30-min capture")
+# axes[1].set_yscale('log')
+# axes[1].grid(True, linestyle='--', alpha=0.3)
 
-# 3 — DDoS simulation
-axes[2].hist(scores_ddos, bins=200, color='tab:red', alpha=0.6)
-axes[2].axvline(threshold, color='black', linestyle='--')
-axes[2].set_title("DDoS simulation")
-axes[2].set_yscale('log')
-axes[2].grid(True, linestyle='--', alpha=0.3)
+# # 3 — DDoS simulation
+# axes[2].hist(scores_ddos, bins=200, color='tab:red', alpha=0.6)
+# axes[2].axvline(threshold, color='black', linestyle='--')
+# axes[2].set_title("DDoS simulation")
+# axes[2].set_yscale('log')
+# axes[2].grid(True, linestyle='--', alpha=0.3)
 
-# shared x-axis label
-plt.xlabel("Decision function score (higher = more normal)")
-plt.tight_layout()
-plt.show()
+# # shared x-axis label
+# plt.xlabel("Decision function score (higher = more normal)")
+# plt.tight_layout()
+# plt.show()
 
 
