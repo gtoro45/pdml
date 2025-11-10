@@ -1,8 +1,24 @@
 from encoding import *
 from rules import *
+import argparse
+import sys
 
+# ******************************************************
+# THIS CODE IS RAN PER NODE/CHILD IN THE KUBERNETES 
+# CLUSTER, AND THEREFORE TAKES THAT IN AS INPUT FOR THE
+# MODELS AND RULES TO LOAD PROPERLY FROM CORRECT PATHS
+# ******************************************************
+parser = argparse.ArgumentParser(description='Process logs with specified node/child (module)')
+parser.add_argument(
+    '--module',
+    type=str,
+    required=True,
+    help='node/child to process data from'
+)
+args = parser.parse_args()
+# TODO -- PREFIXES
 
-# ==== Paths to Models and Rules for each log type ====
+# ==== Paths to Models and Rules, and CSV Buffer for each log type ====
 CONN_DATA_PATHS = [
     
 ]
