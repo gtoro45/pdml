@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd 
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
-def encode_training_data(path, encoder=None, fit_encoder=True):
+def encode_training_data(path, encoder=None, fit_encoder=True, training=False):
     """
     Helper function that calls the appropriate encoder based on the file type specified by path
 
@@ -17,7 +17,7 @@ def encode_training_data(path, encoder=None, fit_encoder=True):
         - [1]: encoder (OneHotEncoder): The fitted or reused encoder object.
     """
     if 'conn' in path: 
-        return encode_training_data_conn(conn_path=path, encoder=encoder, fit_encoder=fit_encoder)
+        return encode_training_data_conn(conn_path=path, encoder=encoder, fit_encoder=fit_encoder, training=training)
     elif 'dns' in path: 
         return encode_training_data_dns(dns_path=path, encoder=encoder, fit_encoder=fit_encoder)
     elif 'ssl' in path: 
@@ -45,14 +45,14 @@ def encode_training_data(path, encoder=None, fit_encoder=True):
 # local_orig        : bool
 # local_resp        : bool
 # missed_bytes      : count
-# history           : string
+# history           : string        [X]
 # orig_pkts         : count
 # orig_ip_bytes     : count
 # resp_pkts         : count
 # resp_ip_bytes     : count
 # tunnel_parents    : set[string]   [X]
 # ip_proto          : count         [X]
-def encode_training_data_conn(conn_path, encoder=None, fit_encoder=True):
+def encode_training_data_conn(conn_path, encoder=None, fit_encoder=True, training=False):
     """
     Function that encodes training conn.log data, doing so file by file. Encoding and ensuing training
     is done **without** the following, and are better handled by separate logic:
@@ -62,6 +62,7 @@ def encode_training_data_conn(conn_path, encoder=None, fit_encoder=True):
         - id.resp_h         : Responding host IP address
         - id.orig_p         : Origin port number
         - id.resp_p         : Responding port number
+        - history           : []
         - tunnel_parents    : Encapsulation or parent tunnel info (rarely useful)
         - ip_proto          : Numeric IP protocol (redundant with 'proto')
     
@@ -82,7 +83,7 @@ def encode_training_data_conn(conn_path, encoder=None, fit_encoder=True):
         ['ts', 'uid', 'id.orig_h', 
          'id.resp_h', 'id.orig_p', 
          'id.resp_p', 'tunnel_parents', 
-         'ip_proto'], 
+         'ip_proto', 'history'], 
         axis='columns', 
         errors='ignore'
     )
@@ -101,19 +102,11 @@ def encode_training_data_conn(conn_path, encoder=None, fit_encoder=True):
     for col in num_cols_with_na:
         if col in df.columns:
             df[f"{col}_missing"] = df[col].isna().astype(int)
-            # median_val = df[col].median()
-            # df[col] = pd.to_numeric(df[col], errors='coerce').fillna(median_val)
             df[col] = pd.to_numeric(df[col], errors='coerce').fillna(0)
     
     # handle booleans
     df['local_orig'] = df['local_orig'].map({'T' : 1, 'F' : 0, pd.NA : 0})
     df['local_resp'] = df['local_resp'].map({'T' : 1, 'F' : 0, pd.NA : 0})
-    
-    # encode history from derived features
-    df['hist_len'] = df['history'].astype(str).apply(lambda x: 0 if x in ['<NA>', 'nan', 'None'] else len(x))               # length of this history string
-    df['hist_upper'] = df['history'].astype(str).apply(lambda x: sum(c.isupper() for c in x))                               # number of capital letters in history string
-    df['hist_unique'] = df['history'].astype(str).apply(lambda x: len(set(x)) if x not in ['<NA>', 'nan', 'None'] else 0)   # number of unique letters in history string
-    df.drop(columns=['history'], inplace=True)
     
     # one-hot encode small categorical columns
     cat_cols = ['proto', 'service', 'conn_state']
@@ -124,6 +117,13 @@ def encode_training_data_conn(conn_path, encoder=None, fit_encoder=True):
         encoded = encoder.transform(df[cat_cols])
     encoded_df = pd.DataFrame(encoded, columns=encoder.get_feature_names_out(cat_cols), index=df.index)
     df = pd.concat([df.drop(columns=cat_cols), encoded_df], axis=1)
+    
+    # ==== TESTING ====
+    
+    # add a zero-activity column 
+    # df['zero_activity'] = ((df['orig_bytes'] == 0) & (df['resp_bytes'] == 0)).astype(int)
+    
+    # =================
     
     # return
     return df, encoder
@@ -183,7 +183,10 @@ def encode_training_data_dns(dns_path, encoder=None, fit_encoder=True):
     df = pd.read_csv(dns_path)
     df = df.drop(
         # leaves us with: proto, rtt, qclass, qclass_name, qtype, qtype_name, rcode, rcode_name, AA, TC, RD, RA, Z, answers, TTLs, rejected
-        ['ts', 'uid', 'id.orig_h', 'id.resp_h', 'id.orig_p', 'id.resp_p', 'trans_id', 'query'], 
+        ['ts', 'uid', 'id.orig_h', 
+         'id.resp_h', 'id.orig_p', 
+         'id.resp_p', 'trans_id', 
+         'query'], 
         axis='columns', 
         errors='ignore'
     )
@@ -249,53 +252,91 @@ def encode_training_data_dns(dns_path, encoder=None, fit_encoder=True):
 # ========================
 # ssl.log field types
 # ========================
-# ts                     : time
-# uid                    : string
-# id.orig_h              : addr
-# id.orig_p              : port
-# id.resp_h              : addr
-# id.resp_p              : port
+# ts                     : time             [X]
+# uid                    : string           [X]
+# id.orig_h              : addr             [X]
+# id.orig_p              : port             [X]
+# id.resp_h              : addr             [X]
+# id.resp_p              : port             [X]
 # version                : string
 # cipher                 : string
 # curve                  : string
-# server_name            : string
+# server_name            : string           [X]
 # resumed                : bool
-# last_alert             : string
-# next_protocol          : string
+# last_alert             : string           [X]
+# next_protocol          : string           [X]
 # established            : bool
-# ssl_history            : string
+# ssl_history            : string           [X]
 # cert_chain_fps         : vector[string]
 # client_cert_chain_fps  : vector[string]
 # sni_matches_cert       : bool
 def encode_training_data_ssl(ssl_path, encoder=None, fit_encoder=True):
-    
+    """
+    """
     # read the csv and place it into a dataframe
     # exclude the columns specified in the function header
     df = pd.read_csv(ssl_path)
+    df = df.drop(
+        # leaves us with: 
+        ['ts', 'uid', 'id.orig_h', 
+         'id.resp_h', 'id.orig_p', 
+         'id.resp_p', 'server_name', 
+         'last_alert', 'next_protocol',
+         'cert_chain_fps', 'client_cert_chain_fps',
+         'ssl_history'], 
+        axis='columns', 
+        errors='ignore'
+    )
+    
+    # handle missing symbols
+    df.replace('-', pd.NA, inplace=True)
+    
+    # handle missing categorical values as unknown instead of dropping/zeroing (history handled separately)
+    df['version'] = df['version'].fillna('unknown')
+    df['cipher'] = df['cipher'].fillna('unknown')
+    df['curve'] = df['curve'].fillna('unknown')
+    
+    # handle missing numeric values with a missing indicator column
+    # ********* ssl has NO numeric columns ********* 
+    
+    # handle booleans
+    df['resumed'] = df['resumed'].map({'T' : 1, 'F' : 0, pd.NA : 0})
+    df['established'] = df['established'].map({'T' : 1, 'F' : 0, pd.NA : 0})
+    df['sni_matches_cert'] = df['sni_matches_cert'].map({'T' : 1, 'F' : 0, pd.NA : 0})
+    
+    # one-hot encode categorical columns
+    cat_cols = ['version', 'cipher', 'curve']
+    if fit_encoder or encoder is None:
+        encoder = OneHotEncoder(sparse_output=False, handle_unknown='ignore')
+        encoded = encoder.fit_transform(df[cat_cols])
+    else:
+        encoded = encoder.transform(df[cat_cols])
+    encoded_df = pd.DataFrame(encoded, columns=encoder.get_feature_names_out(cat_cols), index=df.index)
+    df = pd.concat([df.drop(columns=cat_cols), encoded_df], axis=1)
     
     return df, encoder
 
 # ========================
 # http.log field types
 # ========================
-# ts                 : time
-# uid                : string
-# id.orig_h          : addr
-# id.orig_p          : port
-# id.resp_h          : addr
-# id.resp_p          : port
+# ts                 : time             [X]
+# uid                : string           [X]
+# id.orig_h          : addr             [X]
+# id.orig_p          : port             [X]
+# id.resp_h          : addr             [X]
+# id.resp_p          : port             [X]
 # trans_depth        : count
-# method             : string
-# host               : string
-# uri                : string
-# referrer           : string
-# version            : string
-# user_agent         : string
-# origin             : string
+# method             : string           [X]
+# host               : string           [X]
+# uri                : string           [X]
+# referrer           : string           [X]
+# version            : string           [X]
+# user_agent         : string           [X]
+# origin             : string           [X]
 # request_body_len   : count
 # response_body_len  : count
 # status_code        : count
-# status_msg         : string
+# status_msg         : string           [X]
 # info_code          : count
 # info_msg           : string
 # tags               : set[enum]
@@ -313,6 +354,16 @@ def encode_training_data_http(http_path, encoder=None, fit_encoder=True):
     # read the csv and place it into a dataframe
     # exclude the columns specified in the function header
     df = pd.read_csv(http_path)
+    df = df.drop(
+        ['ts', 'uid', 'id.orig_h', 
+         'id.resp_h', 'id.orig_p', 
+         'id.resp_p', 'method',
+         'host', 'uri', 'referrer',
+         'version', 'user_agent', 
+         'origin'], 
+        axis='columns', 
+        errors='ignore'
+    )
     
     return df, encoder
 

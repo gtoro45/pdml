@@ -1,67 +1,87 @@
-import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
+from numpy.linalg import inv
+from scipy.stats import chi2
+from sklearn.covariance import LedoitWolf
 from encoding import *
 
+# specify the paths
 conn_paths = [
-    "../../benign_1_min/node-1-child-3/csv files/node1_conn.csv",
-    "../../benign_1_min/node-2-child-4/csv files/node2_conn.csv",
-    "../../benign_1_min/cam-pod/csv files/camera_conn.csv",
-    "../../benign_1_min/lidar-pod/csv files/lidar_conn.csv",
-    "../../benign_1_min/nginx-pod/csv files/NGINX_conn.csv"
+    "../../train_test_data/benign_1_min/node-1-child-3/csv files/node1_conn.csv",
+    "../../train_test_data/benign_1_min/node-2-child-4/csv files/node2_conn.csv",
+    "../../train_test_data/benign_1_min/cam-pod/csv files/camera_conn.csv",
+    "../../train_test_data/benign_1_min/lidar-pod/csv files/lidar_conn.csv",
+    "../../train_test_data/benign_1_min/nginx-pod/csv files/NGINX_conn.csv",
+    "../../train_test_data/benign_sim/csv/conn.csv",                                          # benign
+    "../../train_test_data/ddos_sim/csv/conn_malignant1.csv"                                  # malignant
 ]
 
 dns_paths = [
-    "../../benign_1_min/node-1-child-3/csv files/node1_dns.csv",
-    "../../benign_1_min/node-2-child-4/csv files/node2_dns.csv",
-    "../../benign_1_min/nginx-pod/csv files/NGINX_dns.csv"
+    "../../train_test_data/benign_1_min/node-1-child-3/csv files/node1_dns.csv",
+    "../../train_test_data/benign_1_min/node-2-child-4/csv files/node2_dns.csv",
+    "../../train_test_data/benign_1_min/nginx-pod/csv files/NGINX_dns.csv",
+    "../../train_test_data/benign_sim/csv/dns.csv",                                          # benign
+    "../../train_test_data/ddos_sim/csv/dns_malignant1.csv"                                  # malignant
 ]
 
 ssl_paths = [
-    "../../benign_1_min/node-1-child-3/csv files/node1_ssl.csv",
-    "../../benign_1_min/node-2-child-4/csv files/node2_ssl.csv"
+    "../../train_test_data/benign_1_min/node-1-child-3/csv files/node1_ssl.csv",
+    "../../train_test_data/benign_1_min/node-2-child-4/csv files/node2_ssl.csv"
 ]
 
 http_paths = [
-    "../../benign_1_min/node-1-child-3/csv files/node1_http.csv",
-    "../../benign_1_min/node-2-child-4/csv files/node2_http.csv"
+    "../../train_test_data/benign_1_min/node-1-child-3/csv files/node1_http.csv",
+    "../../train_test_data/benign_1_min/node-2-child-4/csv files/node2_http.csv"
 ]
 
-# train on 1 of the 5 data sets, and test on the remaining 4
-# do this to see relative strength of training sets
-paths = dns_paths
+# distance function
+def mahalanobis_distance(x, mu, inv_cov):
+    diff = x - mu
+    return np.sqrt(diff.T @ inv_cov @ diff)
 
-for path in paths:
-    print("****************************************************************************************************")
-    print(path)
-    df_numeric, _ = encode_training_data(path, fit_encoder=True)
+# set up test and training paths
+train_path = conn_paths[0]
+test_path = conn_paths[6]
 
-    # Compute mean vector, covariance matrix, and correlation matrix
-    mu = df_numeric.mean()
-    cov_matrix = df_numeric.cov(min_periods=1)
-    corr_matrix = df_numeric.corr(min_periods=1)
+# train the matrix
+X, encoder = encode_training_data(train_path, fit_encoder=True)
 
-    print(corr_matrix)
-    print("****************************************************************************************************\n")
+# Compute mean vector, covariance matrix, and correlation matrix
+cov_estimator = LedoitWolf().fit(X)
+mu_vec = cov_estimator.location_
+cov_matrix = cov_estimator.covariance_
 
-    # Plot them
-    fig, axes = plt.subplots(1, 3, figsize=(18, 5))
-    
-    # Mean vector (bar chart)
-    axes[0].bar(mu.index, mu.values)
-    axes[0].set_title("Mean Vector (μ)")
-    axes[0].set_xticklabels(mu.index, rotation=90)
+# compute the inverse matrix and mean matrix for mahalanobis distance
+inv_cov = inv(cov_matrix)
 
-    # Covariance matrix
-    sns.heatmap(cov_matrix, ax=axes[1], cmap="coolwarm", cbar=True, center=0)
-    axes[1].set_title("Covariance Matrix (Σ)")
+# encode the test set
+X_test, _ = encode_training_data(test_path, encoder=encoder, fit_encoder=False)
+X_test = X_test[X.columns]
 
-    # Correlation matrix
-    sns.heatmap(corr_matrix, ax=axes[2], cmap="coolwarm", cbar=True, center=0) #, annot=True, fmt=".2f")
-    axes[2].set_title("Correlation Matrix (R)")
-    axes[2].xaxis.set_ticks_position('bottom')
-    axes[2].xaxis.set_label_position('bottom')
+# compute the test set's distance from matrix [Vectorized Mahalanobis distance]
+diff = X_test.values - mu_vec
+left = diff @ inv_cov
+md_squared = np.sum(left * diff, axis=1)
+md = np.sqrt(md_squared)
 
-    plt.tight_layout()
-    plt.show()
+# make determinations about the test set
+k = len(mu_vec)
+threshold = np.sqrt(chi2.ppf(0.997, df=k))  # ~3σ equivalent
+anomalies = md > threshold
+X_test["mahalanobis"] = md
+X_test["is_anomaly"] = anomalies
+
+# Evaluate test results
+if 'malignant' not in test_path:
+    false_positives = X_test["is_anomaly"].sum()
+    total = len(X_test)
+    print(f"Total benign test samples: {total}")
+    print(f"False positives: {false_positives}")
+    print(f"False positive rate: {false_positives / total:.4%}\n")
+
+else:
+    flagged_transactions = X_test["is_anomaly"].sum()
+    total_transactions = len(X_test)
+    print(f"Total test samples: {total_transactions}")
+    print(f"Number of flagged transactions: {flagged_transactions}")
+    print(f"Detection rate: {flagged_transactions / total_transactions:.4%}")
+
