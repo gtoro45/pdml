@@ -1,5 +1,6 @@
 import pandas as pd
 from collections import Counter
+import joblib
 
 # ==== Helper Functions ====
 def print_stats_list(list):
@@ -113,34 +114,20 @@ def extract_http_characs(http_path):
 
 
 # ==== Calculate a rules score based on the log type ====
-def get_rules_score(line: str):
-    line = line.split(',')
-    if line[0] == 'CONN':
-        return get_rules_score_conn(line)
-    if line[0] == 'DNS':
-        return get_rules_score_dns(line)
-    if line[0] == 'SSL':
-        return get_rules_score_ssl(line)
-    if line[0] == 'HTTP':
-        return get_rules_score_http(line)
-    
-    return False
-
-
-def get_rules_score_conn(line: str):
+def get_rules_score_conn(line: str, ruleset: list):
     return
 
-def get_rules_score_dns(line: str):
+def get_rules_score_dns(line: str, ruleset: list):
     return
 
-def get_rules_score_ssl(line: str):
+def get_rules_score_ssl(line: str, ruleset: list):
     return
 
-def get_rules_score_http(line: str):
+def get_rules_score_http(line: str, ruleset: list):
     return
 
 
 
 # === Testing and Saving ====
-print_stats_list(extract_conn_characs(conn_paths[0]))
+# print_stats_list(extract_conn_characs(conn_paths[0]))
 # print_stats_list(extract_conn_characs(conn_paths[1]))

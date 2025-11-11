@@ -340,30 +340,31 @@ def encode_training_data_ssl(ssl_path, encoder=None, fit_encoder=True):
 # info_code          : count
 # info_msg           : string
 # tags               : set[enum]
-# username           : string
-# password           : string
+# username           : string           [X]
+# password           : string           [X]
 # proxied            : set[string]
-# orig_fuids         : vector[string]
-# orig_filenames     : vector[string]
-# orig_mime_types    : vector[string]
-# resp_fuids         : vector[string]
-# resp_filenames     : vector[string]
-# resp_mime_types    : vector[string]
+# orig_fuids         : vector[string]   [X]
+# orig_filenames     : vector[string]   [X]
+# orig_mime_types    : vector[string]   [X]
+# resp_fuids         : vector[string]   [X]
+# resp_filenames     : vector[string]   [X]
+# resp_mime_types    : vector[string]   [X]
 def encode_training_data_http(http_path, encoder=None, fit_encoder=True):
     
     # read the csv and place it into a dataframe
     # exclude the columns specified in the function header
     df = pd.read_csv(http_path)
     df = df.drop(
-        ['ts', 'uid', 'id.orig_h', 
-         'id.resp_h', 'id.orig_p', 
-         'id.resp_p', 'method',
-         'host', 'uri', 'referrer',
-         'version', 'user_agent', 
-         'origin'], 
+        ['ts', 'uid', 'id.orig_h', 'id.resp_h', 'id.orig_p', 
+         'id.resp_p', 'method', 'host', 'uri', 'referrer',
+         'version', 'user_agent', 'origin', 'status_msg',
+         'username', 'password', 'orig_fuids', 'orig_filenames',
+         'orig_mime_types', 'resp_fuids', 'resp_filenames','resp_mime_types'], 
         axis='columns', 
         errors='ignore'
     )
+    
+    # TODO --> maybe do in 404, but this log is very sparse most of the time
     
     return df, encoder
 
@@ -375,26 +376,26 @@ def encode_live_data_conn(csv_line):
     return
 
 
-paths = [ 
-    # Node 1 (Child 3)
-    "../../benign_1_min/node-1-child-3/csv files/node1_conn.csv",
-    "../../benign_1_min/node-1-child-3/csv files/node1_dns.csv",
-    "../../benign_1_min/node-1-child-3/csv files/node1_http.csv",
-    "../../benign_1_min/node-1-child-3/csv files/node1_ssl.csv",
+# paths = [ 
+#     # Node 1 (Child 3)
+#     "../../benign_1_min/node-1-child-3/csv files/node1_conn.csv",
+#     "../../benign_1_min/node-1-child-3/csv files/node1_dns.csv",
+#     "../../benign_1_min/node-1-child-3/csv files/node1_http.csv",
+#     "../../benign_1_min/node-1-child-3/csv files/node1_ssl.csv",
     
-    # Node 2 (Child 4)
-    "../../benign_1_min/node-2-child-4/csv files/node2_conn.csv",
-    "../../benign_1_min/node-2-child-4/csv files/node2_dns.csv",
-    "../../benign_1_min/node-2-child-4/csv files/node2_http.csv",
-    "../../benign_1_min/node-2-child-4/csv files/node2_ssl.csv",
+#     # Node 2 (Child 4)
+#     "../../benign_1_min/node-2-child-4/csv files/node2_conn.csv",
+#     "../../benign_1_min/node-2-child-4/csv files/node2_dns.csv",
+#     "../../benign_1_min/node-2-child-4/csv files/node2_http.csv",
+#     "../../benign_1_min/node-2-child-4/csv files/node2_ssl.csv",
     
-    # Camera Pod
-    "../../benign_1_min/cam-pod/csv files/camera_conn.csv",
+#     # Camera Pod
+#     "../../benign_1_min/cam-pod/csv files/camera_conn.csv",
     
-    # LiDAR Pod
-    "../../benign_1_min/lidar-pod/csv files/lidar_conn.csv",
+#     # LiDAR Pod
+#     "../../benign_1_min/lidar-pod/csv files/lidar_conn.csv",
     
-    # NGINX Pod
-    "../../benign_1_min/nginx-pod/csv files/NGINX_conn.csv",
-    "../../benign_1_min/nginx-pod/csv files/NGINX_dns.csv"
-]
+#     # NGINX Pod
+#     "../../benign_1_min/nginx-pod/csv files/NGINX_conn.csv",
+#     "../../benign_1_min/nginx-pod/csv files/NGINX_dns.csv"
+# ]
