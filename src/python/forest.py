@@ -87,13 +87,13 @@ def test_modular_conn():
     path5 = conn_paths[4]
     path6 = conn_paths[5]   # test benign set we made
     X1, encoder = encode_training_data(path1, fit_encoder=True, training=True)
-    X2, _ = encode_training_data(path2, encoder=encoder, fit_encoder=False, training=True)
+    # X2, _ = encode_training_data(path2, encoder=encoder, fit_encoder=False, training=True)
     # X3, _ = encode_training_data(path3, encoder=encoder, fit_encoder=False, training=True)
     # X4, _ = encode_training_data(path4, encoder=encoder, fit_encoder=False, training=True)
     # X5, _ = encode_training_data(path5, encoder=encoder, fit_encoder=False, training=True)
     # X6, _ = encode_training_data(path6, encoder=encoder, fit_encoder=False, training=True)
-    X = pd.concat([X1, X2], ignore_index=True)
-    # X = X1
+    # X = pd.concat([X1, X2], ignore_index=True)
+    X = X1
     print(f"Training dataset size={len(X)}")
 
     # initialize the isolation forest
@@ -384,69 +384,6 @@ def test_modular_ssl():
     plt.show()
 
 
-# HTTP
-def test_modular_http():
-    http_paths = [
-        "../../train_test_data/benign_1_min/node-1-child-3/csv files/node1_http.csv",
-        "../../train_test_data/benign_1_min/node-2-child-4/csv files/node2_http.csv"
-    ]
-
-    path1, path2 = http_paths[:2]
-
-    X1, encoder = encode_training_data(path1, fit_encoder=True, training=True)
-    X2, _ = encode_training_data(path2, encoder=encoder, fit_encoder=False, training=True)
-    X = pd.concat([X1, X2], ignore_index=True)
-    print(f"Training dataset size={len(X)}")
-
-    iso_forest = IsolationForest(
-        n_estimators=500,
-        contamination=0.02,
-        random_state=42,
-        n_jobs=-1
-    )
-    iso_forest.fit(X)
-
-    X_train1, _ = encode_training_data(path1, encoder=encoder, fit_encoder=False)
-    X_train2, _ = encode_training_data(path2, encoder=encoder, fit_encoder=False)
-
-    y_train1 = iso_forest.predict(X_train1)
-    y_train2 = iso_forest.predict(X_train2)
-
-    scores_train1 = iso_forest.decision_function(X_train1)
-    scores_train2 = iso_forest.decision_function(X_train2)
-
-    for i, (name, y, path) in enumerate([
-        ("Train1", y_train1, path1),
-        ("Train2", y_train2, path2),
-    ]):
-        print("***********************************************************************")
-        print(f"Test set: {path}")
-        flagged = (y == -1).sum()
-        total = len(y)
-        print(f"Total benign samples: {total}")
-        print(f"False positives: {flagged}")
-        print(f"False positive rate: {flagged / total:.4%}")
-        print("***********************************************************************")
-
-    threshold = np.percentile(scores_train1, 2)
-    print(f"\nIsolation Forest anomaly threshold (2% cutoff): {threshold:.5f}")
-
-    fig, axes = plt.subplots(2, 1, figsize=(10, 6), sharex=True)
-    datasets = [
-        ("Train1 (benign)", scores_train1, 'tab:blue'),
-        ("Train2 (benign)", scores_train2, 'tab:blue'),
-    ]
-    for ax, (title, scores, color) in zip(axes, datasets):
-        ax.hist(scores, bins=200, color=color, alpha=0.6)
-        ax.axvline(threshold, color='black', linestyle='--')
-        ax.set_title(title)
-        ax.set_yscale('log')
-        ax.grid(True, linestyle='--', alpha=0.3)
-    plt.xlabel("Decision function score (higher = more normal)")
-    plt.tight_layout()
-    plt.show()
-
-
 # test a split-forest approach, where one model is trained on 'zero feature' rows, and the other isnt
 # relies on a ['zero_activity'] column present in the df
 def test_split_forests():
@@ -586,7 +523,7 @@ def stats(name, scores):
 
 
 # test the Isolation Forest model
-test_modular_ssl()
+test_modular_conn()
 
 
 

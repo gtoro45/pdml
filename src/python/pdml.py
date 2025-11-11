@@ -77,7 +77,7 @@ conn_model = joblib.load(CONN_DATA_PATHS[0]) if None not in CONN_DATA_PATHS else
 dns_model = joblib.load(DNS_DATA_PATHS[0]) if None not in DNS_DATA_PATHS else None
 ssl_model = joblib.load(SSL_DATA_PATHS[0]) if None not in SSL_DATA_PATHS else None
 
-# buffers (for rate checking)
+# buffers (priority queues for broader statistical analysis, sorted by timestamp)
 conn_count = 0
 dns_count = 0
 ssl_count = 0
@@ -108,24 +108,33 @@ def main():
     # Dummy loop for formatting, will be changed to watcher function in watcher.py
     with open(BUF_FILE, 'r') as file:    
         file.seek(0, os.SEEK_END)
-        
+        transaction_cycles = 0
         while True:
-            # (0) read the latest line
+            # (0) read the latest line, place into priority queues (ordered by timestamp)
             line = file.readline()
             if not line:
                 sleep(0.5)
                 continue
             line = line.strip()
             if not line: continue
+            transaction_cycles += 1
             
-            # (1) acquire the rules score
+            # (1) acquire the rules score (simple rules, known ips, etc.)
             rules_score = get_rules_score(line)
             
-            # (2) acquire the model score
+            # (2) acquire the model score (isolation forest outlier) --> maybe, depends if forest model is capable enough
             
-            # (3) calculate the anomaly score
+            # (3) calculate the anomaly score (rules + model score) 
             
-            # (4) API post request
+            # (4) API post request (anomalous transaction)
+            
+            # (5) check the previous 100 transactions against benign stats  (check periodically)
+            # (6) calculate previous 100 transactions anomaly score         (check periodically)
+            # (7) API post request (anomalous patterns)                     (check periodically)
+            if transaction_cycles == 5: # or 10, 15, 20, etc.
+                transaction_cycles = 0
+                # TODO
+            
             
             sleep(1)
 

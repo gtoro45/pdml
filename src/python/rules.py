@@ -1,12 +1,25 @@
 import pandas as pd
+import numpy as np
 from collections import Counter
+import json
 import joblib
 
 # ==== Helper Functions ====
-def print_stats_list(list):
+def print_stats_list(list: list):
     for item in list:
         print(item)
         print()
+        
+def print_dict(data: dict):
+    try:
+        # Use json.dumps for pretty printing, which handles indentation
+        # and standard JSON formatting (like double quotes for keys/strings).
+        json_output = json.dumps(data, indent=4)
+        print(json_output)
+    except TypeError as e:
+        print(f"Error: Could not serialize dictionary to JSON. {e}")
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
 
 # ==== Specify Paths ====
 # specify the paths
@@ -53,11 +66,11 @@ def extract_general(path):
     ts_diff = df['ts'].diff()[1:]
     ts_avg_diff = ts_diff.mean()
     ts_diff_stdev = ts_diff.std()
-    ts_cv = ts_diff_stdev / ts_avg_diff
+    ts_cv = ts_diff_stdev / ts_avg_diff if ts_avg_diff != 0 else 0
     # print(ts_diff)
-    # print("Average Diff: ", ts_avg_diff)
-    # print("Std Deviation: ", ts_diff_stdev)
-    # print("Coefficient of Variation", ts_cv, end='\n\n')
+    print("Avg time between transactions (ms): ", ts_avg_diff * 1000)
+    print("Stddev time between transactions (ms): ", ts_diff_stdev * 1000)
+    print("stddev/mean", ts_cv, end='\n\n')
     
     # (2) get known addresses and ports for both sender and receiver
     # Build Counters (frequency tables)
@@ -77,25 +90,194 @@ def extract_general(path):
 
     origin_pairs = set(origin_pair_counter.items())
     resp_pairs   = set(resp_pair_counter.items())
-
     
+    # return [
+    #     ts_avg_diff,            # float
+    #     ts_diff_stdev,          # float
+    #     ts_cv,                  # float
+    #     known_origin_addr,      # set: (addr, freq) pairs
+    #     known_origin_ports,     # set: (port, freq) pairs
+    #     known_resp_addr,        # set: (addr, freq) pairs
+    #     known_resp_ports,       # set: (port, freq) pairs
+    #     origin_pairs,           # set: ((addr, port), freq) pairs
+    #     resp_pairs              # set: ((addr, port), freq) pairs
+    # ]  
     
-    return [
-        ts_avg_diff,            # float
-        ts_diff_stdev,          # float
-        ts_cv,                  # float
-        known_origin_addr,      # set: (addr, freq) pairs
-        known_origin_ports,     # set: (port, freq) pairs
-        known_resp_addr,        # set: (addr, freq) pairs
-        known_resp_ports,       # set: (port, freq) pairs
-        origin_pairs,           # set: ((addr, port), freq) pairs
-        resp_pairs              # set: ((addr, port), freq) pairs
-    ]
+    return {
+        "ts_avg_diff": ts_avg_diff,                     # float
+        "ts_diff_stdev": ts_diff_stdev,                 # float
+        "ts_cv": ts_cv,                                 # float
+        "known_origin_addr": known_origin_addr,         # set: (addr, freq) pairs
+        "known_origin_ports": known_origin_ports,       # set: (port, freq) pairs
+        "known_resp_addr": known_resp_addr,             # set: (addr, freq) pairs
+        "known_resp_ports": known_resp_ports,           # set: (port, freq) pairs
+        "origin_pairs": origin_pairs,                   # set: ((addr, port), freq) pairs
+        "resp_pairs": resp_pairs,                       # set: ((addr, port), freq) pairs
+    }
+    
 
+# ========================
+# conn.log field types 
+# ========================
+# ts                : time          [General]
+# uid               : string        [General]
+# id.orig_h         : addr          [General]
+# id.orig_p         : port          [General]
+# id.resp_h         : addr          [General]
+# id.resp_p         : port          [General]
+# proto             : enum          [.]
+# service           : string        [.]
+# duration          : interval      [.]
+# orig_bytes        : count         [.]
+# resp_bytes        : count         [.]
+# conn_state        : string        [.]  
+# local_orig        : bool
+# local_resp        : bool
+# missed_bytes      : count
+# history           : string        
+# orig_pkts         : count         [.]
+# orig_ip_bytes     : count         [X] --> proportional to orig_bytes
+# resp_pkts         : count         [.]
+# resp_ip_bytes     : count         [X] --> proportional to resp_bytes
+# tunnel_parents    : set[string]   [X]
+# ip_proto          : count         [X]
 def extract_conn_characs(conn_path):
+    # print(f"[{conn_path}]")
+    # (0) read file and handle missing symbols
+    df = pd.read_csv(conn_path)
+    df.replace('-', pd.NA, inplace=True)
+    df = df.drop(['ts', 'id.orig_h', 'id.resp_h', 'orig_ip_bytes', 'resp_ip_bytes', 'tunnel_parents', 'ip_proto'], errors='ignore')
     
-    # return general stats + specific stats
-    return extract_general(conn_path) + [None]
+    # (1) Protocol and Service analysis
+    proto_counts = df['proto'].value_counts(normalize=True).to_dict()       # i.e. {'protocol1' : proportion1, 'protocol2' : proportion2}
+    service_counts = df['service'].value_counts(normalize=True).to_dict()   # i.e. {'service1' : proportion1, 'service2' : proportion2}
+    print(f"Protocols and relative frequency:")
+    print_dict(proto_counts)
+    print(f"Services and relative frequency:")
+    print_dict(service_counts)
+    print()
+    
+    
+    # (2) Duration Statistics
+    df['duration'] = pd.to_numeric(df['duration'], errors='coerce')
+    dur_mean = df['duration'].mean()
+    dur_std = df['duration'].std()
+    dur_cv = dur_std / dur_mean if dur_mean != 0 else 0
+    print(f"Average transaction duration: {dur_mean}")
+    print(f"Average transaction stddev: {dur_std}")
+    print(f"stddev/mean: {dur_cv}")
+    print()
+    
+    # (3) Traffic Volume Characteristics
+    df['orig_bytes'] = pd.to_numeric(df['orig_bytes'], errors='coerce')
+    df['resp_bytes'] = pd.to_numeric(df['resp_bytes'], errors='coerce')
+    orig_bytes_total = df['orig_bytes'].sum()
+    resp_bytes_total = df['resp_bytes'].sum()
+    byte_ratio = orig_bytes_total / (resp_bytes_total + 1e-9) # 1e-9 to avoid div/0 
+    print(f"Total origin bytes: {orig_bytes_total} ({(orig_bytes_total / 1_000_000):.5f} MB)")
+    print(f"Total resp bytes: {resp_bytes_total} ({(resp_bytes_total / 1_000_000):.5f} MB)")
+    print(f"orig/resp ratio: {byte_ratio}")
+    
+    bidirectional = df[(df['resp_bytes'] > 0) & (df['orig_bytes'] > 0)]
+    orig_only = df[(df['orig_bytes'] > 0) & (df['resp_bytes'] == 0)]
+    resp_only = df[(df['resp_bytes'] > 0) & (df['orig_bytes'] == 0)]    
+
+    bidirectional_ratio_mean = (bidirectional['orig_bytes'] / bidirectional['resp_bytes']).mean()
+    bidirectional_ratio_std = (bidirectional['orig_bytes'] / bidirectional['resp_bytes']).std()
+    orig_only_bytes_mean = orig_only['orig_bytes'].mean()
+    orig_only_bytes_std = orig_only['orig_bytes'].std()
+    resp_only_bytes_mean = resp_only['resp_bytes'].mean()
+    resp_only_bytes_std = resp_only['resp_bytes'].std()
+    
+    print(f"Bidirectional byte ratio mean: {bidirectional_ratio_mean}")
+    print(f"Bidirectional byte ratio std: {bidirectional_ratio_std}")
+    print(f"Orig-only bytes mean: {orig_only_bytes_mean} ({(orig_only_bytes_mean / 1_000_000):.5f} MB)")
+    print(f"Orig-only bytes std: {orig_only_bytes_std} ({(orig_only_bytes_std / 1_000_000):.5f} MB)")
+    print(f"Resp-only bytes mean: {resp_only_bytes_mean} ({(resp_only_bytes_mean / 1_000_000):.5f} MB)")
+    print(f"Resp-only bytes std: {resp_only_bytes_std} ({(resp_only_bytes_std / 1_000_000):.5f} MB)")
+    print()
+    
+    # (4) Packet-Level Behavior
+    df['orig_pkts'] = pd.to_numeric(df['orig_pkts'], errors='coerce')
+    df['resp_pkts'] = pd.to_numeric(df['resp_pkts'], errors='coerce')
+    orig_pkts_total = df['orig_pkts'].sum()
+    resp_pkts_total = df['resp_pkts'].sum()
+    pkts_ratio = orig_pkts_total / (resp_pkts_total + 1e-9) # 1e-9 to avoid div/0
+    print(f"Total origin pkts: {orig_pkts_total}")
+    print(f"Total resp pkts: {resp_pkts_total}")
+    print(f"orig/resp ratio: {pkts_ratio}")
+    
+    bidirectional_pkts = df[(df['resp_pkts'] > 0) & (df['orig_pkts'] > 0)]
+    orig_only_pkts = df[(df['orig_pkts'] > 0) & (df['resp_pkts'] == 0)]
+    resp_only_pkts = df[(df['resp_pkts'] > 0) & (df['orig_pkts'] == 0)] 
+
+    pkts_ratio_mean = (bidirectional_pkts['orig_pkts'] / bidirectional_pkts['resp_pkts']).mean()
+    pkts_ratio_std = (bidirectional_pkts['orig_pkts'] / bidirectional_pkts['resp_pkts']).std()
+    orig_only_pkts_mean = orig_only_pkts['orig_pkts'].mean()
+    orig_only_pkts_std = orig_only_pkts['orig_pkts'].std()
+    resp_only_pkts_mean = resp_only_pkts['resp_pkts'].mean()
+    resp_only_pkts_std = resp_only_pkts['resp_pkts'].std()
+    
+    print(f"Bidirectional pkt ratio mean: {pkts_ratio_mean}")
+    print(f"Bidirectional pkt ratio std: {pkts_ratio_std}")
+    print(f"Orig-only pkt mean: {orig_only_pkts_mean}")
+    print(f"Orig-only pkt std: {orig_only_pkts_std}")
+    print(f"Resp-only pkt mean: {resp_only_pkts_mean}")
+    print(f"Resp-only pkt std: {resp_only_pkts_std}")
+    print()
+    
+    # (5) Connection State Distribution
+    state_counts = df['conn_state'].value_counts(normalize=True).to_dict()
+    # state_entropy = -sum(p * np.log2(p) for p in state_counts.values())
+    print(f"Connection states distribution:")
+    print_dict(state_counts)
+    # print(f"State entropy (bits): {state_entropy}")
+    print()
+    
+    
+    # (6) format return dictionary and terminate function
+    return {
+        'general' : extract_general(conn_path),
+        
+        'proto_service' : {
+            "proto_counts": proto_counts,       # (1) : dict    {'protocol1' : proportion1, 'protocol2' : proportion2}
+            "service_counts": service_counts    # (1) : dict    {'service1' : proportion1, 'service2' : proportion2}
+        },
+        
+        'duration' : {
+            "mean": dur_mean,                   # (2) : float
+            "std": dur_std,                     # (2) : float
+            "cv": dur_cv                        # (2) : float
+        },
+        
+        'bytes' : {
+            "orig_total": orig_bytes_total,                     # (3) : float
+            "resp_total": resp_bytes_total,                     # (3) : float
+            "ratio": byte_ratio,                                # (3) : float
+            "bidirectional_mean": bidirectional_ratio_mean,     # (3) : float
+            "bidirectional_std": bidirectional_ratio_std,       # (3) : float
+            "orig_only_mean": orig_only_bytes_mean,             # (3) : float
+            "orig_only_std": orig_only_bytes_std,               # (3) : float
+            "resp_only_mean": resp_only_bytes_mean,             # (3) : float
+            "resp_only_std": resp_only_bytes_std                # (3) : float
+        },
+        
+        'packets' : {
+            "orig_total": orig_pkts_total,              # (4) : float
+            "resp_total": resp_pkts_total,              # (4) : float
+            "ratio": pkts_ratio,                        # (4) : float
+            "bidirectional_mean": pkts_ratio_mean,      # (4) : float
+            "bidirectional_std": pkts_ratio_std,        # (4) : float
+            "orig_only_mean": orig_only_pkts_mean,      # (4) : float
+            "orig_only_std": orig_only_pkts_std,        # (4) : float
+            "resp_only_mean": resp_only_pkts_mean,      # (4) : float
+            "resp_only_std": resp_only_pkts_std         # (4) : float
+        },
+        
+        'states' : {
+            "state_counts": state_counts                # (5) : dict    {'state1' : proportion1, 'state2' : proportion2}
+        }
+    }
 
 def extract_dns_characs(dns_path):
     
@@ -129,5 +311,17 @@ def get_rules_score_http(line: str, ruleset: list):
 
 
 # === Testing and Saving ====
-# print_stats_list(extract_conn_characs(conn_paths[0]))
-# print_stats_list(extract_conn_characs(conn_paths[1]))
+# CONN
+extract_conn_characs(conn_paths[0])
+print("******************************************************")
+# extract_conn_characs(conn_paths[1])
+# print("******************************************************")
+# extract_conn_characs(conn_paths[2])
+# print("******************************************************")
+# extract_conn_characs(conn_paths[3])
+# print("******************************************************")
+# extract_conn_characs(conn_paths[4])
+# print("******************************************************")
+extract_conn_characs(conn_paths[5])
+print("******************************************************")
+extract_conn_characs(conn_paths[6])
