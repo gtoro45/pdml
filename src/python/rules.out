@@ -1,376 +1,169 @@
-Protocols and relative frequency:
+==============================================================================================================
+[../../train_test_data/benign_1_min/node-1-child-3/csv files/node1_ssl.csv]
+Avg time between transactions (ms):  28794.583671433586
+Stddev time between transactions (ms):  49545.72935874393
+stddev/mean 1.720661424526761
+
+SSL Version(s) and relative frequency:
 {
-    "tcp": 0.9761332663893272,
-    "udp": 0.02323913355329221,
-    "icmp": 0.0006276000573805767
+    "TLSv13": 0.8846153846153846,
+    "TLSv12": 0.11538461538461539
 }
-Services and relative frequency:
+SSL Cipher(s) and relative frequency
 {
-    "dns": 0.8732394366197183,
-    "ssl": 0.11032863849765258,
-    "http": 0.014084507042253521,
-    "ntp": 0.001564945226917058,
-    "dhcp": 0.000782472613458529
+    "TLS_AES_128_GCM_SHA256": 0.5538461538461539,
+    "TLS_AES_256_GCM_SHA384": 0.33076923076923076,
+    "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256": 0.11538461538461539
 }
-
-Average transaction duration: 8.954739331975786
-Average transaction stddev: 163.4935246966855
-stddev/mean: 18.257764814312253
-
-Total origin bytes: 1514522886.0 (1514.52289 MB)
-Total resp bytes: 9341193.0 (9.34119 MB)
-orig/resp ratio: 162.13377520408793
-Bidirectional byte ratio mean: 4.742427427960397
-Bidirectional byte ratio std: 115.80141640992834
-Orig-only bytes mean: 1011.8858075040783 (0.00101 MB)
-Orig-only bytes std: 18637.13044249918 (0.01864 MB)
-Resp-only bytes mean: 15028.703703703704 (0.01503 MB)
-Resp-only bytes std: 75970.7744200739 (0.07597 MB)
-
-Total origin pkts: 73233
-Total resp pkts: 535909
-orig/resp ratio: 0.13665193157793554
-Bidirectional pkt ratio mean: 1.026247738851387
-Bidirectional pkt ratio std: 0.1638007238764726
-Orig-only pkt mean: 2.1603053435114505
-Orig-only pkt std: 25.219054831242406
-Resp-only pkt mean: 1.1075451925596018
-Resp-only pkt std: 8.173481782810676
-
-Connection states distribution:
+SSL Curve(s) and relative frequency:
 {
-    "OTH": 0.9105849232534787,
-    "RSTRH": 0.06821116052216325,
-    "S0": 0.014129967006168411,
-    "SF": 0.006643594893128676,
-    "SHR": 0.00020621144742504662,
-    "S1": 0.00014345144168698896,
-    "RSTR": 5.3794290632620855e-05,
-    "RSTO": 2.6897145316310427e-05
+    "x25519": 0.4661016949152542,
+    "secp256r1": 0.2796610169491525,
+    "unknown-4588": 0.17796610169491525,
+    "secp384r1": 0.07627118644067797
 }
 
-Short HTTP connection ratio: 0.7777777777345679
-Average HTTP duration: 0.37898872222222224
-HTTP duration stddev: 0.41416603609859676
-
-Avg time between transactions (ms):  37.17192003299116
-Stddev time between transactions (ms):  43.901413712843585
-stddev/mean 1.1810370213289978
-
-******************************************************
-Protocols and relative frequency:
+SSL Known Server(s) and relative frequency:
 {
-    "tcp": 0.8113261403208312,
-    "udp": 0.18661871324998572,
-    "icmp": 0.002055146429183079
+    "main.vscode-cdn.net": 0.2127659574468085,
+    "push.services.mozilla.com": 0.1276595744680851,
+    "firefox.settings.services.mozilla.com": 0.0851063829787234,
+    "merino.services.mozilla.com": 0.07092198581560284,
+    "incoming.telemetry.mozilla.org": 0.03546099290780142,
+    "browser-intake-datadoghq.com": 0.03546099290780142,
+    "ads.mozilla.org": 0.03546099290780142,
+    "default.exp-tas.com": 0.03546099290780142,
+    "mobile.events.data.microsoft.com": 0.028368794326241134,
+    "ab.chatgpt.com": 0.02127659574468085,
+    "upload.wikimedia.org": 0.02127659574468085,
+    "www.gstatic.com": 0.02127659574468085,
+    "play.google.com": 0.014184397163120567,
+    "chatgpt.com": 0.014184397163120567,
+    "ogads-pa.clients6.google.com": 0.014184397163120567,
+    "encrypted-tbn0.gstatic.com": 0.014184397163120567,
+    "safebrowsing.googleapis.com": 0.014184397163120567,
+    "www.google.com": 0.014184397163120567,
+    "content-signature-2.cdn.mozilla.net": 0.014184397163120567,
+    "en.wikipedia.org": 0.014184397163120567,
+    "packages.microsoft.com": 0.0070921985815602835,
+    "firefox-settings-attachments.cdn.mozilla.net": 0.0070921985815602835,
+    "merino-images.services.mozilla.com": 0.0070921985815602835,
+    "dl.cloudsmith.io": 0.0070921985815602835,
+    "esm.ubuntu.com": 0.0070921985815602835,
+    "packages.beyondidentity.com": 0.0070921985815602835,
+    "accounts.google.com": 0.0070921985815602835,
+    "csp.withgoogle.com": 0.0070921985815602835,
+    "www.googleadservices.com": 0.0070921985815602835,
+    "lh3.google.com": 0.0070921985815602835,
+    "img-getpocket.cdn.mozilla.net": 0.0070921985815602835,
+    "fonts.gstatic.com": 0.0070921985815602835,
+    "ssl.gstatic.com": 0.0070921985815602835,
+    "intake-analytics.wikimedia.org": 0.0070921985815602835,
+    "www.googletagmanager.com": 0.0070921985815602835,
+    "auth.wikimedia.org": 0.0070921985815602835,
+    "lh3.googleusercontent.com": 0.0070921985815602835,
+    "login.wikimedia.org": 0.0070921985815602835,
+    "ogs.google.com": 0.0070921985815602835,
+    "update.code.visualstudio.com": 0.0070921985815602835,
+    "ads-img.mozilla.org": 0.0070921985815602835,
+    "docs.rke2.io": 0.0070921985815602835
 }
-Services and relative frequency:
+Number of established transactions: 103
+Number of transactions: 141
+Rejection ratio: 0.7304964539007093
+************************************************************************************************************
+[../../train_test_data/benign_1_min/node-2-child-4/csv files/node2_ssl.csv]
+Avg time between transactions (ms):  183929.62873609443
+Stddev time between transactions (ms):  301426.9750493208
+stddev/mean 1.6388168514264425
+
+SSL Version(s) and relative frequency:
 {
-    "dns": 0.8837772397094431,
-    "ntp": 0.07909604519774012,
-    "ssl": 0.01533494753833737,
-    "http": 0.014527845036319613,
-    "dhcp": 0.007263922518159807
+    "TLSv13": 0.7272727272727273,
+    "TLSv12": 0.2727272727272727
 }
-
-Average transaction duration: 4.9880261080476895
-Average transaction stddev: 65.1737991090545
-stddev/mean: 13.066050116278058
-
-Total origin bytes: 535633.0 (0.53563 MB)
-Total resp bytes: 78715521.0 (78.71552 MB)
-orig/resp ratio: 0.006804668167031506
-Bidirectional byte ratio mean: 0.5368184744319565
-Bidirectional byte ratio std: 0.5773041380804168
-Orig-only bytes mean: 4033.4910714285716 (0.00403 MB)
-Orig-only bytes std: 30438.732688395477 (0.03044 MB)
-Resp-only bytes mean: 38602.19294809011 (0.03860 MB)
-Resp-only bytes std: 585428.7413002199 (0.58543 MB)
-
-Total origin pkts: 9667
-Total resp pkts: 3365
-orig/resp ratio: 2.8728083209501123
-Bidirectional pkt ratio mean: 1.2153975930374015
-Bidirectional pkt ratio std: 1.4877809036238243
-Orig-only pkt mean: 2.067722075637643
-Orig-only pkt std: 21.64274154990373
-Resp-only pkt mean: 1.2266009852216748
-Resp-only pkt std: 3.0826679979525218
-
-Connection states distribution:
+SSL Cipher(s) and relative frequency
 {
-    "OTH": 0.8673288805160702,
-    "S0": 0.0627961408917052,
-    "SHR": 0.057886624421990066,
-    "SF": 0.011417480162128218,
-    "RSTO": 0.0003425244048638465,
-    "S1": 0.00017126220243192326,
-    "RSTRH": 5.708740081064109e-05
+    "TLS_AES_128_GCM_SHA256": 0.7272727272727273,
+    "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256": 0.2727272727272727
 }
-
-Short HTTP connection ratio: 0.8333333332870371
-Average HTTP duration: 0.40072011111111117
-HTTP duration stddev: 0.3448931830513341
-
-Avg time between transactions (ms):  237.5213688000829
-Stddev time between transactions (ms):  372.49194714480643
-stddev/mean 1.5682460446677773
-
-******************************************************
-Protocols and relative frequency:
+SSL Curve(s) and relative frequency:
 {
-    "tcp": 1.0
+    "x25519": 1.0
 }
-Services and relative frequency:
+
+SSL Known Server(s) and relative frequency:
+{
+    "push.services.mozilla.com": 0.3,
+    "firefox.settings.services.mozilla.com": 0.2,
+    "pypi.org": 0.2,
+    "merino.services.mozilla.com": 0.1,
+    "files.pythonhosted.org": 0.1,
+    "content-signature-2.cdn.mozilla.net": 0.05,
+    "usage.projectcalico.org": 0.05
+}
+Number of established transactions: 11
+Number of transactions: 20
+Rejection ratio: 0.55
+************************************************************************************************************
+[../../train_test_data/benign_sim/csv/ssl.csv]
+Avg time between transactions (ms):  37801.85232442968
+Stddev time between transactions (ms):  38906.99283093268
+stddev/mean 1.029235088720475
+
+SSL Version(s) and relative frequency:
+{
+    "TLSv13": 0.7428571428571429,
+    "TLSv12": 0.2571428571428571
+}
+SSL Cipher(s) and relative frequency
+{
+    "TLS_AES_256_GCM_SHA384": 0.5714285714285714,
+    "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256": 0.2571428571428571,
+    "TLS_AES_128_GCM_SHA256": 0.17142857142857143
+}
+SSL Curve(s) and relative frequency:
+{
+    "x25519": 0.35294117647058826,
+    "secp256r1": 0.35294117647058826,
+    "secp384r1": 0.20588235294117646,
+    "X25519MLKEM768": 0.08823529411764706
+}
+
+SSL Known Server(s) and relative frequency:
 {}
+Number of established transactions: 0
+Number of transactions: 35
+Rejection ratio: 0.0
+************************************************************************************************************
+[../../train_test_data/ddos_sim/csv/ssl_malignant1.csv]
+Avg time between transactions (ms):  1.5522331603893016
+Stddev time between transactions (ms):  3.000548575243114
+stddev/mean 1.933052747365978
 
-Average transaction duration: 3.45e-05
-Average transaction stddev: 4.3133513652379394e-05
-stddev/mean: 1.2502467725327362
-
-Total origin bytes: 0.0 (0.00000 MB)
-Total resp bytes: 0.0 (0.00000 MB)
-orig/resp ratio: 0.0
-Bidirectional byte ratio mean: nan
-Bidirectional byte ratio std: nan
-Orig-only bytes mean: nan (nan MB)
-Orig-only bytes std: nan (nan MB)
-Resp-only bytes mean: nan (nan MB)
-Resp-only bytes std: nan (nan MB)
-
-Total origin pkts: 0
-Total resp pkts: 2
-orig/resp ratio: 0.0
-Bidirectional pkt ratio mean: nan
-Bidirectional pkt ratio std: nan
-Orig-only pkt mean: nan
-Orig-only pkt std: nan
-Resp-only pkt mean: 1.0
-Resp-only pkt std: 0.0
-
-Connection states distribution:
+SSL Version(s) and relative frequency:
 {
-    "OTH": 0.990990990990991,
-    "RSTRH": 0.009009009009009009
+    "TLSv12": 0.9999894178774379,
+    "TLSv13": 1.0582122562143516e-05
+}
+SSL Cipher(s) and relative frequency
+{
+    "TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384": 0.9999894178774379,
+    "TLS_AES_128_GCM_SHA256": 5.291061281071758e-06,
+    "TLS_AES_256_GCM_SHA384": 5.291061281071758e-06
+}
+SSL Curve(s) and relative frequency:
+{
+    "x25519": 0.9950738916256158,
+    "X25519MLKEM768": 0.0024630541871921183,
+    "secp256r1": 0.0024630541871921183
 }
 
-Short HTTP connection ratio: 0.0
-Average HTTP duration: nan
-HTTP duration stddev: nan
-
-Avg time between transactions (ms):  536.697571927851
-Stddev time between transactions (ms):  719.0097273460552
-stddev/mean 1.3396925288171657
-
-******************************************************
-Protocols and relative frequency:
+SSL Known Server(s) and relative frequency:
 {
-    "tcp": 1.0
+    "192.168.1.226": 1.0
 }
-Services and relative frequency:
-{}
-
-Average transaction duration: nan
-Average transaction stddev: nan
-stddev/mean: nan
-
-Total origin bytes: 0.0 (0.00000 MB)
-Total resp bytes: 0.0 (0.00000 MB)
-orig/resp ratio: 0.0
-Bidirectional byte ratio mean: nan
-Bidirectional byte ratio std: nan
-Orig-only bytes mean: nan (nan MB)
-Orig-only bytes std: nan (nan MB)
-Resp-only bytes mean: nan (nan MB)
-Resp-only bytes std: nan (nan MB)
-
-Total origin pkts: 0
-Total resp pkts: 0
-orig/resp ratio: 0.0
-Bidirectional pkt ratio mean: nan
-Bidirectional pkt ratio std: nan
-Orig-only pkt mean: nan
-Orig-only pkt std: nan
-Resp-only pkt mean: nan
-Resp-only pkt std: nan
-
-Connection states distribution:
-{
-    "OTH": 1.0
-}
-
-Short HTTP connection ratio: 0.0
-Average HTTP duration: nan
-HTTP duration stddev: nan
-
-Avg time between transactions (ms):  3930.865934916905
-Stddev time between transactions (ms):  2129.4269249313193
-stddev/mean 0.5417195498875067
-
-******************************************************
-Protocols and relative frequency:
-{
-    "udp": 0.5958904109589042,
-    "tcp": 0.3972602739726027,
-    "icmp": 0.00684931506849315
-}
-Services and relative frequency:
-{
-    "dns": 1.0
-}
-
-Average transaction duration: 0.8659238235294116
-Average transaction stddev: 7.012249029332371
-stddev/mean: 8.097997582225196
-
-Total origin bytes: 3277.0 (0.00328 MB)
-Total resp bytes: 15933.0 (0.01593 MB)
-orig/resp ratio: 0.2056737588652353
-Bidirectional byte ratio mean: 1.0
-Bidirectional byte ratio std: nan
-Orig-only bytes mean: 1653.0 (0.00165 MB)
-Orig-only bytes std: nan (nan MB)
-Resp-only bytes mean: 188.27631578947367 (0.00019 MB)
-Resp-only bytes std: 72.45055301085662 (0.00007 MB)
-
-Total origin pkts: 58
-Total resp pkts: 163
-orig/resp ratio: 0.35582822085671273
-Bidirectional pkt ratio mean: 1.0
-Bidirectional pkt ratio std: nan
-Orig-only pkt mean: 29.0
-Orig-only pkt std: nan
-Resp-only pkt mean: 1.0
-Resp-only pkt std: 0.0
-
-Connection states distribution:
-{
-    "OTH": 0.541095890410959,
-    "SHR": 0.2602739726027397,
-    "RSTRH": 0.19863013698630136
-}
-
-Short HTTP connection ratio: 0.0
-Average HTTP duration: nan
-HTTP duration stddev: nan
-
-Avg time between transactions (ms):  199.98186970084802
-Stddev time between transactions (ms):  593.1938195016035
-stddev/mean 2.966237991418719
-
-******************************************************
-Protocols and relative frequency:
-{
-    "udp": 0.8049853372434017,
-    "tcp": 0.15249266862170088,
-    "icmp": 0.030791788856304986,
-    "unknown_transport": 0.011730205278592375
-}
-Services and relative frequency:
-{
-    "dns": 0.9881796690307328,
-    "dhcp": 0.009456264775413711,
-    "ntp": 0.002364066193853428
-}
-
-Average transaction duration: 27.26479784642234
-Average transaction stddev: 148.6724004534374
-stddev/mean: 5.452906758776723
-
-Total origin bytes: 134140.0 (0.13414 MB)
-Total resp bytes: 899322.0 (0.89932 MB)
-orig/resp ratio: 0.14915680924073896
-Bidirectional byte ratio mean: 0.0017044893863487928
-Bidirectional byte ratio std: 0.004001681070545537
-Orig-only bytes mean: 717.2727272727273 (0.00072 MB)
-Orig-only bytes std: 1419.2796807947036 (0.00142 MB)
-Resp-only bytes mean: 2309.270053475936 (0.00231 MB)
-Resp-only bytes std: 7293.198142565081 (0.00729 MB)
-
-Total origin pkts: 1249
-Total resp pkts: 3389
-orig/resp ratio: 0.3685452935968225
-Bidirectional pkt ratio mean: 0.1616633194171557
-Bidirectional pkt ratio std: 0.11883003007951927
-Orig-only pkt mean: 5.008333333333334
-Orig-only pkt std: 12.335610819158061
-Resp-only pkt mean: 8.302197802197803
-Resp-only pkt std: 39.9255077106761
-
-Connection states distribution:
-{
-    "SHR": 0.5278592375366569,
-    "S0": 0.29472140762463345,
-    "OTH": 0.13929618768328444,
-    "RSTO": 0.026392961876832845,
-    "SH": 0.010263929618768328,
-    "RSTRH": 0.001466275659824047
-}
-
-Short HTTP connection ratio: 0.0
-Average HTTP duration: nan
-HTTP duration stddev: nan
-
-Avg time between transactions (ms):  1993.608833934767
-Stddev time between transactions (ms):  4678.770191268919
-stddev/mean 2.3468847607554357
-
-******************************************************
-Protocols and relative frequency:
-{
-    "tcp": 0.999812749448242,
-    "udp": 0.00016621116391997458,
-    "icmp": 1.262363270278288e-05,
-    "unknown_transport": 8.415755135188586e-06
-}
-Services and relative frequency:
-{
-    "ssl": 0.998666399946656,
-    "dns": 0.001266920050676802,
-    "dhcp": 6.668000266720011e-05
-}
-
-Average transaction duration: 14.87923069968242
-Average transaction stddev: 17.716889563531733
-stddev/mean: 1.1907127405390576
-
-Total origin bytes: 8842335396.0 (8842.33540 MB)
-Total resp bytes: 87746529206.0 (87746.52921 MB)
-orig/resp ratio: 0.10077134076997056
-Bidirectional byte ratio mean: 360.19428425845865
-Bidirectional byte ratio std: 13609.034502856623
-Orig-only bytes mean: 15472.220078991239 (0.01547 MB)
-Orig-only bytes std: 12829.968351503796 (0.01283 MB)
-Resp-only bytes mean: 387547.06882971514 (0.38755 MB)
-Resp-only bytes std: 18929057.155394726 (18.92906 MB)
-
-Total origin pkts: 19485061
-Total resp pkts: 20501373
-orig/resp ratio: 0.9504271250515758
-Bidirectional pkt ratio mean: 13.069598345784687
-Bidirectional pkt ratio std: 71.11538061249651
-Orig-only pkt mean: 215.3247418643935
-Orig-only pkt std: 180.4901488015096
-Resp-only pkt mean: 104.82973606417744
-Resp-only pkt std: 13.34174890552829
-
-Connection states distribution:
-{
-    "OTH": 0.5101904274993215,
-    "SHR": 0.39112221990788953,
-    "S0": 0.09453207349478959,
-    "RSTO": 0.003153804236911923,
-    "S3": 0.0007048194925720441,
-    "S1": 0.00027771991946122336,
-    "SH": 1.6831510270377173e-05,
-    "SF": 2.1039387837971466e-06
-}
-
-Short HTTP connection ratio: 0.0
-Average HTTP duration: nan
-HTTP duration stddev: nan
-
-Avg time between transactions (ms):  0.8934241279134076
-Stddev time between transactions (ms):  23.538066790634705
-stddev/mean 26.345904543240696
-
+Number of established transactions: 3
+Number of transactions: 233926
+Rejection ratio: 1.2824568453271547e-05
+************************************************************************************************************

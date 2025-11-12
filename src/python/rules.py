@@ -131,10 +131,10 @@ def extract_general(path):
 # orig_bytes        : count         [.]
 # resp_bytes        : count         [.]
 # conn_state        : string        [.]  
-# local_orig        : bool
-# local_resp        : bool
-# missed_bytes      : count
-# history           : string        
+# local_orig        : bool          [X]
+# local_resp        : bool          [X]
+# missed_bytes      : count         [X]
+# history           : string        [X]
 # orig_pkts         : count         [.]
 # orig_ip_bytes     : count         [X] --> proportional to orig_bytes
 # resp_pkts         : count         [.]
@@ -142,12 +142,13 @@ def extract_general(path):
 # tunnel_parents    : set[string]   [X]
 # ip_proto          : count         [X]
 def extract_conn_characs(conn_path):
-    # print(f"[{conn_path}]")
-    # (0) read file and handle missing symbols
+    print(f"[{conn_path}]")
+    # (0) read file, handle missing symbols, get general analysis
     df = pd.read_csv(conn_path)
     df.replace('-', pd.NA, inplace=True)
     df = df.drop(['ts', 'id.orig_h', 'id.resp_h', 'orig_ip_bytes', 'resp_ip_bytes', 'tunnel_parents', 'ip_proto'], errors='ignore')
-    
+    general = extract_general(conn_path)
+
     # (1) Protocol and Service analysis
     proto_counts = df['proto'].value_counts(normalize=True).to_dict()       # i.e. {'protocol1' : proportion1, 'protocol2' : proportion2}
     service_counts = df['service'].value_counts(normalize=True).to_dict()   # i.e. {'service1' : proportion1, 'service2' : proportion2}
@@ -177,6 +178,7 @@ def extract_conn_characs(conn_path):
     print(f"Total origin bytes: {orig_bytes_total} ({(orig_bytes_total / 1_000_000):.5f} MB)")
     print(f"Total resp bytes: {resp_bytes_total} ({(resp_bytes_total / 1_000_000):.5f} MB)")
     print(f"orig/resp ratio: {byte_ratio}")
+    print()
     
     bidirectional = df[(df['resp_bytes'] > 0) & (df['orig_bytes'] > 0)]
     orig_only = df[(df['orig_bytes'] > 0) & (df['resp_bytes'] == 0)]
@@ -206,6 +208,7 @@ def extract_conn_characs(conn_path):
     print(f"Total origin pkts: {orig_pkts_total}")
     print(f"Total resp pkts: {resp_pkts_total}")
     print(f"orig/resp ratio: {pkts_ratio}")
+    print()
     
     bidirectional_pkts = df[(df['resp_pkts'] > 0) & (df['orig_pkts'] > 0)]
     orig_only_pkts = df[(df['orig_pkts'] > 0) & (df['resp_pkts'] == 0)]
@@ -229,7 +232,7 @@ def extract_conn_characs(conn_path):
     # (5) Connection State Distribution
     state_counts = df['conn_state'].value_counts(normalize=True).to_dict()
     # state_entropy = -sum(p * np.log2(p) for p in state_counts.values())
-    print(f"Connection states distribution:")
+    print(f"Connection states and relative frequency:")
     print_dict(state_counts)
     # print(f"State entropy (bits): {state_entropy}")
     print()
@@ -237,7 +240,7 @@ def extract_conn_characs(conn_path):
     
     # (6) format return dictionary and terminate function
     return {
-        'general' : extract_general(conn_path),
+        'general' : general,
         
         'proto_service' : {
             "proto_counts": proto_counts,       # (1) : dict    {'protocol1' : proportion1, 'protocol2' : proportion2}
@@ -279,23 +282,242 @@ def extract_conn_characs(conn_path):
         }
     }
 
+
+# ========================
+# dns.log field types
+# ========================
+# ts            : time                  [General]
+# uid           : string                [General]
+# id.orig_h     : addr                  [General]
+# id.orig_p     : port                  [General]
+# id.resp_h     : addr                  [General]
+# id.resp_p     : port                  [General]
+# proto         : enum                  [.]
+# trans_id      : count                 [X]
+# rtt           : interval              [.]
+# query         : string                [.]
+# qclass        : count                 [X]
+# qclass_name   : string                [.]
+# qtype         : count                 [X]
+# qtype_name    : string                [.]
+# rcode         : count                 [X]
+# rcode_name    : string                [.]
+# AA            : bool                  [X]
+# TC            : bool                  [X]
+# RD            : bool                  [X]
+# RA            : bool                  [X]
+# Z             : count                 [X]
+# answers       : vector[string]        [X]
+# TTLs          : vector[interval]      [X]
+# rejected      : bool                  [.]
 def extract_dns_characs(dns_path):
-    
-    # return general stats + specific stats
-    return extract_general(dns_path) + [None]
+    print(f"[{dns_path}]")
+    # (0) read file, handle missing symbols, get general analysis
+    df = pd.read_csv(dns_path)
+    df.replace('-', pd.NA, inplace=True)
+    df = df.drop(['ts', 'id.orig_h', 'id.resp_h', 'trans_id', 'qclass', 'AA', 'TC', 'RD', 'RA', 'Z', 'answers', 'TTLs'], errors='ignore')
+    general = extract_general(dns_path)
 
+    # (1) Protocol analysis
+    proto_counts = df['proto'].value_counts(normalize=True).to_dict()       # i.e. {'protocol1' : proportion1, 'protocol2' : proportion2}
+    print(f"Protocols and relative frequency:")
+    print_dict(proto_counts)
+    print()
+    
+    # (2) rtt (round-trip time) Statistics
+    df['rtt'] = pd.to_numeric(df['rtt'], errors='coerce')
+    rtt_mean = df['rtt'].mean()
+    rtt_std = df['rtt'].std()
+    rtt_cv = rtt_std / rtt_mean if rtt_mean != 0 else 0
+    print(f"Average transaction rtt: {rtt_mean}")
+    print(f"Average transaction stddev: {rtt_std}")
+    print(f"stddev/mean: {rtt_cv}")
+    print()
+
+    # (3) Query Information (Extract Known Queries)
+    query_counts = df['query'].value_counts(normalize=True).to_dict()       # i.e. {'query1' : proportion1, 'query2' : proportion2} (set-like)
+    print("Queries and Relative Frequency")
+    print_dict(query_counts)
+    print()
+
+    # (4) qclass, qtype, rcode names and frequencies
+    qclass_name_counts = df['qclass_name'].value_counts(normalize=True).to_dict()   # i.e. {'query1' : proportion1, 'query2' : proportion2} (set-like)
+    qtype_name_counts = df['qtype_name'].value_counts(normalize=True).to_dict()     # i.e. {'query1' : proportion1, 'query2' : proportion2} (set-like)
+    rcode_name_counts = df['rcode_name'].value_counts(normalize=True).to_dict()     # i.e. {'query1' : proportion1, 'query2' : proportion2} (set-like)
+    print("DNS qclass_name(s) and relative frequency:")
+    print_dict(qclass_name_counts)
+    print("DNS qtype_name(s) and relative frequency:")
+    print_dict(qtype_name_counts)
+    print("DNS rcode_name(s) and relative frequency:")
+    print_dict(rcode_name_counts)
+    print()
+
+    # (5) Count % Rejections
+    df['rejected'] = df['rejected'].map({'T' : True, 'F' : False, pd.NA : 0})
+    num_rejections = len(df[df['rejected'] == True])
+    num_transactions = len(df['rejected'].dropna())
+    rejection_ratio = num_rejections / num_transactions
+    print(f"Number of rejections: {num_rejections}")
+    print(f"Number of transactions: {num_transactions}")
+    print(f"Rejection ratio: {rejection_ratio}")
+    
+
+    # return general stats + specific stats
+    return {
+        'general': general,
+
+        'protocol': {
+            'proto_counts': proto_counts        # dict: {'proto1' : proportion1, 'proto2' : proportion2} (set-like)
+        },
+
+        'timing': {
+            'rtt_mean': rtt_mean,               # float
+            'rtt_std': rtt_std,                 # float
+            'rtt_cv': rtt_cv                    # float
+        },
+
+        'queries': {
+            'query_counts': query_counts        # dict: {'query1' : proportion1, 'query2' : proportion2} (set-like)
+        },
+
+        'categories': {
+            'qclass_name_counts': qclass_name_counts,   # dict
+            'qtype_name_counts': qtype_name_counts,     # dict
+            'rcode_name_counts': rcode_name_counts      # dict
+        },
+
+        'rejections': {
+            'num_rejections': num_rejections,           # int
+            'num_transactions': num_transactions,       # int
+            'rejection_ratio': rejection_ratio          # float
+        }
+    }
+
+
+# ========================
+# ssl.log field types
+# ========================
+# ts                     : time             [General]
+# uid                    : string           [General]
+# id.orig_h              : addr             [General]
+# id.orig_p              : port             [General]
+# id.resp_h              : addr             [General]
+# id.resp_p              : port             [General]
+# version                : string           [.]
+# cipher                 : string           [.]
+# curve                  : string           [.]
+# server_name            : string           [.]
+# resumed                : bool             [X]
+# last_alert             : string           [X]
+# next_protocol          : string           [X]
+# established            : bool             [.]
+# ssl_history            : string           [X]
+# cert_chain_fps         : vector[string]   [X]
+# client_cert_chain_fps  : vector[string]   [X]
+# sni_matches_cert       : bool             [X]
 def extract_ssl_characs(ssl_path):
-    
-    # return general stats + specific stats
-    return extract_general(ssl_path) + [None]
+    print(f"[{ssl_path}]")
+    # (0) read file, handle missing symbols, get general analysis
+    df = pd.read_csv(ssl_path)
+    df.replace('-', pd.NA, inplace=True)
+    df = df.drop(['ts', 'id.orig_h', 'id.resp_h', 'sni_matches_cert', 'resumed', 'last_alert', 'next_protocol', 'ssl_history'], errors='ignore')
+    general = extract_general(ssl_path)
 
+    # (1) Version, Cipher, and Curve Analysis
+    version_counts = df['version'].value_counts(normalize=True).to_dict() 
+    cipher_counts = df['cipher'].value_counts(normalize=True).to_dict() 
+    curve_counts = df['curve'].value_counts(normalize=True).to_dict() 
+    print("SSL Version(s) and relative frequency:")
+    print_dict(version_counts)
+    print("SSL Cipher(s) and relative frequency")
+    print_dict(cipher_counts)
+    print("SSL Curve(s) and relative frequency:")
+    print_dict(curve_counts)
+    print()
+    
+    # (2) Known Servers
+    known_servers = df['server_name'].value_counts(normalize=True).to_dict()
+    print("SSL Known Server(s) and relative frequency:")
+    print_dict(known_servers)
+
+    # (3) Count Esablished Transactions
+    df['established'] = df['established'].map({'T' : True, 'F' : False, pd.NA : 0})
+    num_established = len(df[df['established'] == True])
+    num_transactions = len(df['established'].dropna())
+    established_ratio = num_established / num_transactions
+    print(f"Number of established transactions: {num_established}")
+    print(f"Number of transactions: {num_transactions}")
+    print(f"Rejection ratio: {established_ratio}")
+
+    # return general stats + specific stats
+    return {
+        'general' : general,
+
+        'ssl_characs' : {
+            'version_counts' : version_counts,
+            'cipher_counts' : cipher_counts,
+            'curve_counts' : curve_counts
+        },
+
+        'servers' : {
+            'known_servers' : known_servers
+        },
+
+        'establishment_characs' : {
+            'num_established_transactions' : num_established,
+            'num_transactions' : num_transactions,
+            'established_ratio' : established_ratio
+        }
+    }
+
+# ========================
+# http.log field types
+# ========================
+# ts                 : time             [General]
+# uid                : string           [General]
+# id.orig_h          : addr             [General]
+# id.orig_p          : port             [General]
+# id.resp_h          : addr             [General]
+# id.resp_p          : port             [General]
+# trans_depth        : count
+# method             : string           
+# host               : string           
+# uri                : string           
+# referrer           : string           
+# version            : string           
+# user_agent         : string           
+# origin             : string           
+# request_body_len   : count
+# response_body_len  : count
+# status_code        : count
+# status_msg         : string           
+# info_code          : count
+# info_msg           : string
+# tags               : set[enum]
+# username           : string           
+# password           : string           
+# proxied            : set[string]
+# orig_fuids         : vector[string]   [X]
+# orig_filenames     : vector[string]   [X]
+# orig_mime_types    : vector[string]   [X]
+# resp_fuids         : vector[string]   [X]
+# resp_filenames     : vector[string]   [X]
+# resp_mime_types    : vector[string]   [X]
 def extract_http_characs(http_path):
+    print(f"[{http_path}]")
+    # (0) read file, handle missing symbols, get general analysis
+    df = pd.read_csv(http_path)
+    df.replace('-', pd.NA, inplace=True)
+    df = df.drop(['ts', 'id.orig_h', 'id.resp_h', 'sni_matches_cert', 'resumed', 'last_alert', 'next_protocol', 'ssl_history'], errors='ignore')
+    general = extract_general(http_path)
     
     # return general stats + specific stats
-    return extract_general(http_path) + [None]
+    return {
+        'general' : general
+    }
 
 
-# ==== Calculate a rules score based on the log type ====
+# ==== Calculate a rules score based on the log type for a SINGLE LINE ====
 def get_rules_score_conn(line: str, ruleset: list):
     return
 
@@ -312,16 +534,41 @@ def get_rules_score_http(line: str, ruleset: list):
 
 # === Testing and Saving ====
 # CONN
-extract_conn_characs(conn_paths[0])
-print("******************************************************")
+# print("==============================================================================================================")
+# extract_conn_characs(conn_paths[0])
+# print("************************************************************************************************************")
 # extract_conn_characs(conn_paths[1])
-# print("******************************************************")
+# print("************************************************************************************************************")
 # extract_conn_characs(conn_paths[2])
-# print("******************************************************")
+# print("************************************************************************************************************")
 # extract_conn_characs(conn_paths[3])
-# print("******************************************************")
+# print("************************************************************************************************************")
 # extract_conn_characs(conn_paths[4])
-# print("******************************************************")
-extract_conn_characs(conn_paths[5])
-print("******************************************************")
-extract_conn_characs(conn_paths[6])
+# print("************************************************************************************************************")
+# extract_conn_characs(conn_paths[5])
+# print("************************************************************************************************************")
+# extract_conn_characs(conn_paths[6])
+
+# DNS
+# print("==============================================================================================================")
+# extract_dns_characs(dns_paths[0])
+# print("************************************************************************************************************")
+# extract_dns_characs(dns_paths[1])
+# print("************************************************************************************************************")
+# extract_dns_characs(dns_paths[2])
+# print("************************************************************************************************************")
+# extract_dns_characs(dns_paths[3])
+# print("************************************************************************************************************")
+# extract_dns_characs(dns_paths[4])
+# print("************************************************************************************************************")
+
+# SSL
+print("==============================================================================================================")
+extract_ssl_characs(ssl_paths[0])
+print("************************************************************************************************************")
+extract_ssl_characs(ssl_paths[1])
+print("************************************************************************************************************")
+extract_ssl_characs(ssl_paths[2])
+print("************************************************************************************************************")
+extract_ssl_characs(ssl_paths[3])
+print("************************************************************************************************************")
