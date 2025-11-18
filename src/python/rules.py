@@ -479,13 +479,13 @@ def extract_ssl_characs(ssl_path):
 # id.orig_p          : port             [General]
 # id.resp_h          : addr             [General]
 # id.resp_p          : port             [General]
-# trans_depth        : count
-# method             : string           
-# host               : string           
-# uri                : string           
-# referrer           : string           
-# version            : string           
-# user_agent         : string           
+# trans_depth        : count            [.]
+# method             : string           [/]
+# host               : string           [.]
+# uri                : string           [.]
+# referrer           : string           [X]        
+# version            : string           [X]
+# user_agent         : string           [.]
 # origin             : string           
 # request_body_len   : count
 # response_body_len  : count
@@ -508,8 +508,33 @@ def extract_http_characs(http_path):
     # (0) read file, handle missing symbols, get general analysis
     df = pd.read_csv(http_path)
     df.replace('-', pd.NA, inplace=True)
-    df = df.drop(['ts', 'id.orig_h', 'id.resp_h', 'sni_matches_cert', 'resumed', 'last_alert', 'next_protocol', 'ssl_history'], errors='ignore')
+    df = df.drop(['ts', 'id.orig_h', 'id.resp_h', 'referrer', 'version'], errors='ignore')
     general = extract_general(http_path)
+    
+    # (1) Transaction Depth Metrics
+    trans_depth_avg = df['trans_depth'].dropna().mean()
+    trans_depth_std = df['trans_depth'].dropna().std()
+    trans_depth_cv = trans_depth_std / trans_depth_avg
+    print(f"HTTP average transaction depth: {trans_depth_avg}")
+    print(f"HTTP transaction depth stddev: {trans_depth_std}")
+    print(f"stddev/avg: {trans_depth_cv}")
+    
+    # (2) Method Metrics
+    # this will be more for scoring, add later if needed 'method'
+    
+    # (3) Known Hosts, URIs, and User Agents
+    known_hosts = df['host'].dropna().value_counts(normalize=True).to_dict()
+    known_uris = df['uri'].dropna().value_counts(normalize=True).to_dict()
+    known_agents = df['user_agent'].dropna().value_counts(normalize=True).to_dict()
+    print("HTTP known hosts: ")
+    print_dict(known_hosts)
+    print("HTTP known URIs: ")
+    print_dict(known_uris)
+    print("HTTP known user agents: ")
+    print_dict(known_agents)
+    
+    # (4) Request/Response Body Lengths [ = size(data transferred from server)]
+    
     
     # return general stats + specific stats
     return {
@@ -563,12 +588,18 @@ def get_rules_score_http(line: str, ruleset: list):
 # print("************************************************************************************************************")
 
 # SSL
+# print("==============================================================================================================")
+# extract_ssl_characs(ssl_paths[0])
+# print("************************************************************************************************************")
+# extract_ssl_characs(ssl_paths[1])
+# print("************************************************************************************************************")
+# extract_ssl_characs(ssl_paths[2])
+# print("************************************************************************************************************")
+# extract_ssl_characs(ssl_paths[3])
+# print("************************************************************************************************************")
+
+# HTTP
 print("==============================================================================================================")
-extract_ssl_characs(ssl_paths[0])
+extract_http_characs(http_paths[0])
 print("************************************************************************************************************")
-extract_ssl_characs(ssl_paths[1])
-print("************************************************************************************************************")
-extract_ssl_characs(ssl_paths[2])
-print("************************************************************************************************************")
-extract_ssl_characs(ssl_paths[3])
-print("************************************************************************************************************")
+extract_http_characs(http_paths[1])
