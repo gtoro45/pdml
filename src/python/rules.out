@@ -1,113 +1,522 @@
 ==============================================================================================================
-[../../train_test_data/benign_1_min/node-1-child-3/csv files/node1_http.csv]
-Avg time between transactions (ms):  121876.95933878422
-Stddev time between transactions (ms):  144782.54403679442
-stddev/mean 1.187940237615701
+======== BENIGN KUBERNETES CLUSTER TRAFFIC ========
+[../../train_test_data/new-benign/csv/child1/conn.csv]
+Avg time between transactions (ms):  97.86446158014256
+Stddev time between transactions (ms):  244.3496265635786
+stddev/mean 2.4968167465313984
 
-HTTP average transaction depth: 3.0
-HTTP transaction depth stddev: 2.979093821953246
-stddev/avg: 0.9930312739844154
-HTTP known hosts: 
+Protocols and relative frequency:
 {
-    "connectivity-check.ubuntu.com": 0.42424242424242425,
-    "us.archive.ubuntu.com": 0.3333333333333333,
-    "security.ubuntu.com": 0.15151515151515152,
-    "packages.ros.org": 0.06060606060606061,
-    "archive.lambdalabs.com": 0.030303030303030304
+    "udp": 0.6274193548387097,
+    "tcp": 0.3629032258064516,
+    "icmp": 0.00967741935483871
 }
-HTTP known URIs: 
+Services and relative frequency:
 {
-    "/": 0.42424242424242425,
-    "/ros2/ubuntu/dists/jammy/InRelease": 0.06060606060606061,
-    "/ubuntu/dists/jammy/InRelease": 0.06060606060606061,
-    "/ubuntu/dists/jammy-backports/universe/dep11/by-hash/SHA256/a4eee4fbcd799c1b119bd507e2677f790468712d8cc354a10b7831c9278ff0a6": 0.030303030303030304,
-    "/ubuntu/dists/jammy-security/universe/dep11/by-hash/SHA256/814ada387995b70b508e5ec03412dd5c1a0dba55922aa7d7ad313d6dfaac1309": 0.030303030303030304,
-    "/ubuntu/dists/jammy-security/restricted/dep11/by-hash/SHA256/56b845d87b54f87e0148864043997e72abec99f0109b93e397ba60a41a74b8cf": 0.030303030303030304,
-    "/ubuntu/dists/jammy-updates/restricted/dep11/by-hash/SHA256/7f66e63d07e186ab03c561db733d634dd8fce4c1d316cd220e808aa564552fd1": 0.030303030303030304,
-    "/ubuntu/dists/jammy-updates/main/dep11/by-hash/SHA256/86c8dd92961f696bc60c0a1a615d0402dd248904004b10e11c7303c2c4320a0a": 0.030303030303030304,
-    "/ubuntu/dists/jammy-updates/InRelease": 0.030303030303030304,
-    "/ubuntu/dists/jammy-backports/multiverse/dep11/by-hash/SHA256/9ae1075f82ff1fc8504653c1b069eadfa3857bec455d089842d65eed54929c57": 0.030303030303030304,
-    "/ubuntu/dists/jammy-updates/universe/dep11/by-hash/SHA256/d2853c35e02ad4e80061163bb96484d19d1a357e8b5ede91422606958031c2e2": 0.030303030303030304,
-    "/ubuntu/dists/jammy-updates/multiverse/dep11/by-hash/SHA256/618283d3d425e54bee3fabe433f281a59c48b5ff06536a269407b4f2e9ca6c24": 0.030303030303030304,
-    "/ubuntu/dists/jammy-backports/InRelease": 0.030303030303030304,
-    "/ubuntu/dists/jammy-backports/main/dep11/by-hash/SHA256/c05d8d1cd07d7c0b51edc2213d55030ba09691ad54ab875dc6d2be005ad68c06": 0.030303030303030304,
-    "/ubuntu/dists/jammy-backports/restricted/dep11/by-hash/SHA256/17a082d28050251d6ff4a3629b658b862121d4dc642bbb51c3e99eb26fde6e62": 0.030303030303030304,
-    "/ubuntu/dists/jammy-security/main/dep11/by-hash/SHA256/cc6ec44b6d2c28e6a25252a37e90d5db462d073fad7b3dbd1f279a118bf7bf3b": 0.030303030303030304,
-    "/ubuntu/dists/jammy-security/InRelease": 0.030303030303030304,
-    "/ubuntu/dists/jammy-security/multiverse/dep11/by-hash/SHA256/96fdcc4067315fa976e77a7f3710c09ba2e3c57ce6cfe03d79adff421d103350": 0.030303030303030304
+    "dns": 0.9947780678851175,
+    "dhcp": 0.0026109660574412533,
+    "ntp": 0.0026109660574412533
 }
-HTTP known user agents: 
+
+Average transaction duration: 6.507278593258426
+Average transaction stddev: 24.14696574111414
+stddev/mean: 3.7107625553530967
+
+Total origin bytes: 2421883.0 (2.42188 MB)
+Total resp bytes: 517342.0 (0.51734 MB)
+orig/resp ratio: 4.681396445678092
+
+Bidirectional byte ratio mean: 7.587538245447193
+Bidirectional byte ratio std: 13.11315543887183
+Orig-only bytes mean: 24699.3 (0.02470 MB)
+Orig-only bytes std: 60588.41752704538 (0.06059 MB)
+Resp-only bytes mean: 1028.665024630542 (0.00103 MB)
+Resp-only bytes std: 12324.748099040336 (0.01232 MB)
+
+Total origin pkts: 962
+Total resp pkts: 1373
+orig/resp ratio: 0.7006554989069915
+
+Bidirectional pkt ratio mean: 1.878569514237856
+Bidirectional pkt ratio std: 4.2802639996885015
+Orig-only pkt mean: 3.9128440366972477
+Orig-only pkt std: 16.690920851732216
+Resp-only pkt mean: 1.5942028985507246
+Resp-only pkt std: 3.2266393010486127
+
+Connection states and relative frequency:
 {
-    "Debian APT-HTTP/1.3 (2.4.14) non-interactive": 1.0
+    "OTH": 0.510483870967742,
+    "SHR": 0.3161290322580645,
+    "S0": 0.1588709677419355,
+    "RSTRH": 0.007258064516129033,
+    "RSTO": 0.004838709677419355,
+    "REJ": 0.0016129032258064516,
+    "RSTR": 0.0008064516129032258
 }
+
 ************************************************************************************************************
-[../../train_test_data/benign_1_min/node-2-child-4/csv files/node2_http.csv]
-Avg time between transactions (ms):  35187.05978937317
-Stddev time between transactions (ms):  94911.29250684773
-stddev/mean 2.697335130442239
+[../../train_test_data/new-benign/csv/child2/conn.csv]
+Avg time between transactions (ms):  33.78181262837693
+Stddev time between transactions (ms):  44.643522881335336
+stddev/mean 1.3215253832718998
 
-HTTP average transaction depth: 16.965217391304346
-HTTP transaction depth stddev: 13.881661786095876
-stddev/avg: 0.818242493798578
-HTTP known hosts: 
+Protocols and relative frequency:
 {
-    "deb.debian.org": 0.875,
-    "connectivity-check.ubuntu.com": 0.125
+    "tcp": 0.9027117696393626,
+    "udp": 0.09700866648029075,
+    "icmp": 0.0002795638803466592
 }
-HTTP known URIs: 
+Services and relative frequency:
 {
-    "/": 0.125,
-    "/debian/dists/trixie/InRelease": 0.017857142857142856,
-    "/debian/pool/main/f/fstrm/libfstrm0_0.6.1-1+b3_amd64.deb": 0.017857142857142856,
-    "/debian/pool/main/j/json-c/libjson-c5_0.18+ds-1_amd64.deb": 0.017857142857142856,
-    "/debian/pool/main/n/nghttp3/libnghttp3-9_1.8.0-1_amd64.deb": 0.017857142857142856,
-    "/debian/pool/main/k/krb5/libkrb5support0_1.21.3-5_amd64.deb": 0.017857142857142856,
-    "/debian/pool/main/k/keyutils/libkeyutils1_1.6.3-6_amd64.deb": 0.017857142857142856,
-    "/debian/pool/main/libx/libxml2/libxml2_2.12.7+dfsg+really2.9.14-2.1+deb13u1_amd64.deb": 0.017857142857142856,
-    "/debian/pool/main/i/iputils/iputils-ping_20240905-3_amd64.deb": 0.017857142857142856,
-    "/debian/pool/main/p/protobuf-c/libprotobuf-c1_1.5.1-1_amd64.deb": 0.017857142857142856,
-    "/debian/pool/main/c/curl/curl_8.14.1-2_amd64.deb": 0.017857142857142856,
-    "/debian/pool/main/k/krb5/libk5crypto3_1.21.3-5_amd64.deb": 0.017857142857142856,
-    "/debian/pool/main/o/openldap/libldap2_2.6.10+dfsg-1_amd64.deb": 0.017857142857142856,
-    "/debian/pool/main/l/lmdb/liblmdb0_0.9.31-1+b2_amd64.deb": 0.017857142857142856,
-    "/debian/pool/main/e/e2fsprogs/libcom-err2_1.47.2-3+b3_amd64.deb": 0.017857142857142856,
-    "/debian/pool/main/r/rtmpdump/librtmp1_2.4+20151223.gitfa8646d.1-2+b5_amd64.deb": 0.017857142857142856,
-    "/debian/pool/main/libs/libssh2/libssh2-1t64_1.11.1-1_amd64.deb": 0.017857142857142856,
-    "/debian/pool/main/b/bind9/bind9-dnsutils_9.20.11-4_amd64.deb": 0.017857142857142856,
-    "/debian/pool/main/libu/liburcu/liburcu8t64_0.15.2-2_amd64.deb": 0.017857142857142856,
-    "/debian/pool/main/k/krb5/libkrb5-3_1.21.3-5_amd64.deb": 0.017857142857142856,
-    "/debian/dists/trixie-updates/InRelease": 0.017857142857142856,
-    "/debian-security/dists/trixie-security/main/binary-amd64/by-hash/SHA256/f3b74472bfbf7e71bff60f495f64aa90958dff341ed13fcf410bb1e851d731da": 0.017857142857142856,
-    "/debian/dists/trixie-updates/main/binary-amd64/by-hash/SHA256/a90c615796a5df83d3c8db4fce17b355a4bd41a97ac8e12649ca96faccbe6cab": 0.017857142857142856,
-    "/debian-security/dists/trixie-security/InRelease": 0.017857142857142856,
-    "/debian/pool/main/c/curl/libcurl4t64_8.14.1-2_amd64.deb": 0.017857142857142856,
-    "/debian/pool/main/o/openldap/libldap-common_2.6.10+dfsg-1_all.deb": 0.017857142857142856,
-    "/debian/pool/main/k/krb5/krb5-locales_1.21.3-5_all.deb": 0.017857142857142856,
-    "/debian/pool/main/b/brotli/libbrotli1_1.1.0-2+b7_amd64.deb": 0.017857142857142856,
-    "/debian/pool/main/c/cyrus-sasl2/libsasl2-modules-db_2.1.28+dfsg1-9_amd64.deb": 0.017857142857142856,
-    "/debian/pool/main/c/cyrus-sasl2/libsasl2-2_2.1.28+dfsg1-9_amd64.deb": 0.017857142857142856,
-    "/debian/pool/main/libi/libidn2/libidn2-0_2.3.8-2_amd64.deb": 0.017857142857142856,
-    "/debian/pool/main/b/bind9/bind9-host_9.20.11-4_amd64.deb": 0.017857142857142856,
-    "/debian/pool/main/libm/libmaxminddb/libmaxminddb0_1.12.2-1_amd64.deb": 0.017857142857142856,
-    "/debian/pool/main/p/p11-kit/libp11-kit0_0.25.5-3_amd64.deb": 0.017857142857142856,
-    "/debian/pool/main/b/bind9/bind9-libs_9.20.11-4_amd64.deb": 0.017857142857142856,
-    "/debian/pool/main/b/bash-completion/bash-completion_2.16.0-7_all.deb": 0.017857142857142856,
-    "/debian/pool/main/k/krb5/libgssapi-krb5-2_1.21.3-5_amd64.deb": 0.017857142857142856,
-    "/debian/pool/main/n/nghttp2/libnghttp2-14_1.64.0-1.1_amd64.deb": 0.017857142857142856,
-    "/debian/pool/main/libu/libunistring/libunistring5_1.3-2_amd64.deb": 0.017857142857142856,
-    "/debian/pool/main/n/netcat-openbsd/netcat-openbsd_1.229-1_amd64.deb": 0.017857142857142856,
-    "/debian/pool/main/j/jemalloc/libjemalloc2_5.3.0-3_amd64.deb": 0.017857142857142856,
-    "/debian/pool/main/libu/libuv1/libuv1t64_1.50.0-2_amd64.deb": 0.017857142857142856,
-    "/debian/pool/main/libt/libtasn1-6/libtasn1-6_4.20.0-2_amd64.deb": 0.017857142857142856,
-    "/debian/pool/main/c/cyrus-sasl2/libsasl2-modules_2.1.28+dfsg1-9_amd64.deb": 0.017857142857142856,
-    "/debian/pool/main/p/publicsuffix/publicsuffix_20250328.1952-0.1_all.deb": 0.017857142857142856,
-    "/debian/pool/main/libp/libpsl/libpsl5t64_0.21.2-1.1+b1_amd64.deb": 0.017857142857142856,
-    "/debian/pool/main/g/gnutls28/libgnutls30t64_3.8.9-3_amd64.deb": 0.017857142857142856,
-    "/debian/pool/main/libe/libedit/libedit2_3.1-20250104-1_amd64.deb": 0.017857142857142856,
-    "/debian/pool/main/l/linux-base/linux-sysctl-defaults_4.12_all.deb": 0.017857142857142856,
-    "/debian/dists/trixie/main/binary-amd64/by-hash/SHA256/050a55979081f6f34de6cdba5fbbcda11ff47309596471bfb777d1c7e83f1d45": 0.017857142857142856
+    "dns": 1.0
 }
-HTTP known user agents: 
+
+Average transaction duration: 9.684527213793103
+Average transaction stddev: 26.402070720636196
+stddev/mean: 2.7262116299320507
+
+Total origin bytes: 3999719.0 (3.99972 MB)
+Total resp bytes: 741015.0 (0.74101 MB)
+orig/resp ratio: 5.397622180387704
+
+Bidirectional byte ratio mean: 0.10148994393655568
+Bidirectional byte ratio std: 0.07606992409091848
+Orig-only bytes mean: 35937.67567567567 (0.03594 MB)
+Orig-only bytes std: 249680.39062788623 (0.24968 MB)
+Resp-only bytes mean: 6321.731707317073 (0.00632 MB)
+Resp-only bytes std: 32308.847954536428 (0.03231 MB)
+
+Total origin pkts: 1248
+Total resp pkts: 6133
+orig/resp ratio: 0.20348932007170983
+
+Bidirectional pkt ratio mean: 1.0265873015873015
+Bidirectional pkt ratio std: 2.8571471417037118
+Orig-only pkt mean: 3.4952380952380953
+Orig-only pkt std: 24.968945225213073
+Resp-only pkt mean: 20.779310344827586
+Resp-only pkt std: 303.7833290178085
+
+Connection states and relative frequency:
 {
-    "Debian APT-HTTP/1.3 (3.0.3)": 1.0
+    "OTH": 0.8356164383561644,
+    "S0": 0.08191221694157115,
+    "RSTRH": 0.06402012859938495,
+    "SHR": 0.016214705060106235,
+    "RSTO": 0.0016773832820799553,
+    "RSTOS0": 0.0005591277606933184
 }
+
+************************************************************************************************************
+[../../train_test_data/new-benign/csv/cam-pod/conn.csv]
+Avg time between transactions (ms):  517.0591849625879
+Stddev time between transactions (ms):  617.7420109330639
+stddev/mean 1.194722052907272
+
+Protocols and relative frequency:
+{
+    "tcp": 1.0
+}
+Services and relative frequency:
+{}
+
+Average transaction duration: 2.478405
+Average transaction stddev: 3.5048355721343047
+stddev/mean: 1.4141496535611835
+
+Total origin bytes: 0.0 (0.00000 MB)
+Total resp bytes: 12288.0 (0.01229 MB)
+orig/resp ratio: 0.0
+
+Bidirectional byte ratio mean: nan
+Bidirectional byte ratio std: nan
+Orig-only bytes mean: nan (nan MB)
+Orig-only bytes std: nan (nan MB)
+Resp-only bytes mean: 12288.0 (0.01229 MB)
+Resp-only bytes std: nan (nan MB)
+
+Total origin pkts: 0
+Total resp pkts: 2
+orig/resp ratio: 0.0
+
+Bidirectional pkt ratio mean: nan
+Bidirectional pkt ratio std: nan
+Orig-only pkt mean: nan
+Orig-only pkt std: nan
+Resp-only pkt mean: 1.0
+Resp-only pkt std: 0.0
+
+Connection states and relative frequency:
+{
+    "OTH": 1.0
+}
+
+************************************************************************************************************
+[../../train_test_data/new-benign/csv/lidar-pod/conn.csv]
+Avg time between transactions (ms):  98.35019462135573
+Stddev time between transactions (ms):  244.8556639819429
+stddev/mean 2.489630701033458
+
+Protocols and relative frequency:
+{
+    "udp": 0.6263115415657788,
+    "tcp": 0.3640032284100081,
+    "icmp": 0.009685230024213076
+}
+Services and relative frequency:
+{
+    "dns": 0.9947643979057592,
+    "dhcp": 0.002617801047120419,
+    "ntp": 0.002617801047120419
+}
+
+Average transaction duration: 6.638967013483147
+Average transaction stddev: 24.250084174189524
+stddev/mean: 3.652689360398956
+
+Total origin bytes: 2443728.0 (2.44373 MB)
+Total resp bytes: 543421.0 (0.54342 MB)
+orig/resp ratio: 4.49693331689426
+
+Bidirectional byte ratio mean: 7.752062531763461
+Bidirectional byte ratio std: 13.398119686287426
+Orig-only bytes mean: 23275.75 (0.02328 MB)
+Orig-only bytes std: 60829.78699606667 (0.06083 MB)
+Resp-only bytes mean: 1092.0024630541873 (0.00109 MB)
+Resp-only bytes std: 12389.743329678082 (0.01239 MB)
+
+Total origin pkts: 812
+Total resp pkts: 1507
+orig/resp ratio: 0.5388188453878309
+
+Bidirectional pkt ratio mean: 1.878666666666667
+Bidirectional pkt ratio std: 4.280220139717634
+Orig-only pkt mean: 3.2350230414746544
+Orig-only pkt std: 13.383069359664013
+Resp-only pkt mean: 1.9106280193236715
+Resp-only pkt std: 7.17537037653612
+
+Connection states and relative frequency:
+{
+    "OTH": 0.5108958837772397,
+    "SHR": 0.3155770782889427,
+    "S0": 0.15899919289749798,
+    "RSTRH": 0.007263922518159807,
+    "RSTO": 0.004842615012106538,
+    "REJ": 0.0016142050040355124,
+    "RSTR": 0.0008071025020177562
+}
+
+************************************************************************************************************
+[../../train_test_data/new-benign/csv/nginx-pod/conn.csv]
+Avg time between transactions (ms):  476.05729961395264
+Stddev time between transactions (ms):  903.534399998545
+stddev/mean 1.8979530420628876
+
+Protocols and relative frequency:
+{
+    "udp": 0.6653386454183267,
+    "tcp": 0.3107569721115538,
+    "icmp": 0.02390438247011952
+}
+Services and relative frequency:
+{
+    "dns": 0.9932432432432432,
+    "dhcp": 0.006756756756756757
+}
+
+Average transaction duration: 2.1485325108225104
+Average transaction stddev: 12.784397944982526
+stddev/mean: 5.950292993280492
+
+Total origin bytes: 12960.0 (0.01296 MB)
+Total resp bytes: 25656.0 (0.02566 MB)
+orig/resp ratio: 0.5051449953227118
+
+Bidirectional byte ratio mean: 0.30982314819065326
+Bidirectional byte ratio std: 0.12511602588328635
+Orig-only bytes mean: 676.5714285714286 (0.00068 MB)
+Orig-only bytes std: 691.3975839179792 (0.00069 MB)
+Resp-only bytes mean: nan (nan MB)
+Resp-only bytes std: nan (nan MB)
+
+Total origin pkts: 328
+Total resp pkts: 257
+orig/resp ratio: 1.2762645914347228
+
+Bidirectional pkt ratio mean: 1.0
+Bidirectional pkt ratio std: 0.0
+Orig-only pkt mean: 2.5357142857142856
+Orig-only pkt std: 3.6765739170042218
+Resp-only pkt mean: nan
+Resp-only pkt std: nan
+
+Connection states and relative frequency:
+{
+    "SF": 0.5737051792828686,
+    "REJ": 0.3107569721115538,
+    "S0": 0.09163346613545817,
+    "OTH": 0.02390438247011952
+}
+
+
+======== MALIGNANT KUBERNETES CLUSTER TRAFFIC ========
+************************************************************************************************************
+[../../train_test_data/lidar-attack/csv/child1/conn.csv]
+Avg time between transactions (ms):  102.63214792524066
+Stddev time between transactions (ms):  257.5236116350232
+stddev/mean 2.509190510390649
+
+Protocols and relative frequency:
+{
+    "udp": 0.6173986486486487,
+    "tcp": 0.37584459459459457,
+    "icmp": 0.006756756756756757
+}
+Services and relative frequency:
+{
+    "dns": 0.9938837920489296,
+    "dhcp": 0.0030581039755351682,
+    "ntp": 0.0030581039755351682
+}
+
+Average transaction duration: 7.17518451633987
+Average transaction stddev: 25.48479603327961
+stddev/mean: 3.551796608887718
+
+Total origin bytes: 2213511.0 (2.21351 MB)
+Total resp bytes: 1004878.0 (1.00488 MB)
+orig/resp ratio: 2.2027659079012554
+
+Bidirectional byte ratio mean: 16.890679714107545
+Bidirectional byte ratio std: nan
+Orig-only bytes mean: 26834.366666666665 (0.02683 MB)
+Orig-only bytes std: 63093.83901639237 (0.06309 MB)
+Resp-only bytes mean: 2531.565934065934 (0.00253 MB)
+Resp-only bytes std: 21559.11761518785 (0.02156 MB)
+
+Total origin pkts: 939
+Total resp pkts: 1724
+orig/resp ratio: 0.5446635730855309
+
+Bidirectional pkt ratio mean: 1.5930699451899129
+Bidirectional pkt ratio std: 1.924467056916132
+Orig-only pkt mean: 4.251336898395722
+Orig-only pkt std: 14.428389571343311
+Resp-only pkt mean: 2.2603406326034063
+Resp-only pkt std: 10.845831339489935
+
+Connection states and relative frequency:
+{
+    "OTH": 0.5033783783783784,
+    "SHR": 0.28631756756756754,
+    "S0": 0.14020270270270271,
+    "RSTRH": 0.05067567567567568,
+    "RSTO": 0.01097972972972973,
+    "RSTR": 0.008445945945945946
+}
+
+************************************************************************************************************
+[../../train_test_data/lidar-attack/csv/child2/conn.csv]
+Avg time between transactions (ms):  34.85208241408664
+Stddev time between transactions (ms):  42.883474809049325
+stddev/mean 1.2304422530493193
+
+Protocols and relative frequency:
+{
+    "tcp": 0.9218884120171674,
+    "udp": 0.07811158798283262
+}
+Services and relative frequency:
+{
+    "dns": 1.0
+}
+
+Average transaction duration: 6.104843329113924
+Average transaction stddev: 23.644212588126422
+stddev/mean: 3.873025287212115
+
+Total origin bytes: 3704384.0 (3.70438 MB)
+Total resp bytes: 1175774.0 (1.17577 MB)
+orig/resp ratio: 3.1505918654435265
+
+Bidirectional byte ratio mean: 0.5314454316289134
+Bidirectional byte ratio std: 0.833718425694882
+Orig-only bytes mean: 34515.3679245283 (0.03452 MB)
+Orig-only bytes std: 240544.7394258974 (0.24054 MB)
+Resp-only bytes mean: 18844.86842105263 (0.01884 MB)
+Resp-only bytes std: 65671.66474752981 (0.06567 MB)
+
+Total origin pkts: 1695
+Total resp pkts: 3881
+orig/resp ratio: 0.43674310744642186
+
+Bidirectional pkt ratio mean: 44.204365079365076
+Bidirectional pkt ratio std: 89.5098574338149
+Orig-only pkt mean: 4.214285714285714
+Orig-only pkt std: 28.386676089607292
+Resp-only pkt mean: 14.239852398523984
+Resp-only pkt std: 197.11924769872542
+
+Connection states and relative frequency:
+{
+    "OTH": 0.8540772532188842,
+    "S0": 0.07067238912732475,
+    "RSTRH": 0.06752503576537912,
+    "SHR": 0.007439198855507869,
+    "RSTOS0": 0.0002861230329041488
+}
+
+************************************************************************************************************
+[../../train_test_data/lidar-attack/csv/cam-pod/conn.csv]
+Avg time between transactions (ms):  516.6217367699805
+Stddev time between transactions (ms):  613.8791375276759
+stddev/mean 1.188256501489402
+
+Protocols and relative frequency:
+{
+    "tcp": 1.0
+}
+Services and relative frequency:
+{}
+
+Average transaction duration: 1.296976
+Average transaction stddev: 2.2461910395983686
+stddev/mean: 1.731867852295161
+
+Total origin bytes: 0.0 (0.00000 MB)
+Total resp bytes: 565248.0 (0.56525 MB)
+orig/resp ratio: 0.0
+
+Bidirectional byte ratio mean: nan
+Bidirectional byte ratio std: nan
+Orig-only bytes mean: nan (nan MB)
+Orig-only bytes std: nan (nan MB)
+Resp-only bytes mean: 565248.0 (0.56525 MB)
+Resp-only bytes std: nan (nan MB)
+
+Total origin pkts: 0
+Total resp pkts: 4
+orig/resp ratio: 0.0
+
+Bidirectional pkt ratio mean: nan
+Bidirectional pkt ratio std: nan
+Orig-only pkt mean: nan
+Orig-only pkt std: nan
+Resp-only pkt mean: 1.3333333333333333
+Resp-only pkt std: 0.5773502691896257
+
+Connection states and relative frequency:
+{
+    "OTH": 0.9957627118644068,
+    "SHR": 0.00423728813559322
+}
+
+************************************************************************************************************
+<<<< THIS IS THE POD BEING ATTACKED >>>>
+[../../train_test_data/lidar-attack/csv/lidar-pod/conn.csv]
+Avg time between transactions (ms):  102.89547509897189
+Stddev time between transactions (ms):  257.0593164603257
+stddev/mean 2.498256762146912
+
+Protocols and relative frequency:
+{
+    "udp": 0.6165540540540541,
+    "tcp": 0.3766891891891892,
+    "icmp": 0.006756756756756757
+}
+Services and relative frequency:
+{
+    "dns": 0.9938837920489296,
+    "dhcp": 0.0030581039755351682,
+    "ntp": 0.0030581039755351682
+}
+
+Average transaction duration: 7.195052409586056
+Average transaction stddev: 25.558940451360723
+stddev/mean: 3.552293853663697
+
+Total origin bytes: 2239770.0 (2.23977 MB)
+Total resp bytes: 1029836.0 (1.02984 MB)
+orig/resp ratio: 2.1748802721986777
+
+Bidirectional byte ratio mean: 16.924854954745882
+Bidirectional byte ratio std: nan
+Orig-only bytes mean: 26937.44827586207 (0.02694 MB)
+Orig-only bytes std: 64206.80067206178 (0.06421 MB)
+Resp-only bytes mean: 2585.358904109589 (0.00259 MB)
+Resp-only bytes std: 21538.204352388097 (0.02154 MB)
+
+Total origin pkts: 807
+Total resp pkts: 1866
+orig/resp ratio: 0.43247588424414124
+
+Bidirectional pkt ratio mean: 1.5929508817514244
+Bidirectional pkt ratio std: 1.924563515339199
+Orig-only pkt mean: 3.5837837837837836
+Orig-only pkt std: 11.026389134449266
+Resp-only pkt mean: 2.5558252427184467
+Resp-only pkt std: 12.337874749401372
+
+Connection states and relative frequency:
+{
+    "OTH": 0.5033783783783784,
+    "SHR": 0.28547297297297297,
+    "S0": 0.14020270270270271,
+    "RSTRH": 0.05152027027027027,
+    "RSTO": 0.01097972972972973,
+    "RSTR": 0.008445945945945946
+}
+
+************************************************************************************************************
+[../../train_test_data/lidar-attack/csv/nginx-pod/conn.csv]
+Avg time between transactions (ms):  460.54299268871546
+Stddev time between transactions (ms):  785.5662714658849
+stddev/mean 1.7057392771945947
+
+Protocols and relative frequency:
+{
+    "udp": 0.6653696498054474,
+    "tcp": 0.32684824902723736,
+    "icmp": 0.007782101167315175
+}
+Services and relative frequency:
+{
+    "dns": 1.0
+}
+
+Average transaction duration: 1.023748352173913
+Average transaction stddev: 10.830968891052018
+stddev/mean: 10.579718021574962
+
+Total origin bytes: 9763.0 (0.00976 MB)
+Total resp bytes: 27504.0 (0.02750 MB)
+orig/resp ratio: 0.35496655031994057
+
+Bidirectional byte ratio mean: 0.30421422490360567
+Bidirectional byte ratio std: 0.1333782076097618
+Orig-only bytes mean: 1539.0 (0.00154 MB)
+Orig-only bytes std: nan (nan MB)
+Resp-only bytes mean: nan (nan MB)
+Resp-only bytes std: nan (nan MB)
+
+Total origin pkts: 317
+Total resp pkts: 263
+orig/resp ratio: 1.2053231939117668
+
+Bidirectional pkt ratio mean: 1.0
+Bidirectional pkt ratio std: 0.0
+Orig-only pkt mean: 1.9285714285714286
+Orig-only pkt std: 4.913538149119954
+Resp-only pkt mean: nan
+Resp-only pkt std: nan
+
+Connection states and relative frequency:
+{
+    "SF": 0.5603112840466926,
+    "REJ": 0.32684824902723736,
+    "S0": 0.10505836575875487,
+    "OTH": 0.007782101167315175
+}
+

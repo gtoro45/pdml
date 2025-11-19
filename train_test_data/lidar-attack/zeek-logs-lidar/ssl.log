@@ -1,0 +1,15 @@
+#separator \x09
+#set_separator	,
+#empty_field	(empty)
+#unset_field	-
+#path	ssl
+#open	2025-11-11-21-27-55
+#fields	ts	uid	id.orig_h	id.orig_p	id.resp_h	id.resp_p	version	cipher	curve	server_name	resumed	last_alert	next_protocol	established	ssl_history	cert_chain_fps	client_cert_chain_fps	sni_matches_cert
+#types	time	string	addr	port	addr	port	string	string	string	string	bool	string	string	bool	string	vector[string]	vector[string]	bool
+1762896470.777275	CkMfMKINUQk55HNwg	10.42.1.18	49412	10.43.0.1	443	TLSv13	TLS_AES_128_GCM_SHA256	x25519	-	F	-	-	F	si	-	-	-
+1762896470.752780	CulkjPqw8yytVnNwf	10.42.1.18	49436	10.43.0.1	443	TLSv13	TLS_AES_128_GCM_SHA256	x25519	-	F	-	-	F	si	-	-	-
+1762896541.949974	CJVMr24PqBxPKCWA09	10.42.1.19	42236	10.43.0.1	443	TLSv13	TLS_AES_128_GCM_SHA256	unknown-4588	-	F	-	-	F	si	-	-	-
+1762896540.417130	Ce436I6cjFCKwlpSb	10.42.1.19	42220	10.43.0.1	443	TLSv13	TLS_AES_128_GCM_SHA256	unknown-4588	-	F	-	-	F	si	-	-	-
+1762896541.331971	CGj69C3zwhnMDShOzi	10.42.1.18	43290	10.43.0.1	443	TLSv13	TLS_AES_128_GCM_SHA256	x25519	-	F	-	-	F	si	-	-	-
+1762896551.680355	C3wHZI23AIczzNkTMk	10.42.1.19	40314	10.43.0.1	443	TLSv13	TLS_AES_128_GCM_SHA256	unknown-4588	-	F	-	-	F	si	-	-	-
+#close	2025-11-11-21-29-26

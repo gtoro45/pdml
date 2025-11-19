@@ -1,0 +1,10 @@
+#separator \x09
+#set_separator	,
+#empty_field	(empty)
+#unset_field	-
+#path	ntp
+#open	2025-11-11-21-29-01
+#fields	ts	uid	id.orig_h	id.orig_p	id.resp_h	id.resp_p	version	mode	stratum	poll	precision	root_delay	root_disp	ref_id	ref_time	org_time	rec_time	xmt_time	num_exts
+#types	time	string	addr	port	addr	port	count	count	count	interval	interval	interval	interval	string	time	time	time	time	count
+1762896541.808385	CarYET2qdCc7n0UeHd	192.168.50.29	45827	185.125.190.57	123	4	4	2	1024.000000	0.000000	0.000916	0.000198	194.121.207.249	1762896476.937061	-1277040152.473085	1762896541.749568	1762896541.749596	0
+#close	2025-11-11-21-29-26

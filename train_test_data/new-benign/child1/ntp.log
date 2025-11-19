@@ -1,0 +1,10 @@
+#separator \x09
+#set_separator	,
+#empty_field	(empty)
+#unset_field	-
+#path	ntp
+#open	2025-11-11-21-46-21
+#fields	ts	uid	id.orig_h	id.orig_p	id.resp_h	id.resp_p	version	mode	stratum	poll	precision	root_delay	root_disp	ref_id	ref_time	org_time	rec_time	xmt_time	num_exts
+#types	time	string	addr	port	addr	port	count	count	count	interval	interval	interval	interval	string	time	time	time	time	count
+1762897581.441843	C4m1T43PVcps2cvElg	192.168.50.29	34469	185.125.190.57	123	4	4	2	1024.000000	0.000000	0.000961	0.000336	194.121.207.249	1762897382.034647	1437889247.081553	1762897581.388514	1762897581.388541	0
+#close	2025-11-11-21-46-51

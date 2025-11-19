@@ -1,0 +1,37 @@
+#separator \x09
+#set_separator	,
+#empty_field	(empty)
+#unset_field	-
+#path	dhcp
+#open	2025-11-11-21-27-44
+#fields	ts	uids	client_addr	server_addr	mac	host_name	client_fqdn	domain	requested_addr	assigned_addr	lease_time	client_message	server_message	msg_types	duration
+#types	time	set[string]	addr	addr	string	string	string	string	addr	addr	interval	string	string	vector[string]	interval
+1762896448.981225	CJ7bOm1wYUUuFnIjWb	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1762896453.487916	CJ7bOm1wYUUuFnIjWb	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1762896453.251736	CJ7bOm1wYUUuFnIjWb	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1762896446.792236	CJ7bOm1wYUUuFnIjWb	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1762896446.792376	CJ7bOm1wYUUuFnIjWb	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1762896449.210491	CJ7bOm1wYUUuFnIjWb	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1762896461.467421	CJ7bOm1wYUUuFnIjWb	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1762896462.423161	CJ7bOm1wYUUuFnIjWb	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1762896479.107610	CJ7bOm1wYUUuFnIjWb	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1762896478.024018	CJ7bOm1wYUUuFnIjWb	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1762896493.983793	CJ7bOm1wYUUuFnIjWb	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1762896491.818685	CJ7bOm1wYUUuFnIjWb	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1762896491.818498	CJ7bOm1wYUUuFnIjWb	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1762896494.640709	CJ7bOm1wYUUuFnIjWb	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1762896498.832648	CJ7bOm1wYUUuFnIjWb	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1762896498.771348	CJ7bOm1wYUUuFnIjWb	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1762896507.739868	CJ7bOm1wYUUuFnIjWb	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1762896506.917844	CJ7bOm1wYUUuFnIjWb	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1762896523.022024	CJ7bOm1wYUUuFnIjWb	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1762896524.674030	CJ7bOm1wYUUuFnIjWb	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1762896536.796133	CJ7bOm1wYUUuFnIjWb	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1762896538.923095	CJ7bOm1wYUUuFnIjWb	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1762896536.796627	CJ7bOm1wYUUuFnIjWb	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1762896544.265427	CJ7bOm1wYUUuFnIjWb	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1762896539.760853	CJ7bOm1wYUUuFnIjWb	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1762896543.653126	CJ7bOm1wYUUuFnIjWb	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1762896552.131503	CJ7bOm1wYUUuFnIjWb	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1762896552.364681	CJ7bOm1wYUUuFnIjWb	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+#close	2025-11-11-21-29-26

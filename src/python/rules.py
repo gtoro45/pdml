@@ -24,13 +24,28 @@ def print_dict(data: dict):
 # ==== Specify Paths ====
 # specify the paths
 conn_paths = [
-    "../../train_test_data/benign_1_min/node-1-child-3/csv files/node1_conn.csv",
-    "../../train_test_data/benign_1_min/node-2-child-4/csv files/node2_conn.csv",
-    "../../train_test_data/benign_1_min/cam-pod/csv files/camera_conn.csv",
-    "../../train_test_data/benign_1_min/lidar-pod/csv files/lidar_conn.csv",
-    "../../train_test_data/benign_1_min/nginx-pod/csv files/NGINX_conn.csv",
-    "../../train_test_data/benign_sim/csv/conn.csv",                                          # benign
-    "../../train_test_data/ddos_sim/csv/conn_malignant1.csv"                                  # malignant
+        "../../train_test_data/benign_1_min/node-1-child-3/csv files/node1_conn.csv",           # [0]
+        "../../train_test_data/benign_1_min/node-2-child-4/csv files/node2_conn.csv",           # [1]
+        "../../train_test_data/benign_1_min/cam-pod/csv files/camera_conn.csv",                 # [2]
+        "../../train_test_data/benign_1_min/lidar-pod/csv files/lidar_conn.csv",                # [3]
+        "../../train_test_data/benign_1_min/nginx-pod/csv files/NGINX_conn.csv",                # [4]
+        "../../train_test_data/benign_sim/csv/conn.csv",                                        # [5] benign
+        "../../train_test_data/ddos_sim/csv/conn_malignant1.csv",                               # [6] malignant
+        
+        # NEW BENIGN DATA PATHS
+        "../../train_test_data/new-benign/csv/child1/conn.csv",                                 # [7]
+        "../../train_test_data/new-benign/csv/child2/conn.csv",                                 # [8]
+        "../../train_test_data/new-benign/csv/cam-pod/conn.csv",                                # [9]
+        "../../train_test_data/new-benign/csv/lidar-pod/conn.csv",                              # [10]
+        "../../train_test_data/new-benign/csv/nginx-pod/conn.csv",                              # [11]
+        
+        
+        # NEW MALIGNANT DATA PATHS
+        "../../train_test_data/lidar-attack/csv/child1/conn.csv",                               # [12]
+        "../../train_test_data/lidar-attack/csv/child2/conn.csv",                               # [13]
+        "../../train_test_data/lidar-attack/csv/cam-pod/conn.csv",                              # [14]
+        "../../train_test_data/lidar-attack/csv/lidar-pod/conn.csv",                            # [15]
+        "../../train_test_data/lidar-attack/csv/nginx-pod/conn.csv"                             # [16]
 ]
 dns_paths = [
         "../../train_test_data/benign_1_min/node-1-child-3/csv files/node1_dns.csv",
@@ -147,6 +162,7 @@ def extract_conn_characs(conn_path):
     df = pd.read_csv(conn_path)
     df.replace('-', pd.NA, inplace=True)
     df = df.drop(['ts', 'id.orig_h', 'id.resp_h', 'orig_ip_bytes', 'resp_ip_bytes', 'tunnel_parents', 'ip_proto'], errors='ignore')
+    
     general = extract_general(conn_path)
 
     # (1) Protocol and Service analysis
@@ -559,7 +575,7 @@ def get_rules_score_http(line: str, ruleset: list):
 
 # === Testing and Saving ====
 # CONN
-# print("==============================================================================================================")
+print("==============================================================================================================")
 # extract_conn_characs(conn_paths[0])
 # print("************************************************************************************************************")
 # extract_conn_characs(conn_paths[1])
@@ -573,6 +589,34 @@ def get_rules_score_http(line: str, ruleset: list):
 # extract_conn_characs(conn_paths[5])
 # print("************************************************************************************************************")
 # extract_conn_characs(conn_paths[6])
+# print("************************************************************************************************************")
+
+# new benign data
+print("======== BENIGN KUBERNETES CLUSTER TRAFFIC ========")
+# extract_conn_characs(conn_paths[7])
+# print("************************************************************************************************************")
+# extract_conn_characs(conn_paths[8])
+# print("************************************************************************************************************")
+# extract_conn_characs(conn_paths[9])
+print("************************************************************************************************************")
+extract_conn_characs(conn_paths[10])
+print("************************************************************************************************************")
+# extract_conn_characs(conn_paths[11])
+print()
+
+# attack data
+print("======== MALIGNANT KUBERNETES CLUSTER TRAFFIC ========")
+# print("************************************************************************************************************")
+# extract_conn_characs(conn_paths[12])
+# print("************************************************************************************************************")
+# extract_conn_characs(conn_paths[13])
+# print("************************************************************************************************************")
+# extract_conn_characs(conn_paths[14])
+print("************************************************************************************************************")
+print("<<<< THIS IS THE POD BEING ATTACKED >>>>")
+extract_conn_characs(conn_paths[15])
+print("************************************************************************************************************")
+# extract_conn_characs(conn_paths[16])
 
 # DNS
 # print("==============================================================================================================")
@@ -599,7 +643,7 @@ def get_rules_score_http(line: str, ruleset: list):
 # print("************************************************************************************************************")
 
 # HTTP
-print("==============================================================================================================")
-extract_http_characs(http_paths[0])
-print("************************************************************************************************************")
-extract_http_characs(http_paths[1])
+# print("==============================================================================================================")
+# extract_http_characs(http_paths[0])
+# print("************************************************************************************************************")
+# extract_http_characs(http_paths[1])

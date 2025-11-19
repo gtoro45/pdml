@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd 
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
-def encode_training_data(path, encoder=None, fit_encoder=True, training=False):
+def encode_training_data(path, encoder=None, fit_encoder=True, exclude_incomplete=False):
     """
     Helper function that calls the appropriate encoder based on the file type specified by path
 
@@ -17,7 +17,7 @@ def encode_training_data(path, encoder=None, fit_encoder=True, training=False):
         - [1]: encoder (OneHotEncoder): The fitted or reused encoder object.
     """
     if 'conn' in path: 
-        return encode_training_data_conn(conn_path=path, encoder=encoder, fit_encoder=fit_encoder, training=training)
+        return encode_training_data_conn(conn_path=path, encoder=encoder, fit_encoder=fit_encoder, exclude_incomplete=exclude_incomplete)
     elif 'dns' in path: 
         return encode_training_data_dns(dns_path=path, encoder=encoder, fit_encoder=fit_encoder)
     elif 'ssl' in path: 
@@ -52,7 +52,7 @@ def encode_training_data(path, encoder=None, fit_encoder=True, training=False):
 # resp_ip_bytes     : count
 # tunnel_parents    : set[string]   [X]
 # ip_proto          : count         [X]
-def encode_training_data_conn(conn_path, encoder=None, fit_encoder=True, training=False):
+def encode_training_data_conn(conn_path, encoder=None, fit_encoder=True, exclude_incomplete=False):
     """
     Function that encodes training conn.log data, doing so file by file. Encoding and ensuing training
     is done **without** the following, and are better handled by separate logic:
@@ -96,6 +96,17 @@ def encode_training_data_conn(conn_path, encoder=None, fit_encoder=True, trainin
     df['service'] = df['service'].fillna('unknown')
     df['conn_state'] = df['conn_state'].fillna('unknown')
     
+    # ==== TESTING ====
+    
+    # add a zero-activity column 
+    # df['zero_activity'] = ((df['orig_bytes'] == 0) & (df['resp_bytes'] == 0)).astype(int)
+    if exclude_incomplete:
+        cols = ['orig_bytes', 'resp_bytes']
+        df = df.dropna(subset=cols)
+        print(f"Training dataset size (removed incomplete) = {len(df)}")
+    
+    # =================
+    
     # handle missing numeric values with a missing indicator column
     num_cols_with_na = ['duration', 'orig_bytes', 'resp_bytes', 'missed_bytes', 
                         'orig_pkts', 'orig_ip_bytes', 'resp_pkts', 'resp_ip_bytes']
@@ -117,13 +128,6 @@ def encode_training_data_conn(conn_path, encoder=None, fit_encoder=True, trainin
         encoded = encoder.transform(df[cat_cols])
     encoded_df = pd.DataFrame(encoded, columns=encoder.get_feature_names_out(cat_cols), index=df.index)
     df = pd.concat([df.drop(columns=cat_cols), encoded_df], axis=1)
-    
-    # ==== TESTING ====
-    
-    # add a zero-activity column 
-    # df['zero_activity'] = ((df['orig_bytes'] == 0) & (df['resp_bytes'] == 0)).astype(int)
-    
-    # =================
     
     # return
     return df, encoder

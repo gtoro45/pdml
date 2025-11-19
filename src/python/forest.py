@@ -70,30 +70,51 @@ def train_and_test_iter(paths):
 def test_modular_conn():
     # specify the paths
     conn_paths = [
-        "../../train_test_data/benign_1_min/node-1-child-3/csv files/node1_conn.csv",
-        "../../train_test_data/benign_1_min/node-2-child-4/csv files/node2_conn.csv",
-        "../../train_test_data/benign_1_min/cam-pod/csv files/camera_conn.csv",
-        "../../train_test_data/benign_1_min/lidar-pod/csv files/lidar_conn.csv",
-        "../../train_test_data/benign_1_min/nginx-pod/csv files/NGINX_conn.csv",
-        "../../train_test_data/benign_sim/csv/conn.csv",                                          # benign
-        "../../train_test_data/ddos_sim/csv/conn_malignant1.csv"                                  # malignant
+        "../../train_test_data/benign_1_min/node-1-child-3/csv files/node1_conn.csv",           # [0]
+        "../../train_test_data/benign_1_min/node-2-child-4/csv files/node2_conn.csv",           # [1]
+        "../../train_test_data/benign_1_min/cam-pod/csv files/camera_conn.csv",                 # [2]
+        "../../train_test_data/benign_1_min/lidar-pod/csv files/lidar_conn.csv",                # [3]
+        "../../train_test_data/benign_1_min/nginx-pod/csv files/NGINX_conn.csv",                # [4]
+        "../../train_test_data/benign_sim/csv/conn.csv",                                        # [5] benign
+        "../../train_test_data/ddos_sim/csv/conn_malignant1.csv",                               # [6] malignant
+        
+        # NEW BENIGN DATA PATHS
+        "../../train_test_data/new-benign/csv/child1/conn.csv",                                 # [7]
+        "../../train_test_data/new-benign/csv/child2/conn.csv",                                 # [8]
+        "../../train_test_data/new-benign/csv/cam-pod/conn.csv",                                # [9]
+        "../../train_test_data/new-benign/csv/lidar-pod/conn.csv",                              # [10]
+        "../../train_test_data/new-benign/csv/nginx-pod/conn.csv",                              # [11]
+        
+        
+        # NEW MALIGNANT DATA PATHS
+        "../../train_test_data/lidar-attack/csv/child1/conn.csv",                               # [12]
+        "../../train_test_data/lidar-attack/csv/child2/conn.csv",                               # [13]
+        "../../train_test_data/lidar-attack/csv/cam-pod/conn.csv",                              # [14]
+        "../../train_test_data/lidar-attack/csv/lidar-pod/conn.csv",                            # [15]
+        "../../train_test_data/lidar-attack/csv/nginx-pod/conn.csv"                             # [16]
     ]
     
     # encode and COMBINED training data
     path1 = conn_paths[0]
     path2 = conn_paths[1]
     path3 = conn_paths[2]
-    path4 = conn_paths[3]
+    # path4 = conn_paths[3]
     path5 = conn_paths[4]
-    path6 = conn_paths[5]   # test benign set we made
-    X1, encoder = encode_training_data(path1, fit_encoder=True, training=True)
-    # X2, _ = encode_training_data(path2, encoder=encoder, fit_encoder=False, training=True)
-    # X3, _ = encode_training_data(path3, encoder=encoder, fit_encoder=False, training=True)
-    # X4, _ = encode_training_data(path4, encoder=encoder, fit_encoder=False, training=True)
-    # X5, _ = encode_training_data(path5, encoder=encoder, fit_encoder=False, training=True)
-    # X6, _ = encode_training_data(path6, encoder=encoder, fit_encoder=False, training=True)
-    # X = pd.concat([X1, X2], ignore_index=True)
-    X = X1
+    path6 = conn_paths[5] # test benign set we made
+    path7 = conn_paths[7]
+    path8 = conn_paths[8]
+    
+
+    X1, encoder = encode_training_data(path1, fit_encoder=True, exclude_incomplete=True)
+    X2, _ = encode_training_data(path2, encoder=encoder, fit_encoder=False, exclude_incomplete=True)
+    X3, _ = encode_training_data(path3, encoder=encoder, fit_encoder=False, exclude_incomplete=True)
+    # X4, _ = encode_training_data(path4, encoder=encoder, fit_encoder=False, exclude_incomplete=True)
+    X5, _ = encode_training_data(path5, encoder=encoder, fit_encoder=False, exclude_incomplete=True)
+    X6, _ = encode_training_data(path6, encoder=encoder, fit_encoder=False, exclude_incomplete=True)
+    X7, _ = encode_training_data(path7, encoder=encoder, fit_encoder=False, exclude_incomplete=True)
+    X8, _ = encode_training_data(path8, encoder=encoder, fit_encoder=False, exclude_incomplete=True)
+    X = pd.concat([X1, X2, X3, X5, X6, X7, X8], ignore_index=True)
+    # X = X1
     print(f"Training dataset size={len(X)}")
 
     # initialize the isolation forest
@@ -107,25 +128,51 @@ def test_modular_conn():
     # train the model
     iso_forest.fit(X)
 
-    # encode test data
+        # encode test data
     X_train1, _ = encode_training_data(conn_paths[0], encoder=encoder, fit_encoder=False)
     X_train2, _ = encode_training_data(conn_paths[1], encoder=encoder, fit_encoder=False)
-    X_live, _ = encode_training_data(conn_paths[5], encoder=encoder, fit_encoder=False)
-    X_ddos, _ = encode_training_data(conn_paths[6], encoder=encoder, fit_encoder=False)
+    X_train3, _ = encode_training_data(conn_paths[7], encoder=encoder, fit_encoder=False)
+    X_train4, _ = encode_training_data(conn_paths[8], encoder=encoder, fit_encoder=False)
+    
+    X_live, _  = encode_training_data(conn_paths[5],  encoder=encoder, fit_encoder=False)
+    X_ddos, _  = encode_training_data(conn_paths[6],  encoder=encoder, fit_encoder=False)
+    X_attack1, _ = encode_training_data(conn_paths[12], encoder=encoder, fit_encoder=False)
+    X_attack2, _ = encode_training_data(conn_paths[13], encoder=encoder, fit_encoder=False)
+    X_attack3, _ = encode_training_data(conn_paths[14], encoder=encoder, fit_encoder=False)
+    X_attack4, _ = encode_training_data(conn_paths[15], encoder=encoder, fit_encoder=False)
+    X_attack5, _ = encode_training_data(conn_paths[16], encoder=encoder, fit_encoder=False)
 
     # run the model on test data
     y_train1 = iso_forest.predict(X_train1)
     y_train2 = iso_forest.predict(X_train2)
-    y_live = iso_forest.predict(X_live)
-    y_ddos = iso_forest.predict(X_ddos)
+    y_train3 = iso_forest.predict(X_train3)
+    y_train4 = iso_forest.predict(X_train4)
+
+    y_live  = iso_forest.predict(X_live)
+    y_ddos  = iso_forest.predict(X_ddos)
+
+    y_attack1 = iso_forest.predict(X_attack1)
+    y_attack2 = iso_forest.predict(X_attack2)
+    y_attack3 = iso_forest.predict(X_attack3)
+    y_attack4 = iso_forest.predict(X_attack4)
+    y_attack5 = iso_forest.predict(X_attack5)
 
     scores_train1 = iso_forest.decision_function(X_train1)
     scores_train2 = iso_forest.decision_function(X_train2)
+    scores_train3 = iso_forest.decision_function(X_train3)
+    scores_train4 = iso_forest.decision_function(X_train4)
+
     scores_live  = iso_forest.decision_function(X_live)
     scores_ddos  = iso_forest.decision_function(X_ddos)
 
+    scores_attack1 = iso_forest.decision_function(X_attack1)
+    scores_attack2 = iso_forest.decision_function(X_attack2)
+    scores_attack3 = iso_forest.decision_function(X_attack3)
+    scores_attack4 = iso_forest.decision_function(X_attack4)
+    scores_attack5 = iso_forest.decision_function(X_attack5)
 
     # analyze output
+
     # y_train1
     print("***********************************************************************")
     print(f"Test set: {conn_paths[0]}")
@@ -141,6 +188,26 @@ def test_modular_conn():
     print(f"Test set: {conn_paths[1]}")
     false_positives = (y_train2 == -1).sum()
     total = len(y_train2)
+    print(f"Total benign test samples: {total}")
+    print(f"False positives: {false_positives}")
+    print(f"False positive rate: {false_positives / total:.4%}\n")
+    print("***********************************************************************")
+
+    # y_train3
+    print("***********************************************************************")
+    print(f"Test set: {conn_paths[7]}")
+    false_positives = (y_train3 == -1).sum()
+    total = len(y_train3)
+    print(f"Total benign test samples: {total}")
+    print(f"False positives: {false_positives}")
+    print(f"False positive rate: {false_positives / total:.4%}\n")
+    print("***********************************************************************")
+
+    # y_train4
+    print("***********************************************************************")
+    print(f"Test set: {conn_paths[8]}")
+    false_positives = (y_train4 == -1).sum()
+    total = len(y_train4)
     print(f"Total benign test samples: {total}")
     print(f"False positives: {false_positives}")
     print(f"False positive rate: {false_positives / total:.4%}\n")
@@ -166,6 +233,57 @@ def test_modular_conn():
     print(f"Accuracy: {flagged_transactions / total_transactions:.4%}")
     print("***********************************************************************")
 
+    # y_attack1
+    print("***********************************************************************")
+    print(f"Test set: {conn_paths[12]}")
+    flagged = (y_attack1 == -1).sum()
+    total = len(y_attack1)
+    print(f"Total attack samples: {total}")
+    print(f"Detected anomalies: {flagged}")
+    print(f"Detection rate: {flagged / total:.4%}\n")
+    print("***********************************************************************")
+
+    # y_attack2
+    print("***********************************************************************")
+    print(f"Test set: {conn_paths[13]}")
+    flagged = (y_attack2 == -1).sum()
+    total = len(y_attack2)
+    print(f"Total attack samples: {total}")
+    print(f"Detected anomalies: {flagged}")
+    print(f"Detection rate: {flagged / total:.4%}\n")
+    print("***********************************************************************")
+
+    # y_attack3
+    print("***********************************************************************")
+    print(f"Test set: {conn_paths[14]}")
+    flagged = (y_attack3 == -1).sum()
+    total = len(y_attack3)
+    print(f"Total attack samples: {total}")
+    print(f"Detected anomalies: {flagged}")
+    print(f"Detection rate: {flagged / total:.4%}\n")
+    print("***********************************************************************")
+
+    # y_attack4
+    print("***********************************************************************")
+    print(f"Test set: {conn_paths[15]}")
+    flagged = (y_attack4 == -1).sum()
+    total = len(y_attack4)
+    print(f"Total attack samples: {total}")
+    print(f"Detected anomalies: {flagged}")
+    print(f"Detection rate: {flagged / total:.4%}\n")
+    print("***********************************************************************")
+
+    # y_attack5
+    print("***********************************************************************")
+    print(f"Test set: {conn_paths[16]}")
+    flagged = (y_attack5 == -1).sum()
+    total = len(y_attack5)
+    print(f"Total attack samples: {total}")
+    print(f"Detected anomalies: {flagged}")
+    print(f"Detection rate: {flagged / total:.4%}\n")
+    print("***********************************************************************")
+
+
 
     s_train1 = stats("train", scores_train1)
     s_live  = stats("live",  scores_live)
@@ -181,45 +299,45 @@ def test_modular_conn():
 
     # print(pd.DataFrame([s_train1, s_live, s_ddos]).set_index("name").T)
 
-    # plot the decision functions and compute threshold (2% lowest scores)
-    threshold = np.percentile(scores_train1, 2)  # since contamination = 0.02
-    print(f"\nIsolation Forest anomaly threshold (2% cutoff): {threshold:.5f}")
-    fig, axes = plt.subplots(4, 1, figsize=(10, 8), sharex=True)
+    # # plot the decision functions and compute threshold (2% lowest scores)
+    # threshold = np.percentile(scores_train1, 2)  # since contamination = 0.02
+    # print(f"\nIsolation Forest anomaly threshold (2% cutoff): {threshold:.5f}")
+    # fig, axes = plt.subplots(4, 1, figsize=(10, 8), sharex=True)
 
-    # 1 — training1 (benign)
-    axes[0].hist(scores_train1, bins=200, color='tab:blue', alpha=0.6)
-    axes[0].axvline(threshold, color='black', linestyle='--', label=f'Threshold = {threshold:.3f}')
-    axes[0].set_title("Train1 (benign)")
-    axes[0].set_yscale('log')
-    axes[0].legend()
-    axes[0].grid(True, linestyle='--', alpha=0.3)
+    # # 1 — training1 (benign)
+    # axes[0].hist(scores_train1, bins=200, color='tab:blue', alpha=0.6)
+    # axes[0].axvline(threshold, color='black', linestyle='--', label=f'Threshold = {threshold:.3f}')
+    # axes[0].set_title("Train1 (benign)")
+    # axes[0].set_yscale('log')
+    # axes[0].legend()
+    # axes[0].grid(True, linestyle='--', alpha=0.3)
     
-    # 1 — training2 (benign)
-    axes[1].hist(scores_train2, bins=200, color='tab:blue', alpha=0.6)
-    axes[1].axvline(threshold, color='black', linestyle='--', label=f'Threshold = {threshold:.3f}')
-    axes[1].set_title("Train2 (benign)")
-    axes[1].set_yscale('log')
-    axes[1].legend()
-    axes[1].grid(True, linestyle='--', alpha=0.3)
+    # # 1 — training2 (benign)
+    # axes[1].hist(scores_train2, bins=200, color='tab:blue', alpha=0.6)
+    # axes[1].axvline(threshold, color='black', linestyle='--', label=f'Threshold = {threshold:.3f}')
+    # axes[1].set_title("Train2 (benign)")
+    # axes[1].set_yscale('log')
+    # axes[1].legend()
+    # axes[1].grid(True, linestyle='--', alpha=0.3)
 
-    # 2 — live 30-min
-    axes[2].hist(scores_live, bins=200, color='tab:orange', alpha=0.6)
-    axes[2].axvline(threshold, color='black', linestyle='--')
-    axes[2].set_title("Live 30-min capture")
-    axes[2].set_yscale('log')
-    axes[2].grid(True, linestyle='--', alpha=0.3)
+    # # 2 — live 30-min
+    # axes[2].hist(scores_live, bins=200, color='tab:orange', alpha=0.6)
+    # axes[2].axvline(threshold, color='black', linestyle='--')
+    # axes[2].set_title("Live 30-min capture")
+    # axes[2].set_yscale('log')
+    # axes[2].grid(True, linestyle='--', alpha=0.3)
 
-    # 3 — DDoS simulation
-    axes[3].hist(scores_ddos, bins=200, color='tab:red', alpha=0.6)
-    axes[3].axvline(threshold, color='black', linestyle='--')
-    axes[3].set_title("DDoS simulation")
-    axes[3].set_yscale('log')
-    axes[3].grid(True, linestyle='--', alpha=0.3)
+    # # 3 — DDoS simulation
+    # axes[3].hist(scores_ddos, bins=200, color='tab:red', alpha=0.6)
+    # axes[3].axvline(threshold, color='black', linestyle='--')
+    # axes[3].set_title("DDoS simulation")
+    # axes[3].set_yscale('log')
+    # axes[3].grid(True, linestyle='--', alpha=0.3)
 
-    # shared x-axis label
-    plt.xlabel("Decision function score (higher = more normal)")
-    plt.tight_layout()
-    plt.show()
+    # # shared x-axis label
+    # plt.xlabel("Decision function score (higher = more normal)")
+    # plt.tight_layout()
+    # plt.show()
 
 
 # DNS
@@ -387,6 +505,17 @@ def test_modular_ssl():
 # test a split-forest approach, where one model is trained on 'zero feature' rows, and the other isnt
 # relies on a ['zero_activity'] column present in the df
 def test_split_forests():
+    # specify the paths
+    conn_paths = [
+        "../../train_test_data/benign_1_min/node-1-child-3/csv files/node1_conn.csv",
+        "../../train_test_data/benign_1_min/node-2-child-4/csv files/node2_conn.csv",
+        "../../train_test_data/benign_1_min/cam-pod/csv files/camera_conn.csv",
+        "../../train_test_data/benign_1_min/lidar-pod/csv files/lidar_conn.csv",
+        "../../train_test_data/benign_1_min/nginx-pod/csv files/NGINX_conn.csv",
+        "../../train_test_data/benign_sim/csv/conn.csv",                                          # benign
+        "../../train_test_data/ddos_sim/csv/conn_malignant1.csv"                                  # malignant
+    ]
+    
     path1 = conn_paths[0]
     path2 = conn_paths[1]
     path3 = conn_paths[2]
