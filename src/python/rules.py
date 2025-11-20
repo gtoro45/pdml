@@ -33,11 +33,18 @@ conn_paths = [
         "../../train_test_data/ddos_sim/csv/conn_malignant1.csv",                               # [6] malignant
         
         # NEW BENIGN DATA PATHS
-        "../../train_test_data/new-benign/csv/child1/conn.csv",                                 # [7]
-        "../../train_test_data/new-benign/csv/child2/conn.csv",                                 # [8]
-        "../../train_test_data/new-benign/csv/cam-pod/conn.csv",                                # [9]
-        "../../train_test_data/new-benign/csv/lidar-pod/conn.csv",                              # [10]
-        "../../train_test_data/new-benign/csv/nginx-pod/conn.csv",                              # [11]
+        # "../../train_test_data/new-benign/csv/child1/conn.csv",                                 # [7]
+        # "../../train_test_data/new-benign/csv/child2/conn.csv",                                 # [8]
+        # "../../train_test_data/new-benign/csv/cam-pod/conn.csv",                                # [9]
+        # "../../train_test_data/new-benign/csv/lidar-pod/conn.csv",                              # [10]
+        # "../../train_test_data/new-benign/csv/nginx-pod/conn.csv",                              # [11]
+        
+        # NEW BENIGN DATA PATHS (10 MINUTE)
+        "../../train_test_data/new-benign_10_min/csv/child1/conn.csv",                                 # [7]
+        "../../train_test_data/new-benign_10_min/csv/child2/conn.csv",                                 # [8]
+        "../../train_test_data/new-benign_10_min/csv/cam-pod/conn.csv",                                # [9]
+        "../../train_test_data/new-benign_10_min/csv/lidar-pod/conn.csv",                              # [10]
+        "../../train_test_data/new-benign_10_min/csv/nginx-pod/conn.csv",                              # [11]
         
         
         # NEW MALIGNANT DATA PATHS
@@ -157,7 +164,7 @@ def extract_general(path):
 # tunnel_parents    : set[string]   [X]
 # ip_proto          : count         [X]
 def extract_conn_characs(conn_path):
-    print(f"[{conn_path}]")
+    print(f"Dataset: [{conn_path}]")
     # (0) read file, handle missing symbols, get general analysis
     df = pd.read_csv(conn_path)
     df.replace('-', pd.NA, inplace=True)
@@ -193,7 +200,7 @@ def extract_conn_characs(conn_path):
     byte_ratio = orig_bytes_total / (resp_bytes_total + 1e-9) # 1e-9 to avoid div/0 
     print(f"Total origin bytes: {orig_bytes_total} ({(orig_bytes_total / 1_000_000):.5f} MB)")
     print(f"Total resp bytes: {resp_bytes_total} ({(resp_bytes_total / 1_000_000):.5f} MB)")
-    print(f"orig/resp ratio: {byte_ratio}")
+    print(f"Byte orig/resp ratio: {byte_ratio}")
     print()
     
     bidirectional = df[(df['resp_bytes'] > 0) & (df['orig_bytes'] > 0)]
@@ -223,7 +230,7 @@ def extract_conn_characs(conn_path):
     pkts_ratio = orig_pkts_total / (resp_pkts_total + 1e-9) # 1e-9 to avoid div/0
     print(f"Total origin pkts: {orig_pkts_total}")
     print(f"Total resp pkts: {resp_pkts_total}")
-    print(f"orig/resp ratio: {pkts_ratio}")
+    print(f"Pkt orig/resp ratio: {pkts_ratio}")
     print()
     
     bidirectional_pkts = df[(df['resp_pkts'] > 0) & (df['orig_pkts'] > 0)]
@@ -593,30 +600,30 @@ print("=========================================================================
 
 # new benign data
 print("======== BENIGN KUBERNETES CLUSTER TRAFFIC ========")
-# extract_conn_characs(conn_paths[7])
-# print("************************************************************************************************************")
-# extract_conn_characs(conn_paths[8])
-# print("************************************************************************************************************")
-# extract_conn_characs(conn_paths[9])
+extract_conn_characs(conn_paths[7])
+print("************************************************************************************************************")
+extract_conn_characs(conn_paths[8])
+print("************************************************************************************************************")
+extract_conn_characs(conn_paths[9])
 print("************************************************************************************************************")
 extract_conn_characs(conn_paths[10])
 print("************************************************************************************************************")
-# extract_conn_characs(conn_paths[11])
+extract_conn_characs(conn_paths[11])
 print()
 
 # attack data
 print("======== MALIGNANT KUBERNETES CLUSTER TRAFFIC ========")
-# print("************************************************************************************************************")
-# extract_conn_characs(conn_paths[12])
-# print("************************************************************************************************************")
-# extract_conn_characs(conn_paths[13])
-# print("************************************************************************************************************")
-# extract_conn_characs(conn_paths[14])
+print("************************************************************************************************************")
+extract_conn_characs(conn_paths[12])
+print("************************************************************************************************************")
+extract_conn_characs(conn_paths[13])
+print("************************************************************************************************************")
+extract_conn_characs(conn_paths[14])
 print("************************************************************************************************************")
 print("<<<< THIS IS THE POD BEING ATTACKED >>>>")
 extract_conn_characs(conn_paths[15])
 print("************************************************************************************************************")
-# extract_conn_characs(conn_paths[16])
+extract_conn_characs(conn_paths[16])
 
 # DNS
 # print("==============================================================================================================")

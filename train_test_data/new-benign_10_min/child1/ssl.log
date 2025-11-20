@@ -1,0 +1,22 @@
+#separator \x09
+#set_separator	,
+#empty_field	(empty)
+#unset_field	-
+#path	ssl
+#open	2025-11-19-22-31-34
+#fields	ts	uid	id.orig_h	id.orig_p	id.resp_h	id.resp_p	version	cipher	curve	server_name	resumed	last_alert	next_protocol	established	ssl_history	cert_chain_fps	client_cert_chain_fps	sni_matches_cert
+#types	time	string	addr	port	addr	port	string	string	string	string	bool	string	string	bool	string	vector[string]	vector[string]	bool
+1763591488.487422	CXgA542Lnn9fpwPbHj	192.168.50.29	48486	142.251.16.102	443	TLSv13	TLS_AES_128_GCM_SHA256	unknown-4588	-	F	-	-	F	si	-	-	-
+1763591498.979180	CXffD84DQmAcKXs7ch	192.168.50.29	48728	172.253.63.95	443	TLSv13	TLS_AES_256_GCM_SHA384	unknown-4588	-	F	-	-	F	si	-	-	-
+1763591508.421579	CGjC5q3ihPxdYNL7sb	192.168.50.29	52966	142.251.16.100	443	TLSv13	TLS_AES_128_GCM_SHA256	unknown-4588	-	F	-	-	F	si	-	-	-
+1763591510.400317	CS3QCXtRoPHT71lE5	10.42.1.19	42558	10.43.0.1	443	TLSv13	TLS_AES_128_GCM_SHA256	unknown-4588	-	F	-	-	F	si	-	-	-
+1763591621.982996	C9E0FB2PQBUdMO0zPd	192.168.50.29	42168	34.107.243.93	443	TLSv13	TLS_AES_128_GCM_SHA256	x25519	-	F	-	-	F	si	-	-	-
+1763591622.201460	C0rcqCsmI8hUeENyj	192.168.50.29	57596	151.101.193.91	443	TLSv12	TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256	-	-	F	-	h2	F	si	-	-	-
+1763591318.015895	CdZsa5X34E2ilm8jj	10.42.1.87	57564	10.43.0.1	443	TLSv13	TLS_AES_128_GCM_SHA256	x25519	-	F	-	-	F	si	-	-	-
+1763591603.909024	Cdjl6T2ATzIZdJxYw1	10.42.1.19	56892	10.43.0.1	443	TLSv13	TLS_AES_128_GCM_SHA256	unknown-4588	-	F	-	-	F	si	-	-	-
+1763591697.450183	C3ylr84Hg7kY38nIOh	10.42.1.87	59264	10.43.0.1	443	TLSv13	TLS_AES_128_GCM_SHA256	x25519	-	F	-	-	F	si	-	-	-
+1763591498.982555	CqpIX74gtwOdKB7LRe	192.168.50.29	48714	172.253.63.95	443	TLSv13	TLS_AES_256_GCM_SHA384	unknown-4588	-	F	-	-	F	si	-	-	-
+1763591808.012070	Cgovgn43HohblAMrG2	192.168.50.29	35582	142.251.167.95	443	TLSv13	TLS_AES_256_GCM_SHA384	unknown-4588	-	F	-	-	F	si	-	-	-
+1763591792.399427	Cjch78trSX8HriLvl	10.42.1.87	60566	10.43.0.1	443	TLSv13	TLS_AES_128_GCM_SHA256	x25519	-	F	-	-	F	si	-	-	-
+1763591622.029026	CnY0EK1SPK2r9IgxRk	192.168.50.29	42184	34.107.243.93	443	TLSv13	TLS_AES_128_GCM_SHA256	x25519	-	F	-	-	F	si	-	-	-
+#close	2025-11-19-22-38-18

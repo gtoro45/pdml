@@ -85,14 +85,21 @@ def test_modular_conn():
         "../../train_test_data/new-benign/csv/lidar-pod/conn.csv",                              # [10]
         "../../train_test_data/new-benign/csv/nginx-pod/conn.csv",                              # [11]
         
+        # NEW BENIGN DATA PATHS (10 MINUTE)
+        "../../train_test_data/new-benign_10_min/csv/child1/conn.csv",                                 # [12]
+        "../../train_test_data/new-benign_10_min/csv/child2/conn.csv",                                 # [13]
+        "../../train_test_data/new-benign_10_min/csv/cam-pod/conn.csv",                                # [14]
+        "../../train_test_data/new-benign_10_min/csv/lidar-pod/conn.csv",                              # [15]
+        "../../train_test_data/new-benign_10_min/csv/nginx-pod/conn.csv",                              # [16]
+        
         
         # NEW MALIGNANT DATA PATHS
-        "../../train_test_data/lidar-attack/csv/child1/conn.csv",                               # [12]
-        "../../train_test_data/lidar-attack/csv/child2/conn.csv",                               # [13]
-        "../../train_test_data/lidar-attack/csv/cam-pod/conn.csv",                              # [14]
-        "../../train_test_data/lidar-attack/csv/lidar-pod/conn.csv",                            # [15]
-        "../../train_test_data/lidar-attack/csv/nginx-pod/conn.csv"                             # [16]
-    ]
+        "../../train_test_data/lidar-attack/csv/child1/conn.csv",                               # [17]
+        "../../train_test_data/lidar-attack/csv/child2/conn.csv",                               # [18]
+        "../../train_test_data/lidar-attack/csv/cam-pod/conn.csv",                              # [19]
+        "../../train_test_data/lidar-attack/csv/lidar-pod/conn.csv",                            # [20]
+        "../../train_test_data/lidar-attack/csv/nginx-pod/conn.csv"                             # [21]
+]
     
     # encode and COMBINED training data
     path1 = conn_paths[0]
@@ -101,19 +108,39 @@ def test_modular_conn():
     # path4 = conn_paths[3]
     path5 = conn_paths[4]
     path6 = conn_paths[5] # test benign set we made
+    
     path7 = conn_paths[7]
     path8 = conn_paths[8]
+    path9 = conn_paths[9]
+    path10 = conn_paths[10]
+    path11 = conn_paths[11]
     
-
-    X1, encoder = encode_training_data(path1, fit_encoder=True, exclude_incomplete=True)
-    X2, _ = encode_training_data(path2, encoder=encoder, fit_encoder=False, exclude_incomplete=True)
-    X3, _ = encode_training_data(path3, encoder=encoder, fit_encoder=False, exclude_incomplete=True)
-    # X4, _ = encode_training_data(path4, encoder=encoder, fit_encoder=False, exclude_incomplete=True)
-    X5, _ = encode_training_data(path5, encoder=encoder, fit_encoder=False, exclude_incomplete=True)
-    X6, _ = encode_training_data(path6, encoder=encoder, fit_encoder=False, exclude_incomplete=True)
-    X7, _ = encode_training_data(path7, encoder=encoder, fit_encoder=False, exclude_incomplete=True)
-    X8, _ = encode_training_data(path8, encoder=encoder, fit_encoder=False, exclude_incomplete=True)
-    X = pd.concat([X1, X2, X3, X5, X6, X7, X8], ignore_index=True)
+    path12 = conn_paths[12]
+    path13 = conn_paths[13]
+    path14 = conn_paths[14]
+    path15 = conn_paths[15]
+    path16 = conn_paths[16]
+    
+    exclude_incomplete = False
+    X1, encoder = encode_training_data(path1, fit_encoder=True, exclude_incomplete=exclude_incomplete)
+    X2, _ = encode_training_data(path2, encoder=encoder, fit_encoder=False, exclude_incomplete=exclude_incomplete)
+    X3, _ = encode_training_data(path3, encoder=encoder, fit_encoder=False, exclude_incomplete=exclude_incomplete)
+    # X4, _ = encode_training_data(path4, encoder=encoder, fit_encoder=False, exclude_incomplete=exclude_incomplete)
+    X5, _ = encode_training_data(path5, encoder=encoder, fit_encoder=False, exclude_incomplete=exclude_incomplete)
+    X6, _ = encode_training_data(path6, encoder=encoder, fit_encoder=False, exclude_incomplete=exclude_incomplete)
+    
+    X7, _ = encode_training_data(path7, encoder=encoder, fit_encoder=False, exclude_incomplete=exclude_incomplete)
+    X8, _ = encode_training_data(path8, encoder=encoder, fit_encoder=False, exclude_incomplete=exclude_incomplete)
+    X9, _ = encode_training_data(path9, encoder=encoder, fit_encoder=False, exclude_incomplete=exclude_incomplete)
+    X10, _ = encode_training_data(path10, encoder=encoder, fit_encoder=False, exclude_incomplete=exclude_incomplete)
+    X11, _ = encode_training_data(path11, encoder=encoder, fit_encoder=False, exclude_incomplete=exclude_incomplete)
+    
+    X12, _ = encode_training_data(path12, encoder=encoder, fit_encoder=False, exclude_incomplete=exclude_incomplete)
+    X13, _ = encode_training_data(path13, encoder=encoder, fit_encoder=False, exclude_incomplete=exclude_incomplete)
+    X14, _ = encode_training_data(path14, encoder=encoder, fit_encoder=False, exclude_incomplete=exclude_incomplete)
+    X15, _ = encode_training_data(path15, encoder=encoder, fit_encoder=False, exclude_incomplete=exclude_incomplete)
+    X16, _ = encode_training_data(path16, encoder=encoder, fit_encoder=False, exclude_incomplete=exclude_incomplete)
+    X = pd.concat([X1, X2, X3, X5, X6, X7, X8, X9, X10, X11, X12, X13, X14, X15, X16], ignore_index=True)
     # X = X1
     print(f"Training dataset size={len(X)}")
 
@@ -128,19 +155,19 @@ def test_modular_conn():
     # train the model
     iso_forest.fit(X)
 
-        # encode test data
-    X_train1, _ = encode_training_data(conn_paths[0], encoder=encoder, fit_encoder=False)
-    X_train2, _ = encode_training_data(conn_paths[1], encoder=encoder, fit_encoder=False)
-    X_train3, _ = encode_training_data(conn_paths[7], encoder=encoder, fit_encoder=False)
-    X_train4, _ = encode_training_data(conn_paths[8], encoder=encoder, fit_encoder=False)
+    # encode test data
+    X_train1, _ = encode_training_data(conn_paths[7], encoder=encoder, fit_encoder=False)
+    X_train2, _ = encode_training_data(conn_paths[8], encoder=encoder, fit_encoder=False)
+    X_train3, _ = encode_training_data(conn_paths[12], encoder=encoder, fit_encoder=False)
+    X_train4, _ = encode_training_data(conn_paths[13], encoder=encoder, fit_encoder=False)
     
     X_live, _  = encode_training_data(conn_paths[5],  encoder=encoder, fit_encoder=False)
     X_ddos, _  = encode_training_data(conn_paths[6],  encoder=encoder, fit_encoder=False)
-    X_attack1, _ = encode_training_data(conn_paths[12], encoder=encoder, fit_encoder=False)
-    X_attack2, _ = encode_training_data(conn_paths[13], encoder=encoder, fit_encoder=False)
-    X_attack3, _ = encode_training_data(conn_paths[14], encoder=encoder, fit_encoder=False)
-    X_attack4, _ = encode_training_data(conn_paths[15], encoder=encoder, fit_encoder=False)
-    X_attack5, _ = encode_training_data(conn_paths[16], encoder=encoder, fit_encoder=False)
+    X_attack1, _ = encode_training_data(conn_paths[17], encoder=encoder, fit_encoder=False)
+    X_attack2, _ = encode_training_data(conn_paths[18], encoder=encoder, fit_encoder=False)
+    X_attack3, _ = encode_training_data(conn_paths[19], encoder=encoder, fit_encoder=False)
+    X_attack4, _ = encode_training_data(conn_paths[20], encoder=encoder, fit_encoder=False)
+    X_attack5, _ = encode_training_data(conn_paths[21], encoder=encoder, fit_encoder=False)
 
     # run the model on test data
     y_train1 = iso_forest.predict(X_train1)
@@ -175,7 +202,7 @@ def test_modular_conn():
 
     # y_train1
     print("***********************************************************************")
-    print(f"Test set: {conn_paths[0]}")
+    print(f"Test set: {conn_paths[7]}")
     false_positives = (y_train1 == -1).sum()
     total = len(y_train1)
     print(f"Total benign test samples: {total}")
@@ -185,7 +212,7 @@ def test_modular_conn():
 
     # y_train2
     print("***********************************************************************")
-    print(f"Test set: {conn_paths[1]}")
+    print(f"Test set: {conn_paths[8]}")
     false_positives = (y_train2 == -1).sum()
     total = len(y_train2)
     print(f"Total benign test samples: {total}")
@@ -195,7 +222,7 @@ def test_modular_conn():
 
     # y_train3
     print("***********************************************************************")
-    print(f"Test set: {conn_paths[7]}")
+    print(f"Test set: {conn_paths[12]}")
     false_positives = (y_train3 == -1).sum()
     total = len(y_train3)
     print(f"Total benign test samples: {total}")
@@ -205,7 +232,7 @@ def test_modular_conn():
 
     # y_train4
     print("***********************************************************************")
-    print(f"Test set: {conn_paths[8]}")
+    print(f"Test set: {conn_paths[13]}")
     false_positives = (y_train4 == -1).sum()
     total = len(y_train4)
     print(f"Total benign test samples: {total}")
@@ -235,7 +262,7 @@ def test_modular_conn():
 
     # y_attack1
     print("***********************************************************************")
-    print(f"Test set: {conn_paths[12]}")
+    print(f"Test set: {conn_paths[17]}")
     flagged = (y_attack1 == -1).sum()
     total = len(y_attack1)
     print(f"Total attack samples: {total}")
@@ -245,7 +272,7 @@ def test_modular_conn():
 
     # y_attack2
     print("***********************************************************************")
-    print(f"Test set: {conn_paths[13]}")
+    print(f"Test set: {conn_paths[18]}")
     flagged = (y_attack2 == -1).sum()
     total = len(y_attack2)
     print(f"Total attack samples: {total}")
@@ -255,7 +282,7 @@ def test_modular_conn():
 
     # y_attack3
     print("***********************************************************************")
-    print(f"Test set: {conn_paths[14]}")
+    print(f"Test set: {conn_paths[19]}")
     flagged = (y_attack3 == -1).sum()
     total = len(y_attack3)
     print(f"Total attack samples: {total}")
@@ -265,7 +292,7 @@ def test_modular_conn():
 
     # y_attack4
     print("***********************************************************************")
-    print(f"Test set: {conn_paths[15]}")
+    print(f"Test set: {conn_paths[20]}")
     flagged = (y_attack4 == -1).sum()
     total = len(y_attack4)
     print(f"Total attack samples: {total}")
@@ -275,7 +302,7 @@ def test_modular_conn():
 
     # y_attack5
     print("***********************************************************************")
-    print(f"Test set: {conn_paths[16]}")
+    print(f"Test set: {conn_paths[21]}")
     flagged = (y_attack5 == -1).sum()
     total = len(y_attack5)
     print(f"Total attack samples: {total}")

@@ -1,0 +1,29 @@
+ffmpeg version 4.2.7-0ubuntu0.1 Copyright (c) 2000-2022 the FFmpeg developers
+  built with gcc 9 (Ubuntu 9.4.0-1ubuntu1~20.04.1)
+  configuration: --prefix=/usr --extra-version=0ubuntu0.1 --toolchain=hardened --libdir=/usr/lib/x86_64-linux-gnu --incdir=/usr/include/x86_64-linux-gnu --arch=amd64 --enable-gpl --disable-stripping --enable-avresample --disable-filter=resample --enable-avisynth --enable-gnutls --enable-ladspa --enable-libaom --enable-libass --enable-libbluray --enable-libbs2b --enable-libcaca --enable-libcdio --enable-libcodec2 --enable-libflite --enable-libfontconfig --enable-libfreetype --enable-libfribidi --enable-libgme --enable-libgsm --enable-libjack --enable-libmp3lame --enable-libmysofa --enable-libopenjpeg --enable-libopenmpt --enable-libopus --enable-libpulse --enable-librsvg --enable-librubberband --enable-libshine --enable-libsnappy --enable-libsoxr --enable-libspeex --enable-libssh --enable-libtheora --enable-libtwolame --enable-libvidstab --enable-libvorbis --enable-libvpx --enable-libwavpack --enable-libwebp --enable-libx265 --enable-libxml2 --enable-libxvid --enable-libzmq --enable-libzvbi --enable-lv2 --enable-omx --enable-openal --enable-opencl --enable-opengl --enable-sdl2 --enable-libdc1394 --enable-libdrm --enable-libiec61883 --enable-nvenc --enable-chromaprint --enable-frei0r --enable-libx264 --enable-shared
+  libavutil      56. 31.100 / 56. 31.100
+  libavcodec     58. 54.100 / 58. 54.100
+  libavformat    58. 29.100 / 58. 29.100
+  libavdevice    58.  8.100 / 58.  8.100
+  libavfilter     7. 57.100 /  7. 57.100
+  libavresample   4.  0.  0 /  4.  0.  0
+  libswscale      5.  5.100 /  5.  5.100
+  libswresample   3.  5.100 /  3.  5.100
+  libpostproc    55.  5.100 / 55.  5.100
+Input #0, video4linux2,v4l2, from '/dev/video0':
+  Duration: N/A, start: 540235.907409, bitrate: 127844 kb/s
+    Stream #0:0: Video: rawvideo (YUY2 / 0x32595559), yuyv422, 3264x2448, 127844 kb/s, 1 fps, 1 tbr, 1000k tbn, 1000k tbc
+Stream mapping:
+  Stream #0:0 -> #0:0 (rawvideo (native) -> mjpeg (native))
+Press [q] to stop, [?] for help
+[swscaler @ 0x55c2f0f52280] deprecated pixel format used, make sure you did set range correctly
+Output #0, image2pipe, to 'pipe:':
+  Metadata:
+    encoder         : Lavf58.29.100
+    Stream #0:0: Video: mjpeg, yuvj422p(pc), 3264x2448, q=2-31, 200 kb/s, 1 fps, 1 tbn, 1 tbc
+    Metadata:
+      encoder         : Lavc58.54.100 mjpeg
+    Side data:
+      cpb: bitrate max/min/avg: 0/0/200000 buffer size: 0 vbv_delay: -1
+frame=    0 fps=0.0 q=0.0 size=       0kB time=00:00:00.00 bitrate=N/A speed=   0x    frame=    2 fps=1.9 q=4.1 size=     267kB time=00:00:02.00 bitrate=1093.9kbits/s speed=1.93x    frame=    3 fps=1.9 q=1.8 size=     483kB time=00:00:03.00 bitrate=1319.5kbits/s speed=1.94x    frame=    4 fps=1.9 q=2.5 size=     728kB time=00:00:04.00 bitrate=1491.3kbits/s speed=1.95x    frame=    4 fps=1.6 q=2.5 size=     728kB time=00:00:04.00 bitrate=1491.3kbits/s speed=1.57x    frame=    5 fps=1.6 q=4.3 Lsize=     889kB time=00:00:05.00 bitrate=1457.1kbits/s speed=1.64x    
+video:889kB audio:0kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: 0.000000%

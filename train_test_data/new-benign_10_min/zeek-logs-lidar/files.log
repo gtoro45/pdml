@@ -1,0 +1,60 @@
+#separator \x09
+#set_separator	,
+#empty_field	(empty)
+#unset_field	-
+#path	files
+#open	2025-11-19-22-30-44
+#fields	ts	fuid	tx_hosts	rx_hosts	conn_uids	source	depth	analyzers	mime_type	filename	duration	local_orig	is_orig	seen_bytes	total_bytes	missing_bytes	overflow_bytes	timedout	parent_fuid	md5	sha1	sha256	extracted	extracted_cutoff	extracted_size
+#types	time	string	set[addr]	set[addr]	set[string]	string	count	set[string]	string	string	interval	bool	bool	count	count	count	count	bool	string	string	string	string	string	bool	count
+1763591443.972585	Fle3Hd4GHgGEGw02ja	34.107.221.82	192.168.50.29	CthapW1eWEgsZmgk0f	HTTP	0	(empty)	-	-	0.000000	-	F	8	8	0	0	F	-	-	-	-	-	-	-
+1763591487.754434	FmIWal1QjvRXylSWB6	34.107.221.82	192.168.50.29	CthapW1eWEgsZmgk0f	HTTP	0	(empty)	-	-	0.000000	-	F	8	8	0	0	F	-	-	-	-	-	-	-
+1763591487.770457	FOPv4I2VLLSBPx26zd	34.107.221.82	192.168.50.29	CthapW1eWEgsZmgk0f	HTTP	0	(empty)	-	-	0.000000	-	F	8	8	0	0	F	-	-	-	-	-	-	-
+1763591489.471129	Ff6Sk130z7ZRmqBgDf	34.107.221.82	192.168.50.29	CthapW1eWEgsZmgk0f	HTTP	0	(empty)	-	-	0.000000	-	F	8	8	0	0	F	-	-	-	-	-	-	-
+1763591489.484932	FSC8Yh36XRw6UXpYq6	34.107.221.82	192.168.50.29	CthapW1eWEgsZmgk0f	HTTP	0	(empty)	-	-	0.000000	-	F	8	8	0	0	F	-	-	-	-	-	-	-
+1763591532.752929	FzQSN74tVEDRkx9u4b	34.107.221.82	192.168.50.29	CthapW1eWEgsZmgk0f	HTTP	0	(empty)	-	-	0.000000	-	F	8	8	0	0	F	-	-	-	-	-	-	-
+1763591532.769465	FDCQcQO8nPw6ZzkA1	34.107.221.82	192.168.50.29	CthapW1eWEgsZmgk0f	HTTP	0	(empty)	-	-	0.000000	-	F	8	8	0	0	F	-	-	-	-	-	-	-
+1763591534.144135	F5h78NSdR2CyaFr02	34.107.221.82	192.168.50.29	CthapW1eWEgsZmgk0f	HTTP	0	(empty)	-	-	0.000000	-	F	8	8	0	0	F	-	-	-	-	-	-	-
+1763591534.161472	FxIOSP1NR7TM7d0jE3	34.107.221.82	192.168.50.29	CthapW1eWEgsZmgk0f	HTTP	0	(empty)	-	-	0.000000	-	F	8	8	0	0	F	-	-	-	-	-	-	-
+1763591577.757531	F7mvSf15bEfKtjmysc	34.107.221.82	192.168.50.29	CthapW1eWEgsZmgk0f	HTTP	0	(empty)	-	-	0.000000	-	F	8	8	0	0	F	-	-	-	-	-	-	-
+1763591577.783048	FULg1i1rsEoy0VGURk	34.107.221.82	192.168.50.29	CthapW1eWEgsZmgk0f	HTTP	0	(empty)	-	-	0.000000	-	F	8	8	0	0	F	-	-	-	-	-	-	-
+1763591579.295189	F52BcW31FAMm2uvU1	34.107.221.82	192.168.50.29	CthapW1eWEgsZmgk0f	HTTP	0	(empty)	-	-	0.000000	-	F	8	8	0	0	F	-	-	-	-	-	-	-
+1763591579.316763	FqlDLi1zQdnkIqxx93	34.107.221.82	192.168.50.29	CthapW1eWEgsZmgk0f	HTTP	0	(empty)	-	-	0.000000	-	F	8	8	0	0	F	-	-	-	-	-	-	-
+1763591615.776224	FyIMGI3SGk8v31agf	34.107.221.82	192.168.50.29	CthapW1eWEgsZmgk0f	HTTP	0	(empty)	-	-	0.000000	-	F	8	8	0	0	F	-	-	-	-	-	-	-
+1763591615.789880	Fcbmew2jZY2LvqKobd	34.107.221.82	192.168.50.29	CthapW1eWEgsZmgk0f	HTTP	0	(empty)	-	-	0.000000	-	F	8	8	0	0	F	-	-	-	-	-	-	-
+1763591617.310976	Fh40mf2yKNPqhE14V2	34.107.221.82	192.168.50.29	CthapW1eWEgsZmgk0f	HTTP	0	(empty)	-	-	0.000000	-	F	8	8	0	0	F	-	-	-	-	-	-	-
+1763591617.325928	FQHlDg3mVv1dBlxpw8	34.107.221.82	192.168.50.29	CthapW1eWEgsZmgk0f	HTTP	0	(empty)	-	-	0.000000	-	F	8	8	0	0	F	-	-	-	-	-	-	-
+1763591622.755991	FMRfrA34rcA9dle4N1	34.107.221.82	192.168.50.29	CthapW1eWEgsZmgk0f	HTTP	0	(empty)	-	-	0.000000	-	F	8	8	0	0	F	-	-	-	-	-	-	-
+1763591622.774095	FlGWF94GhtraqgRJzd	34.107.221.82	192.168.50.29	CthapW1eWEgsZmgk0f	HTTP	0	(empty)	-	-	0.000000	-	F	8	8	0	0	F	-	-	-	-	-	-	-
+1763591644.755484	FNwNZc3JNSzpoUh7bk	34.107.221.82	192.168.50.29	CthapW1eWEgsZmgk0f	HTTP	0	(empty)	-	-	0.000000	-	F	8	8	0	0	F	-	-	-	-	-	-	-
+1763591644.772516	FOT9tf2FUeN0MLYzJ9	34.107.221.82	192.168.50.29	CthapW1eWEgsZmgk0f	HTTP	0	(empty)	-	-	0.000000	-	F	8	8	0	0	F	-	-	-	-	-	-	-
+1763591646.014470	F6HtQ22fIpjxBdhXxk	34.107.221.82	192.168.50.29	CthapW1eWEgsZmgk0f	HTTP	0	(empty)	-	-	0.000000	-	F	8	8	0	0	F	-	-	-	-	-	-	-
+1763591646.031059	FswiPn3ndwYXmFoiHj	34.107.221.82	192.168.50.29	CthapW1eWEgsZmgk0f	HTTP	0	(empty)	-	-	0.000000	-	F	8	8	0	0	F	-	-	-	-	-	-	-
+1763591660.755349	FiAfYaNh70IXEU8al	34.107.221.82	192.168.50.29	CthapW1eWEgsZmgk0f	HTTP	0	(empty)	-	-	0.000000	-	F	8	8	0	0	F	-	-	-	-	-	-	-
+1763591660.771869	FpMle0167nsky36Uhl	34.107.221.82	192.168.50.29	CthapW1eWEgsZmgk0f	HTTP	0	(empty)	-	-	0.000000	-	F	8	8	0	0	F	-	-	-	-	-	-	-
+1763591662.596064	FvdIBwJmxkiShPO03	34.107.221.82	192.168.50.29	CthapW1eWEgsZmgk0f	HTTP	0	(empty)	-	-	0.000000	-	F	8	8	0	0	F	-	-	-	-	-	-	-
+1763591662.610098	FfKebt4izTWprN6dra	34.107.221.82	192.168.50.29	CthapW1eWEgsZmgk0f	HTTP	0	(empty)	-	-	0.000000	-	F	8	8	0	0	F	-	-	-	-	-	-	-
+1763591689.766188	FzzfR11l4kC16hsLse	34.107.221.82	192.168.50.29	CthapW1eWEgsZmgk0f	HTTP	0	(empty)	-	-	0.000000	-	F	8	8	0	0	F	-	-	-	-	-	-	-
+1763591689.784555	FoEwHp2DxNmgIX6Phj	34.107.221.82	192.168.50.29	CthapW1eWEgsZmgk0f	HTTP	0	(empty)	-	-	0.000000	-	F	8	8	0	0	F	-	-	-	-	-	-	-
+1763591691.362506	FGU9XuLI6SaOGyimh	34.107.221.82	192.168.50.29	CthapW1eWEgsZmgk0f	HTTP	0	(empty)	-	-	0.000000	-	F	8	8	0	0	F	-	-	-	-	-	-	-
+1763591691.373289	F8dBlE43uzk7Zj1A6a	34.107.221.82	192.168.50.29	CthapW1eWEgsZmgk0f	HTTP	0	(empty)	-	-	0.000000	-	F	8	8	0	0	F	-	-	-	-	-	-	-
+1763591705.757067	FJZIz23Q5GgPivWm23	34.107.221.82	192.168.50.29	CthapW1eWEgsZmgk0f	HTTP	0	(empty)	-	-	0.000000	-	F	8	8	0	0	F	-	-	-	-	-	-	-
+1763591705.777699	Fe2ziT2X4bvPjcceq7	34.107.221.82	192.168.50.29	CthapW1eWEgsZmgk0f	HTTP	0	(empty)	-	-	0.000000	-	F	8	8	0	0	F	-	-	-	-	-	-	-
+1763591707.362264	FVe3lGLjoigEju3Mg	34.107.221.82	192.168.50.29	CthapW1eWEgsZmgk0f	HTTP	0	(empty)	-	-	0.000000	-	F	8	8	0	0	F	-	-	-	-	-	-	-
+1763591707.378863	F8S30u2xwkSKHdrxT5	34.107.221.82	192.168.50.29	CthapW1eWEgsZmgk0f	HTTP	0	(empty)	-	-	0.000000	-	F	8	8	0	0	F	-	-	-	-	-	-	-
+1763591734.756521	FiwA8L2QNrr1zIvpfd	34.107.221.82	192.168.50.29	CthapW1eWEgsZmgk0f	HTTP	0	(empty)	-	-	0.000000	-	F	8	8	0	0	F	-	-	-	-	-	-	-
+1763591734.772953	FSJmeD3qzgUSTfQfnd	34.107.221.82	192.168.50.29	CthapW1eWEgsZmgk0f	HTTP	0	(empty)	-	-	0.000000	-	F	8	8	0	0	F	-	-	-	-	-	-	-
+1763591736.160853	FI4E2R1oaDg5LmaR25	34.107.221.82	192.168.50.29	CthapW1eWEgsZmgk0f	HTTP	0	(empty)	-	-	0.000000	-	F	8	8	0	0	F	-	-	-	-	-	-	-
+1763591736.184896	F5FaI3BpoinbZbg2e	34.107.221.82	192.168.50.29	CthapW1eWEgsZmgk0f	HTTP	0	(empty)	-	-	0.000000	-	F	8	8	0	0	F	-	-	-	-	-	-	-
+1763591750.756820	FKfg1gxkuzO2nPKX8	34.107.221.82	192.168.50.29	CthapW1eWEgsZmgk0f	HTTP	0	(empty)	-	-	0.000000	-	F	8	8	0	0	F	-	-	-	-	-	-	-
+1763591750.778657	FMs8KQDnF0DPGCPua	34.107.221.82	192.168.50.29	CthapW1eWEgsZmgk0f	HTTP	0	(empty)	-	-	0.000000	-	F	8	8	0	0	F	-	-	-	-	-	-	-
+1763591752.582745	F00RzRbLJx2tYxaKk	34.107.221.82	192.168.50.29	CthapW1eWEgsZmgk0f	HTTP	0	(empty)	-	-	0.000000	-	F	8	8	0	0	F	-	-	-	-	-	-	-
+1763591752.596082	FC0tza4LBf9P9dh9ze	34.107.221.82	192.168.50.29	CthapW1eWEgsZmgk0f	HTTP	0	(empty)	-	-	0.000000	-	F	8	8	0	0	F	-	-	-	-	-	-	-
+1763591779.754540	FIJ1A82e5GPQbAKsL7	34.107.221.82	192.168.50.29	CthapW1eWEgsZmgk0f	HTTP	0	(empty)	-	-	0.000000	-	F	8	8	0	0	F	-	-	-	-	-	-	-
+1763591779.771747	F5HBTF2WdfYCEb860e	34.107.221.82	192.168.50.29	CthapW1eWEgsZmgk0f	HTTP	0	(empty)	-	-	0.000000	-	F	8	8	0	0	F	-	-	-	-	-	-	-
+1763591781.791575	FLRW21O8DaP5PL0fe	34.107.221.82	192.168.50.29	CthapW1eWEgsZmgk0f	HTTP	0	(empty)	-	-	0.000000	-	F	8	8	0	0	F	-	-	-	-	-	-	-
+1763591781.811934	FYmdmM1MvxXWKZjVX1	34.107.221.82	192.168.50.29	CthapW1eWEgsZmgk0f	HTTP	0	(empty)	-	-	0.000000	-	F	8	8	0	0	F	-	-	-	-	-	-	-
+1763591795.752335	FrrPD32T4mGNns3dHk	34.107.221.82	192.168.50.29	CthapW1eWEgsZmgk0f	HTTP	0	(empty)	-	-	0.000000	-	F	8	8	0	0	F	-	-	-	-	-	-	-
+1763591795.773209	FA7ouG3wDAAzB0caBj	34.107.221.82	192.168.50.29	CthapW1eWEgsZmgk0f	HTTP	0	(empty)	-	-	0.000000	-	F	8	8	0	0	F	-	-	-	-	-	-	-
+1763591824.758551	FrC16b2828HTG6VQeh	34.107.221.82	192.168.50.29	CthapW1eWEgsZmgk0f	HTTP	0	(empty)	-	-	0.000000	-	F	8	8	0	0	F	-	-	-	-	-	-	-
+1763591824.780609	F6fpog1vm7hftlJbX	34.107.221.82	192.168.50.29	CthapW1eWEgsZmgk0f	HTTP	0	(empty)	-	-	0.000000	-	F	8	8	0	0	F	-	-	-	-	-	-	-
+#close	2025-11-19-22-38-19

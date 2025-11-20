@@ -1,0 +1,75 @@
+#separator \x09
+#set_separator	,
+#empty_field	(empty)
+#unset_field	-
+#path	dhcp
+#open	2025-11-19-22-28-36
+#fields	ts	uids	client_addr	server_addr	mac	host_name	client_fqdn	domain	requested_addr	assigned_addr	lease_time	client_message	server_message	msg_types	duration
+#types	time	set[string]	addr	addr	string	string	string	string	addr	addr	interval	string	string	vector[string]	interval
+1763591306.082098	CmqKmC4pRVLAbtQUS5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591301.488176	CmqKmC4pRVLAbtQUS5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591298.763044	CmqKmC4pRVLAbtQUS5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591301.679881	CmqKmC4pRVLAbtQUS5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591314.117494	CmqKmC4pRVLAbtQUS5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591330.581512	CmqKmC4pRVLAbtQUS5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591444.405949	CSuMuF1QKbgGOmANZ9	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591441.740990	CSuMuF1QKbgGOmANZ9	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591448.751711	CSuMuF1QKbgGOmANZ9	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591457.618031	CSuMuF1QKbgGOmANZ9	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591474.030254	CSuMuF1QKbgGOmANZ9	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591486.774907	CSuMuF1QKbgGOmANZ9	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591489.505674	CSuMuF1QKbgGOmANZ9	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591493.822205	CSuMuF1QKbgGOmANZ9	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591502.707034	CSuMuF1QKbgGOmANZ9	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591519.435864	CSuMuF1QKbgGOmANZ9	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591531.774555	CSuMuF1QKbgGOmANZ9	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591533.978158	CSuMuF1QKbgGOmANZ9	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591546.765955	CSuMuF1QKbgGOmANZ9	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591538.056893	CSuMuF1QKbgGOmANZ9	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591563.572212	CSuMuF1QKbgGOmANZ9	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591576.783238	CSuMuF1QKbgGOmANZ9	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591579.697081	CSuMuF1QKbgGOmANZ9	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591584.446924	CSuMuF1QKbgGOmANZ9	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591592.593515	CSuMuF1QKbgGOmANZ9	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591614.741733	CSuMuF1QKbgGOmANZ9	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591617.553443	CSuMuF1QKbgGOmANZ9	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591609.557710	CSuMuF1QKbgGOmANZ9	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591621.667047	CSuMuF1QKbgGOmANZ9	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591630.102812	CSuMuF1QKbgGOmANZ9	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591646.636869	CSuMuF1QKbgGOmANZ9	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591646.092220	CSuMuF1QKbgGOmANZ9	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591643.739947	CSuMuF1QKbgGOmANZ9	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591650.611872	CSuMuF1QKbgGOmANZ9	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591666.794913	CSuMuF1QKbgGOmANZ9	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591662.316946	CSuMuF1QKbgGOmANZ9	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591658.855501	CSuMuF1QKbgGOmANZ9	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591659.754523	CSuMuF1QKbgGOmANZ9	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591675.339440	CSuMuF1QKbgGOmANZ9	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591675.728113	CSuMuF1QKbgGOmANZ9	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591688.771048	CSuMuF1QKbgGOmANZ9	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591696.591265	CSuMuF1QKbgGOmANZ9	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591692.033920	CSuMuF1QKbgGOmANZ9	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591691.696685	CSuMuF1QKbgGOmANZ9	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591704.774537	CSuMuF1QKbgGOmANZ9	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591705.428808	CSuMuF1QKbgGOmANZ9	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591707.632728	CSuMuF1QKbgGOmANZ9	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591712.493086	CSuMuF1QKbgGOmANZ9	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591722.414876	CSuMuF1QKbgGOmANZ9	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591721.298887	CSuMuF1QKbgGOmANZ9	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591736.683223	CSuMuF1QKbgGOmANZ9	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591733.759219	CSuMuF1QKbgGOmANZ9	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591737.653795	CSuMuF1QKbgGOmANZ9	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591741.106257	CSuMuF1QKbgGOmANZ9	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591752.599199	CSuMuF1QKbgGOmANZ9	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591756.623941	CSuMuF1QKbgGOmANZ9	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591749.762486	CSuMuF1QKbgGOmANZ9	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591749.974605	CSuMuF1QKbgGOmANZ9	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591766.142026	CSuMuF1QKbgGOmANZ9	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591765.243006	CSuMuF1QKbgGOmANZ9	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591781.278211	CSuMuF1QKbgGOmANZ9	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591785.543100	CSuMuF1QKbgGOmANZ9	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591778.772171	CSuMuF1QKbgGOmANZ9	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591781.538917	CSuMuF1QKbgGOmANZ9	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591793.997197	CSuMuF1QKbgGOmANZ9	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591810.220259	CSuMuF1QKbgGOmANZ9	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+#close	2025-11-19-22-38-19

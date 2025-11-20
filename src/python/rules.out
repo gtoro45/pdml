@@ -1,269 +1,272 @@
 ==============================================================================================================
 ======== BENIGN KUBERNETES CLUSTER TRAFFIC ========
-[../../train_test_data/new-benign/csv/child1/conn.csv]
-Avg time between transactions (ms):  97.86446158014256
-Stddev time between transactions (ms):  244.3496265635786
-stddev/mean 2.4968167465313984
+Dataset: [../../train_test_data/new-benign_10_min/csv/child1/conn.csv]
+Avg time between transactions (ms):  131.4891234457076
+Stddev time between transactions (ms):  312.35563787100347
+stddev/mean 2.375524527699634
 
 Protocols and relative frequency:
 {
-    "udp": 0.6274193548387097,
-    "tcp": 0.3629032258064516,
-    "icmp": 0.00967741935483871
+    "udp": 0.683198601704173,
+    "tcp": 0.3122132401136115,
+    "icmp": 0.004588158182215425
 }
 Services and relative frequency:
 {
-    "dns": 0.9947780678851175,
-    "dhcp": 0.0026109660574412533,
-    "ntp": 0.0026109660574412533
+    "dns": 0.9947447447447447,
+    "ntp": 0.0037537537537537537,
+    "dhcp": 0.0015015015015015015
 }
 
-Average transaction duration: 6.507278593258426
-Average transaction stddev: 24.14696574111414
-stddev/mean: 3.7107625553530967
+Average transaction duration: 11.275834556832693
+Average transaction stddev: 67.0552831974858
+stddev/mean: 5.9468133253917825
 
-Total origin bytes: 2421883.0 (2.42188 MB)
-Total resp bytes: 517342.0 (0.51734 MB)
-orig/resp ratio: 4.681396445678092
+Total origin bytes: 10747172.0 (10.74717 MB)
+Total resp bytes: 1735746.0 (1.73575 MB)
+Byte orig/resp ratio: 6.191673205641836
 
-Bidirectional byte ratio mean: 7.587538245447193
-Bidirectional byte ratio std: 13.11315543887183
-Orig-only bytes mean: 24699.3 (0.02470 MB)
-Orig-only bytes std: 60588.41752704538 (0.06059 MB)
-Resp-only bytes mean: 1028.665024630542 (0.00103 MB)
-Resp-only bytes std: 12324.748099040336 (0.01232 MB)
+Bidirectional byte ratio mean: 2.533920077258826
+Bidirectional byte ratio std: 8.557859810327013
+Orig-only bytes mean: 43987.83783783784 (0.04399 MB)
+Orig-only bytes std: 108265.93915717021 (0.10827 MB)
+Resp-only bytes mean: 946.1560810810811 (0.00095 MB)
+Resp-only bytes std: 9563.469026710165 (0.00956 MB)
 
-Total origin pkts: 962
-Total resp pkts: 1373
-orig/resp ratio: 0.7006554989069915
+Total origin pkts: 2886
+Total resp pkts: 6676
+Pkt orig/resp ratio: 0.4322947872977183
 
-Bidirectional pkt ratio mean: 1.878569514237856
-Bidirectional pkt ratio std: 4.2802639996885015
-Orig-only pkt mean: 3.9128440366972477
-Orig-only pkt std: 16.690920851732216
-Resp-only pkt mean: 1.5942028985507246
-Resp-only pkt std: 3.2266393010486127
+Bidirectional pkt ratio mean: 1.4540867760310414
+Bidirectional pkt ratio std: 3.4966819895907313
+Orig-only pkt mean: 3.988313856427379
+Orig-only pkt std: 33.26122709333154
+Resp-only pkt mean: 2.6305945223780896
+Resp-only pkt std: 8.940935076042518
 
 Connection states and relative frequency:
 {
-    "OTH": 0.510483870967742,
-    "SHR": 0.3161290322580645,
-    "S0": 0.1588709677419355,
-    "RSTRH": 0.007258064516129033,
-    "RSTO": 0.004838709677419355,
-    "REJ": 0.0016129032258064516,
-    "RSTR": 0.0008064516129032258
+    "OTH": 0.5448984050688224,
+    "SHR": 0.31876775180249073,
+    "S0": 0.12388027091981647,
+    "RSTRH": 0.00633602796591654,
+    "RSTO": 0.005243609351103343,
+    "REJ": 0.00043696744592527855,
+    "RSTR": 0.00043696744592527855
 }
 
 ************************************************************************************************************
-[../../train_test_data/new-benign/csv/child2/conn.csv]
-Avg time between transactions (ms):  33.78181262837693
-Stddev time between transactions (ms):  44.643522881335336
-stddev/mean 1.3215253832718998
+Dataset: [../../train_test_data/new-benign_10_min/csv/child2/conn.csv]
+Avg time between transactions (ms):  37.00235279131147
+Stddev time between transactions (ms):  45.908910473677594
+stddev/mean 1.2407024691807564
 
 Protocols and relative frequency:
 {
-    "tcp": 0.9027117696393626,
-    "udp": 0.09700866648029075,
-    "icmp": 0.0002795638803466592
+    "tcp": 0.9376577020124315,
+    "udp": 0.06209612899255339,
+    "icmp": 0.0002461689950150779
 }
 Services and relative frequency:
 {
     "dns": 1.0
 }
 
-Average transaction duration: 9.684527213793103
-Average transaction stddev: 26.402070720636196
-stddev/mean: 2.7262116299320507
+Average transaction duration: 11.33596853539823
+Average transaction stddev: 70.43213552590349
+stddev/mean: 6.213155524026798
 
-Total origin bytes: 3999719.0 (3.99972 MB)
-Total resp bytes: 741015.0 (0.74101 MB)
-orig/resp ratio: 5.397622180387704
+Total origin bytes: 17195482.0 (17.19548 MB)
+Total resp bytes: 12728502.0 (12.72850 MB)
+Byte orig/resp ratio: 1.3509431039096351
 
-Bidirectional byte ratio mean: 0.10148994393655568
-Bidirectional byte ratio std: 0.07606992409091848
-Orig-only bytes mean: 35937.67567567567 (0.03594 MB)
-Orig-only bytes std: 249680.39062788623 (0.24968 MB)
-Resp-only bytes mean: 6321.731707317073 (0.00632 MB)
-Resp-only bytes std: 32308.847954536428 (0.03231 MB)
+Bidirectional byte ratio mean: 0.7818887249465819
+Bidirectional byte ratio std: 1.6399767432784793
+Orig-only bytes mean: 55791.85761589404 (0.05579 MB)
+Orig-only bytes std: 655568.3153907572 (0.65557 MB)
+Resp-only bytes mean: 14333.701863354037 (0.01433 MB)
+Resp-only bytes std: 119938.14555458601 (0.11994 MB)
 
-Total origin pkts: 1248
-Total resp pkts: 6133
-orig/resp ratio: 0.20348932007170983
+Total origin pkts: 36627
+Total resp pkts: 3991
+Pkt orig/resp ratio: 9.177399148080887
 
-Bidirectional pkt ratio mean: 1.0265873015873015
-Bidirectional pkt ratio std: 2.8571471417037118
-Orig-only pkt mean: 3.4952380952380953
-Orig-only pkt std: 24.968945225213073
-Resp-only pkt mean: 20.779310344827586
-Resp-only pkt std: 303.7833290178085
+Bidirectional pkt ratio mean: 6.740364552103346
+Bidirectional pkt ratio std: 24.903325732987035
+Orig-only pkt mean: 3.995365005793743
+Orig-only pkt std: 50.66163150320123
+Resp-only pkt mean: 2.7928
+Resp-only pkt std: 27.178079154885825
 
 Connection states and relative frequency:
 {
-    "OTH": 0.8356164383561644,
-    "S0": 0.08191221694157115,
-    "RSTRH": 0.06402012859938495,
-    "SHR": 0.016214705060106235,
-    "RSTO": 0.0016773832820799553,
-    "RSTOS0": 0.0005591277606933184
+    "OTH": 0.8711920733583605,
+    "RSTRH": 0.06788110037540772,
+    "S0": 0.0513877777093975,
+    "SHR": 0.00923133731306542,
+    "RSTOS0": 0.00012308449750753894,
+    "RSTO": 0.00012308449750753894,
+    "REJ": 6.154224875376947e-05
 }
 
 ************************************************************************************************************
-[../../train_test_data/new-benign/csv/cam-pod/conn.csv]
-Avg time between transactions (ms):  517.0591849625879
-Stddev time between transactions (ms):  617.7420109330639
-stddev/mean 1.194722052907272
+Dataset: [../../train_test_data/new-benign_10_min/csv/cam-pod/conn.csv]
+Avg time between transactions (ms):  505.5891362632193
+Stddev time between transactions (ms):  524.4617836735084
+stddev/mean 1.0373280319070455
 
 Protocols and relative frequency:
 {
-    "tcp": 1.0
+    "tcp": 0.9991596638655462,
+    "udp": 0.0008403361344537816
 }
 Services and relative frequency:
 {}
 
-Average transaction duration: 2.478405
-Average transaction stddev: 3.5048355721343047
-stddev/mean: 1.4141496535611835
+Average transaction duration: 0.13029074999999998
+Average transaction stddev: 0.3679756458757058
+stddev/mean: 2.824265313352681
 
-Total origin bytes: 0.0 (0.00000 MB)
-Total resp bytes: 12288.0 (0.01229 MB)
-orig/resp ratio: 0.0
+Total origin bytes: 1289418.0 (1.28942 MB)
+Total resp bytes: 0.0 (0.00000 MB)
+Byte orig/resp ratio: 1289418000000000.0
 
 Bidirectional byte ratio mean: nan
 Bidirectional byte ratio std: nan
-Orig-only bytes mean: nan (nan MB)
+Orig-only bytes mean: 1289418.0 (1.28942 MB)
 Orig-only bytes std: nan (nan MB)
-Resp-only bytes mean: 12288.0 (0.01229 MB)
+Resp-only bytes mean: nan (nan MB)
 Resp-only bytes std: nan (nan MB)
 
-Total origin pkts: 0
-Total resp pkts: 2
-orig/resp ratio: 0.0
+Total origin pkts: 16
+Total resp pkts: 7
+Pkt orig/resp ratio: 2.2857142853877552
 
 Bidirectional pkt ratio mean: nan
 Bidirectional pkt ratio std: nan
-Orig-only pkt mean: nan
+Orig-only pkt mean: 16.0
 Orig-only pkt std: nan
 Resp-only pkt mean: 1.0
 Resp-only pkt std: 0.0
 
 Connection states and relative frequency:
 {
-    "OTH": 1.0
+    "OTH": 0.9991596638655462,
+    "SH": 0.0008403361344537816
 }
 
 ************************************************************************************************************
-[../../train_test_data/new-benign/csv/lidar-pod/conn.csv]
-Avg time between transactions (ms):  98.35019462135573
-Stddev time between transactions (ms):  244.8556639819429
-stddev/mean 2.489630701033458
+Dataset: [../../train_test_data/new-benign_10_min/csv/lidar-pod/conn.csv]
+Avg time between transactions (ms):  131.75956922817795
+Stddev time between transactions (ms):  308.5349878494005
+stddev/mean 2.341651461497171
 
 Protocols and relative frequency:
 {
-    "udp": 0.6263115415657788,
-    "tcp": 0.3640032284100081,
-    "icmp": 0.009685230024213076
+    "udp": 0.6839457567804025,
+    "tcp": 0.3114610673665792,
+    "icmp": 0.004593175853018373
 }
 Services and relative frequency:
 {
-    "dns": 0.9947643979057592,
-    "dhcp": 0.002617801047120419,
-    "ntp": 0.002617801047120419
+    "dns": 0.9947447447447447,
+    "ntp": 0.0037537537537537537,
+    "dhcp": 0.0015015015015015015
 }
 
-Average transaction duration: 6.638967013483147
-Average transaction stddev: 24.250084174189524
-stddev/mean: 3.652689360398956
+Average transaction duration: 11.278454384418902
+Average transaction stddev: 67.06107762545166
+stddev/mean: 5.9459457244510405
 
-Total origin bytes: 2443728.0 (2.44373 MB)
-Total resp bytes: 543421.0 (0.54342 MB)
-orig/resp ratio: 4.49693331689426
+Total origin bytes: 10820003.0 (10.82000 MB)
+Total resp bytes: 1736049.0 (1.73605 MB)
+Byte orig/resp ratio: 6.232544703519309
 
-Bidirectional byte ratio mean: 7.752062531763461
-Bidirectional byte ratio std: 13.398119686287426
-Orig-only bytes mean: 23275.75 (0.02328 MB)
-Orig-only bytes std: 60829.78699606667 (0.06083 MB)
-Resp-only bytes mean: 1092.0024630541873 (0.00109 MB)
-Resp-only bytes std: 12389.743329678082 (0.01239 MB)
+Bidirectional byte ratio mean: 2.5370329782309833
+Bidirectional byte ratio std: 8.569068287801164
+Orig-only bytes mean: 43984.45945945946 (0.04398 MB)
+Orig-only bytes std: 108267.28131870746 (0.10827 MB)
+Resp-only bytes mean: 945.0310810810811 (0.00095 MB)
+Resp-only bytes std: 9560.960734998342 (0.00956 MB)
 
-Total origin pkts: 812
-Total resp pkts: 1507
-orig/resp ratio: 0.5388188453878309
+Total origin pkts: 2888
+Total resp pkts: 6690
+Pkt orig/resp ratio: 0.4316890881912658
 
-Bidirectional pkt ratio mean: 1.878666666666667
-Bidirectional pkt ratio std: 4.280220139717634
-Orig-only pkt mean: 3.2350230414746544
-Orig-only pkt std: 13.383069359664013
-Resp-only pkt mean: 1.9106280193236715
-Resp-only pkt std: 7.17537037653612
+Bidirectional pkt ratio mean: 1.4540956229863151
+Bidirectional pkt ratio std: 3.4966786683768305
+Orig-only pkt mean: 3.986644407345576
+Orig-only pkt std: 33.259944401598496
+Resp-only pkt mean: 2.6312625250501003
+Resp-only pkt std: 8.991843337166866
 
 Connection states and relative frequency:
 {
-    "OTH": 0.5108958837772397,
-    "SHR": 0.3155770782889427,
-    "S0": 0.15899919289749798,
-    "RSTRH": 0.007263922518159807,
-    "RSTO": 0.004842615012106538,
-    "REJ": 0.0016142050040355124,
-    "RSTR": 0.0008071025020177562
+    "OTH": 0.5444006999125109,
+    "SHR": 0.3191163604549431,
+    "S0": 0.12401574803149606,
+    "RSTRH": 0.006342957130358705,
+    "RSTO": 0.005249343832020997,
+    "REJ": 0.0004374453193350831,
+    "RSTR": 0.0004374453193350831
 }
 
 ************************************************************************************************************
-[../../train_test_data/new-benign/csv/nginx-pod/conn.csv]
-Avg time between transactions (ms):  476.05729961395264
-Stddev time between transactions (ms):  903.534399998545
-stddev/mean 1.8979530420628876
+Dataset: [../../train_test_data/new-benign_10_min/csv/nginx-pod/conn.csv]
+Avg time between transactions (ms):  551.8310365326907
+Stddev time between transactions (ms):  1764.8331227705405
+stddev/mean 3.1981403834396165
 
 Protocols and relative frequency:
 {
-    "udp": 0.6653386454183267,
-    "tcp": 0.3107569721115538,
-    "icmp": 0.02390438247011952
+    "udp": 0.6645279560036663,
+    "tcp": 0.3226397800183318,
+    "icmp": 0.012832263978001834
 }
 Services and relative frequency:
 {
-    "dns": 0.9932432432432432,
-    "dhcp": 0.006756756756756757
+    "dns": 0.9969465648854962,
+    "dhcp": 0.0030534351145038168
 }
 
-Average transaction duration: 2.1485325108225104
-Average transaction stddev: 12.784397944982526
-stddev/mean: 5.950292993280492
+Average transaction duration: 2.3078989500998
+Average transaction stddev: 26.037915738081043
+stddev/mean: 11.282086564905752
 
-Total origin bytes: 12960.0 (0.01296 MB)
-Total resp bytes: 25656.0 (0.02566 MB)
-orig/resp ratio: 0.5051449953227118
+Total origin bytes: 50561.0 (0.05056 MB)
+Total resp bytes: 108976.0 (0.10898 MB)
+Byte orig/resp ratio: 0.46396454265158876
 
-Bidirectional byte ratio mean: 0.30982314819065326
-Bidirectional byte ratio std: 0.12511602588328635
-Orig-only bytes mean: 676.5714285714286 (0.00068 MB)
-Orig-only bytes std: 691.3975839179792 (0.00069 MB)
+Bidirectional byte ratio mean: 0.3069581638761628
+Bidirectional byte ratio std: 0.12245868096817188
+Orig-only bytes mean: 1276.4666666666667 (0.00128 MB)
+Orig-only bytes std: 1542.8932407593702 (0.00154 MB)
 Resp-only bytes mean: nan (nan MB)
 Resp-only bytes std: nan (nan MB)
 
-Total origin pkts: 328
-Total resp pkts: 257
-orig/resp ratio: 1.2762645914347228
+Total origin pkts: 1352
+Total resp pkts: 1054
+Pkt orig/resp ratio: 1.2827324478166198
 
 Bidirectional pkt ratio mean: 1.0
 Bidirectional pkt ratio std: 0.0
-Orig-only pkt mean: 2.5357142857142856
-Orig-only pkt std: 3.6765739170042218
+Orig-only pkt mean: 2.811320754716981
+Orig-only pkt std: 7.460516013746948
 Resp-only pkt mean: nan
 Resp-only pkt std: nan
 
 Connection states and relative frequency:
 {
-    "SF": 0.5737051792828686,
-    "REJ": 0.3107569721115538,
-    "S0": 0.09163346613545817,
-    "OTH": 0.02390438247011952
+    "SF": 0.5774518790100825,
+    "REJ": 0.3226397800183318,
+    "S0": 0.08707607699358387,
+    "OTH": 0.012832263978001834
 }
 
 
 ======== MALIGNANT KUBERNETES CLUSTER TRAFFIC ========
 ************************************************************************************************************
-[../../train_test_data/lidar-attack/csv/child1/conn.csv]
+Dataset: [../../train_test_data/lidar-attack/csv/child1/conn.csv]
 Avg time between transactions (ms):  102.63214792524066
 Stddev time between transactions (ms):  257.5236116350232
 stddev/mean 2.509190510390649
@@ -287,7 +290,7 @@ stddev/mean: 3.551796608887718
 
 Total origin bytes: 2213511.0 (2.21351 MB)
 Total resp bytes: 1004878.0 (1.00488 MB)
-orig/resp ratio: 2.2027659079012554
+Byte orig/resp ratio: 2.2027659079012554
 
 Bidirectional byte ratio mean: 16.890679714107545
 Bidirectional byte ratio std: nan
@@ -298,7 +301,7 @@ Resp-only bytes std: 21559.11761518785 (0.02156 MB)
 
 Total origin pkts: 939
 Total resp pkts: 1724
-orig/resp ratio: 0.5446635730855309
+Pkt orig/resp ratio: 0.5446635730855309
 
 Bidirectional pkt ratio mean: 1.5930699451899129
 Bidirectional pkt ratio std: 1.924467056916132
@@ -318,7 +321,7 @@ Connection states and relative frequency:
 }
 
 ************************************************************************************************************
-[../../train_test_data/lidar-attack/csv/child2/conn.csv]
+Dataset: [../../train_test_data/lidar-attack/csv/child2/conn.csv]
 Avg time between transactions (ms):  34.85208241408664
 Stddev time between transactions (ms):  42.883474809049325
 stddev/mean 1.2304422530493193
@@ -339,7 +342,7 @@ stddev/mean: 3.873025287212115
 
 Total origin bytes: 3704384.0 (3.70438 MB)
 Total resp bytes: 1175774.0 (1.17577 MB)
-orig/resp ratio: 3.1505918654435265
+Byte orig/resp ratio: 3.1505918654435265
 
 Bidirectional byte ratio mean: 0.5314454316289134
 Bidirectional byte ratio std: 0.833718425694882
@@ -350,7 +353,7 @@ Resp-only bytes std: 65671.66474752981 (0.06567 MB)
 
 Total origin pkts: 1695
 Total resp pkts: 3881
-orig/resp ratio: 0.43674310744642186
+Pkt orig/resp ratio: 0.43674310744642186
 
 Bidirectional pkt ratio mean: 44.204365079365076
 Bidirectional pkt ratio std: 89.5098574338149
@@ -369,7 +372,7 @@ Connection states and relative frequency:
 }
 
 ************************************************************************************************************
-[../../train_test_data/lidar-attack/csv/cam-pod/conn.csv]
+Dataset: [../../train_test_data/lidar-attack/csv/cam-pod/conn.csv]
 Avg time between transactions (ms):  516.6217367699805
 Stddev time between transactions (ms):  613.8791375276759
 stddev/mean 1.188256501489402
@@ -387,7 +390,7 @@ stddev/mean: 1.731867852295161
 
 Total origin bytes: 0.0 (0.00000 MB)
 Total resp bytes: 565248.0 (0.56525 MB)
-orig/resp ratio: 0.0
+Byte orig/resp ratio: 0.0
 
 Bidirectional byte ratio mean: nan
 Bidirectional byte ratio std: nan
@@ -398,7 +401,7 @@ Resp-only bytes std: nan (nan MB)
 
 Total origin pkts: 0
 Total resp pkts: 4
-orig/resp ratio: 0.0
+Pkt orig/resp ratio: 0.0
 
 Bidirectional pkt ratio mean: nan
 Bidirectional pkt ratio std: nan
@@ -415,7 +418,7 @@ Connection states and relative frequency:
 
 ************************************************************************************************************
 <<<< THIS IS THE POD BEING ATTACKED >>>>
-[../../train_test_data/lidar-attack/csv/lidar-pod/conn.csv]
+Dataset: [../../train_test_data/lidar-attack/csv/lidar-pod/conn.csv]
 Avg time between transactions (ms):  102.89547509897189
 Stddev time between transactions (ms):  257.0593164603257
 stddev/mean 2.498256762146912
@@ -439,7 +442,7 @@ stddev/mean: 3.552293853663697
 
 Total origin bytes: 2239770.0 (2.23977 MB)
 Total resp bytes: 1029836.0 (1.02984 MB)
-orig/resp ratio: 2.1748802721986777
+Byte orig/resp ratio: 2.1748802721986777
 
 Bidirectional byte ratio mean: 16.924854954745882
 Bidirectional byte ratio std: nan
@@ -450,7 +453,7 @@ Resp-only bytes std: 21538.204352388097 (0.02154 MB)
 
 Total origin pkts: 807
 Total resp pkts: 1866
-orig/resp ratio: 0.43247588424414124
+Pkt orig/resp ratio: 0.43247588424414124
 
 Bidirectional pkt ratio mean: 1.5929508817514244
 Bidirectional pkt ratio std: 1.924563515339199
@@ -470,7 +473,7 @@ Connection states and relative frequency:
 }
 
 ************************************************************************************************************
-[../../train_test_data/lidar-attack/csv/nginx-pod/conn.csv]
+Dataset: [../../train_test_data/lidar-attack/csv/nginx-pod/conn.csv]
 Avg time between transactions (ms):  460.54299268871546
 Stddev time between transactions (ms):  785.5662714658849
 stddev/mean 1.7057392771945947
@@ -492,7 +495,7 @@ stddev/mean: 10.579718021574962
 
 Total origin bytes: 9763.0 (0.00976 MB)
 Total resp bytes: 27504.0 (0.02750 MB)
-orig/resp ratio: 0.35496655031994057
+Byte orig/resp ratio: 0.35496655031994057
 
 Bidirectional byte ratio mean: 0.30421422490360567
 Bidirectional byte ratio std: 0.1333782076097618
@@ -503,7 +506,7 @@ Resp-only bytes std: nan (nan MB)
 
 Total origin pkts: 317
 Total resp pkts: 263
-orig/resp ratio: 1.2053231939117668
+Pkt orig/resp ratio: 1.2053231939117668
 
 Bidirectional pkt ratio mean: 1.0
 Bidirectional pkt ratio std: 0.0

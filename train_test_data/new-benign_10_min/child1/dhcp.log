@@ -1,0 +1,75 @@
+#separator \x09
+#set_separator	,
+#empty_field	(empty)
+#unset_field	-
+#path	dhcp
+#open	2025-11-19-22-28-35
+#fields	ts	uids	client_addr	server_addr	mac	host_name	client_fqdn	domain	requested_addr	assigned_addr	lease_time	client_message	server_message	msg_types	duration
+#types	time	set[string]	addr	addr	string	string	string	string	addr	addr	interval	string	string	vector[string]	interval
+1763591301.679883	CIBTn31AvrgG226Qpj	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591306.082099	CIBTn31AvrgG226Qpj	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591298.763045	CIBTn31AvrgG226Qpj	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591301.488178	CIBTn31AvrgG226Qpj	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591314.117495	CIBTn31AvrgG226Qpj	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591330.581513	CIBTn31AvrgG226Qpj	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591441.740992	Chfxo34vGH46aPwJc5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591444.405951	Chfxo34vGH46aPwJc5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591448.751712	Chfxo34vGH46aPwJc5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591457.618033	Chfxo34vGH46aPwJc5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591474.030255	Chfxo34vGH46aPwJc5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591486.774909	Chfxo34vGH46aPwJc5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591493.822205	Chfxo34vGH46aPwJc5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591489.505674	Chfxo34vGH46aPwJc5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591502.707035	Chfxo34vGH46aPwJc5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591519.435866	Chfxo34vGH46aPwJc5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591531.774557	Chfxo34vGH46aPwJc5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591533.978159	Chfxo34vGH46aPwJc5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591538.056894	Chfxo34vGH46aPwJc5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591546.765956	Chfxo34vGH46aPwJc5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591563.572214	Chfxo34vGH46aPwJc5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591576.783556	Chfxo34vGH46aPwJc5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591579.697082	Chfxo34vGH46aPwJc5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591584.446926	Chfxo34vGH46aPwJc5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591592.593517	Chfxo34vGH46aPwJc5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591609.557711	Chfxo34vGH46aPwJc5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591614.741735	Chfxo34vGH46aPwJc5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591621.667049	Chfxo34vGH46aPwJc5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591617.553983	Chfxo34vGH46aPwJc5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591630.102814	Chfxo34vGH46aPwJc5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591646.092221	Chfxo34vGH46aPwJc5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591643.739949	Chfxo34vGH46aPwJc5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591646.636871	Chfxo34vGH46aPwJc5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591650.611874	Chfxo34vGH46aPwJc5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591659.754525	Chfxo34vGH46aPwJc5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591658.855502	Chfxo34vGH46aPwJc5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591666.794914	Chfxo34vGH46aPwJc5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591662.316947	Chfxo34vGH46aPwJc5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591675.728113	Chfxo34vGH46aPwJc5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591675.339441	Chfxo34vGH46aPwJc5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591696.591163	Chfxo34vGH46aPwJc5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591691.696686	Chfxo34vGH46aPwJc5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591688.771050	Chfxo34vGH46aPwJc5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591692.033921	Chfxo34vGH46aPwJc5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591705.428809	Chfxo34vGH46aPwJc5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591704.774538	Chfxo34vGH46aPwJc5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591712.493088	Chfxo34vGH46aPwJc5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591707.632730	Chfxo34vGH46aPwJc5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591721.298889	Chfxo34vGH46aPwJc5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591722.415266	Chfxo34vGH46aPwJc5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591733.759221	Chfxo34vGH46aPwJc5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591736.683223	Chfxo34vGH46aPwJc5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591737.653796	Chfxo34vGH46aPwJc5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591741.106257	Chfxo34vGH46aPwJc5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591749.974606	Chfxo34vGH46aPwJc5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591752.599199	Chfxo34vGH46aPwJc5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591749.762488	Chfxo34vGH46aPwJc5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591756.623943	Chfxo34vGH46aPwJc5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591765.243007	Chfxo34vGH46aPwJc5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591766.142027	Chfxo34vGH46aPwJc5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591778.767783	Chfxo34vGH46aPwJc5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591781.278213	Chfxo34vGH46aPwJc5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591785.543102	Chfxo34vGH46aPwJc5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591781.538788	Chfxo34vGH46aPwJc5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591793.997198	Chfxo34vGH46aPwJc5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+1763591810.220260	Chfxo34vGH46aPwJc5	-	-	ee:ee:ee:ee:ee:ee	child1	-	-	-	-	-	-	-	DISCOVER	0.000000
+#close	2025-11-19-22-38-18
