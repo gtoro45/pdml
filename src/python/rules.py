@@ -89,7 +89,6 @@ def extract_general(path):
     ts_avg_diff = ts_diff.mean()
     ts_diff_stdev = ts_diff.std()
     ts_cv = ts_diff_stdev / ts_avg_diff if ts_avg_diff != 0 else 0
-    # print(ts_diff)
     print("Avg time between transactions (ms): ", ts_avg_diff * 1000)
     print("Stddev time between transactions (ms): ", ts_diff_stdev * 1000)
     print("stddev/mean", ts_cv, end='\n\n')
@@ -112,18 +111,6 @@ def extract_general(path):
 
     origin_pairs = set(origin_pair_counter.items())
     resp_pairs   = set(resp_pair_counter.items())
-    
-    # return [
-    #     ts_avg_diff,            # float
-    #     ts_diff_stdev,          # float
-    #     ts_cv,                  # float
-    #     known_origin_addr,      # set: (addr, freq) pairs
-    #     known_origin_ports,     # set: (port, freq) pairs
-    #     known_resp_addr,        # set: (addr, freq) pairs
-    #     known_resp_ports,       # set: (port, freq) pairs
-    #     origin_pairs,           # set: ((addr, port), freq) pairs
-    #     resp_pairs              # set: ((addr, port), freq) pairs
-    # ]  
     
     return {
         "ts_avg_diff": ts_avg_diff,                     # float
@@ -214,8 +201,8 @@ def extract_conn_characs(conn_path):
     resp_only_bytes_mean = resp_only['resp_bytes'].mean()
     resp_only_bytes_std = resp_only['resp_bytes'].std()
     
-    print(f"Bidirectional byte ratio mean: {bidirectional_ratio_mean}")
-    print(f"Bidirectional byte ratio std: {bidirectional_ratio_std}")
+    print(f"Bidirectional byte ratio (orig/resp) mean: {bidirectional_ratio_mean}")
+    print(f"Bidirectional byte ratio (orig/resp) std: {bidirectional_ratio_std}")
     print(f"Orig-only bytes mean: {orig_only_bytes_mean} ({(orig_only_bytes_mean / 1_000_000):.5f} MB)")
     print(f"Orig-only bytes std: {orig_only_bytes_std} ({(orig_only_bytes_std / 1_000_000):.5f} MB)")
     print(f"Resp-only bytes mean: {resp_only_bytes_mean} ({(resp_only_bytes_mean / 1_000_000):.5f} MB)")
@@ -244,8 +231,8 @@ def extract_conn_characs(conn_path):
     resp_only_pkts_mean = resp_only_pkts['resp_pkts'].mean()
     resp_only_pkts_std = resp_only_pkts['resp_pkts'].std()
     
-    print(f"Bidirectional pkt ratio mean: {pkts_ratio_mean}")
-    print(f"Bidirectional pkt ratio std: {pkts_ratio_std}")
+    print(f"Bidirectional pkt ratio (orig/resp) mean: {pkts_ratio_mean}")
+    print(f"Bidirectional pkt ratio (orig/resp) std: {pkts_ratio_std}")
     print(f"Orig-only pkt mean: {orig_only_pkts_mean}")
     print(f"Orig-only pkt std: {orig_only_pkts_std}")
     print(f"Resp-only pkt mean: {resp_only_pkts_mean}")
@@ -567,6 +554,43 @@ def extract_http_characs(http_path):
 
 # ==== Calculate a rules score based on the log type for a SINGLE LINE ====
 def get_rules_score_conn(line: str, ruleset: list):
+    # name the columns for a dictionary
+    cols = [
+        "ts",
+        "uid",
+        "id.orig_h",
+        "id.orig_p",
+        "id.resp_h",
+        "id.resp_p",
+        "proto",
+        "service",
+        "duration",
+        "orig_bytes",
+        "resp_bytes",
+        "conn_state",
+        "orig_pkts",
+        "resp_pkts"
+    ]
+
+    # format the line for the dictionary
+    line = line[5:] # strip 'CONN,' from front of line
+    line = line.split(',')
+    
+    # make the dictionary
+    line_data = dict(zip(cols, line))
+    print(line_data)
+    
+    # run the logic checks and build the score
+    anomaly_score = 0
+    
+    # (1) Known Origin Addresses/Ports
+    # TODO: moot point for the type of attack we were given (for now)
+    
+    # (2) Known Response Addresses/Ports
+    # TODO: moot point for the type of attack we were given (for now)
+    
+    # (3)
+
     return
 
 def get_rules_score_dns(line: str, ruleset: list):
@@ -599,31 +623,36 @@ print("=========================================================================
 # print("************************************************************************************************************")
 
 # new benign data
-print("======== BENIGN KUBERNETES CLUSTER TRAFFIC ========")
-extract_conn_characs(conn_paths[7])
-print("************************************************************************************************************")
-extract_conn_characs(conn_paths[8])
-print("************************************************************************************************************")
-extract_conn_characs(conn_paths[9])
-print("************************************************************************************************************")
-extract_conn_characs(conn_paths[10])
-print("************************************************************************************************************")
-extract_conn_characs(conn_paths[11])
-print()
+# print("======== BENIGN KUBERNETES CLUSTER TRAFFIC ========")
+# extract_conn_characs(conn_paths[7])
+# print("************************************************************************************************************")
+# extract_conn_characs(conn_paths[8])
+# print("************************************************************************************************************")
+# extract_conn_characs(conn_paths[9])
+# print("************************************************************************************************************")
+# extract_conn_characs(conn_paths[10])
+# print("************************************************************************************************************")
+# extract_conn_characs(conn_paths[11])
+# print()
 
 # attack data
-print("======== MALIGNANT KUBERNETES CLUSTER TRAFFIC ========")
-print("************************************************************************************************************")
-extract_conn_characs(conn_paths[12])
-print("************************************************************************************************************")
-extract_conn_characs(conn_paths[13])
-print("************************************************************************************************************")
-extract_conn_characs(conn_paths[14])
-print("************************************************************************************************************")
-print("<<<< THIS IS THE POD BEING ATTACKED >>>>")
-extract_conn_characs(conn_paths[15])
-print("************************************************************************************************************")
-extract_conn_characs(conn_paths[16])
+# print("======== MALIGNANT KUBERNETES CLUSTER TRAFFIC ========")
+# print("************************************************************************************************************")
+# extract_conn_characs(conn_paths[12])
+# print("************************************************************************************************************")
+# extract_conn_characs(conn_paths[13])
+# print("************************************************************************************************************")
+# extract_conn_characs(conn_paths[14])
+# print("************************************************************************************************************")
+# print("<<<< THIS IS THE POD BEING ATTACKED >>>>")
+# extract_conn_characs(conn_paths[15])
+# print("************************************************************************************************************")
+# extract_conn_characs(conn_paths[16])
+# print("<<<< THIS IS THE FAUX DDOS ATTACK >>>>")
+# extract_conn_characs(conn_paths[6])
+
+get_rules_score_conn("CONN,1762276437.802223,CL8BNR1qn4PBrDiHz6,192.168.1.226,60386,52.168.117.169,443,tcp,-,-,-,-,OTH,T,F,0,C,0,0,0,0,-,6", None)
+
 
 # DNS
 # print("==============================================================================================================")
