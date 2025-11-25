@@ -5,10 +5,10 @@ This is the network ML subsystem for the Cyber Threat capstone project at Texas 
 
 ## Components
 - `format.c`: extracts and format Zeek logs into CSV format for training and testing
-    - input: PCAP file path
-    - output: CSV file with model inputs placed into a waiting queue for the detection model
+    - input: Zeek log file path (real-time file)
+    - output: CSV file buffer with csv-ready log lines for python modelling
 - FIFO (UNIX pipe) to store ready to go input data to feed into model
-- `model.py`: detection model training + running script
+- `*.py`: detection model (ffts, rulesets, etc.) and script to run in real-time
 
 ## Dependencies
 The following dependencies are required to run this project:

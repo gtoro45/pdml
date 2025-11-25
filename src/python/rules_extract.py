@@ -73,7 +73,7 @@ def print_dict(data: dict):
     except Exception as e:
         print(f"An unexpected error occurred: {e}")
         
-def rules_to_csv_conn():
+def rules_to_csv_conn(filename):
     benign_sets = [0, 1, 7, 8, 9, 10, 11]
     malignant_sets = [12, 13, 14, 15, 16, 6]
     all_datasets = benign_sets + malignant_sets
@@ -82,10 +82,10 @@ def rules_to_csv_conn():
     # First, extract all rules data
     all_rules = []
     for dataset in all_datasets:
-        rules = extract_conn_characs(conn_paths[dataset])
+        rules = extract_conn_characs(conn_paths[dataset], debug=False)
         all_rules.append(rules)
     
-    with open("conn_stats.csv", 'w', newline='') as file:
+    with open(filename, 'w', newline='') as file:
         writer = csv.writer(file)
         
         # Write header row (dataset indices)
@@ -112,23 +112,25 @@ def rules_to_csv_conn():
 
 # ==== Extract rules ====
 # extract general characteristics across all files
-def extract_general(path):
-    df = pd.read_csv(path)
-    df = df.sort_values(by="ts")
+def extract_general(path, window_df=None, debug=True):
+    # (0) read and handle missing symbols
+    df = window_df
+    if(path):
+        df = pd.read_csv(path)
     
-    # (0) handle missing symbols
     df.replace('-', pd.NA, inplace=True)
     df = df.dropna(subset=['ts', 'id.orig_h', 'id.resp_h'])
-
+    df = df.sort_values(by="ts")
     
     # (1) get time data between transactions
     ts_diff = df['ts'].diff()[1:]
     ts_avg_diff = ts_diff.mean()
     ts_diff_stdev = ts_diff.std()
     ts_cv = ts_diff_stdev / ts_avg_diff if ts_avg_diff != 0 else 0
-    print("Avg time between transactions (ms): ", ts_avg_diff * 1000)
-    print("Stddev time between transactions (ms): ", ts_diff_stdev * 1000)
-    print("stddev/mean", ts_cv, end='\n\n')
+    if(debug):
+        print("Avg time between transactions (ms): ", ts_avg_diff * 1000)
+        print("Stddev time between transactions (ms): ", ts_diff_stdev * 1000)
+        print("stddev/mean", ts_cv, end='\n\n')
     
     # (2) get known addresses and ports for both sender and receiver
     # Build Counters (frequency tables)
@@ -187,23 +189,27 @@ def extract_general(path):
 # resp_ip_bytes     : count         [X] --> proportional to resp_bytes
 # tunnel_parents    : set[string]   [X]
 # ip_proto          : count         [X]
-def extract_conn_characs(conn_path):
-    print(f"Dataset: [{conn_path}]")
+def extract_conn_characs(conn_path, window_df=None, debug=True):
+    if(debug):
+        print(f"Dataset: [{conn_path}]")
     # (0) read file, handle missing symbols, get general analysis
-    df = pd.read_csv(conn_path)
+    df = window_df
+    if(conn_path):
+        df = pd.read_csv(conn_path)
+        
     df.replace('-', pd.NA, inplace=True)
     df = df.drop(['ts', 'id.orig_h', 'id.resp_h', 'orig_ip_bytes', 'resp_ip_bytes', 'tunnel_parents', 'ip_proto'], errors='ignore')
-    
-    general = extract_general(conn_path)
+    general = extract_general(path=conn_path, window_df=window_df, debug=debug)
 
     # (1) Protocol and Service analysis
     proto_counts = df['proto'].value_counts(normalize=True).to_dict()       # i.e. {'protocol1' : proportion1, 'protocol2' : proportion2}
     service_counts = df['service'].value_counts(normalize=True).to_dict()   # i.e. {'service1' : proportion1, 'service2' : proportion2}
-    # print(f"Protocols and relative frequency:")
-    # print_dict(proto_counts)
-    # print(f"Services and relative frequency:")
-    # print_dict(service_counts)
-    # print()
+    if(debug):
+        print(f"Protocols and relative frequency:")
+        print_dict(proto_counts)
+        print(f"Services and relative frequency:")
+        print_dict(service_counts)
+        print()
     
     
     # (2) Duration Statistics
@@ -211,22 +217,23 @@ def extract_conn_characs(conn_path):
     dur_mean = df['duration'].mean()
     dur_std = df['duration'].std()
     dur_cv = dur_std / dur_mean if dur_mean != 0 else 0
-    print(f"Average transaction duration: {dur_mean}")
-    print(f"Average transaction stddev: {dur_std}")
-    print(f"stddev/mean: {dur_cv}")
+    if(debug):
+        print(f"Average transaction duration: {dur_mean}")
+        print(f"Average transaction stddev: {dur_std}")
+        print(f"stddev/mean: {dur_cv}")
     
     dur_p99 = np.nanpercentile(df['duration'], 99)
     dur_p95 = np.nanpercentile(df['duration'], 95)
     dur_med = df['duration'].median()
     dur_p05 = np.nanpercentile(df['duration'], 5)
     dur_p01 = np.nanpercentile(df['duration'], 1)
-    print(f"P99 transaction duration: {dur_p99}")
-    print(f"P95 transaction duration: {dur_p95}")
-    print(f"Median transaction duration: {dur_med}")
-    print(f"P05 transaction duration: {dur_p05}")
-    print(f"P01 transaction duration: {dur_p01}")
-    
-    print()
+    if(debug):
+        print(f"P99 transaction duration: {dur_p99}")
+        print(f"P95 transaction duration: {dur_p95}")
+        print(f"Median transaction duration: {dur_med}")
+        print(f"P05 transaction duration: {dur_p05}")
+        print(f"P01 transaction duration: {dur_p01}")
+        print()
     
     # (3) Traffic Volume Characteristics
     df['orig_bytes'] = pd.to_numeric(df['orig_bytes'], errors='coerce')
@@ -234,10 +241,11 @@ def extract_conn_characs(conn_path):
     orig_bytes_total = df['orig_bytes'].sum()
     resp_bytes_total = df['resp_bytes'].sum()
     byte_ratio = orig_bytes_total / (resp_bytes_total + 1e-9) # 1e-9 to avoid div/0 
-    print(f"Total origin bytes: {orig_bytes_total} ({(orig_bytes_total / 1_000_000):.5f} MB)")
-    print(f"Total resp bytes: {resp_bytes_total} ({(resp_bytes_total / 1_000_000):.5f} MB)")
-    print(f"Byte orig/resp ratio: {byte_ratio}")
-    print()
+    if(debug):
+        print(f"Total origin bytes: {orig_bytes_total} ({(orig_bytes_total / 1_000_000):.5f} MB)")
+        print(f"Total resp bytes: {resp_bytes_total} ({(resp_bytes_total / 1_000_000):.5f} MB)")
+        print(f"Byte orig/resp ratio: {byte_ratio}")
+        print()
     
     bidirectional = df[(df['resp_bytes'] > 0) & (df['orig_bytes'] > 0)]
     orig_only = df[(df['orig_bytes'] > 0) & (df['resp_bytes'] == 0)]
@@ -258,16 +266,18 @@ def extract_conn_characs(conn_path):
         bidirectional_ratio_p95 = np.nanpercentile(bidirectional['orig_bytes'] / bidirectional['resp_bytes'], 95)
         bidirectional_ratio_p05 = np.nanpercentile(bidirectional['orig_bytes'] / bidirectional['resp_bytes'], 5)
         bidirectional_ratio_p01 = np.nanpercentile(bidirectional['orig_bytes'] / bidirectional['resp_bytes'], 1)
-        print(f"Bidirectional byte ratio (orig/resp) mean: {bidirectional_ratio_mean}")
-        print(f"Bidirectional byte ratio (orig/resp) std: {bidirectional_ratio_std}")
-        print(f"Bidirectional byte ratio (orig/resp) median: {bidirectional_ratio_med}")
-        print(f"Bidirectional byte ratio (orig/resp) 99th percentile: {bidirectional_ratio_p99}")
-        print(f"Bidirectional byte ratio (orig/resp) 95th percentile: {bidirectional_ratio_p95}")
-        print(f"Bidirectional byte ratio (orig/resp) 5th percentile: {bidirectional_ratio_p05}")
-        print(f"Bidirectional byte ratio (orig/resp) 1st percentile: {bidirectional_ratio_p01}")
+        if(debug):
+            print(f"Bidirectional byte ratio (orig/resp) mean: {bidirectional_ratio_mean}")
+            print(f"Bidirectional byte ratio (orig/resp) std: {bidirectional_ratio_std}")
+            print(f"Bidirectional byte ratio (orig/resp) median: {bidirectional_ratio_med}")
+            print(f"Bidirectional byte ratio (orig/resp) 99th percentile: {bidirectional_ratio_p99}")
+            print(f"Bidirectional byte ratio (orig/resp) 95th percentile: {bidirectional_ratio_p95}")
+            print(f"Bidirectional byte ratio (orig/resp) 5th percentile: {bidirectional_ratio_p05}")
+            print(f"Bidirectional byte ratio (orig/resp) 1st percentile: {bidirectional_ratio_p01}")
+            print()
     else:
-        print("Bidirectional byte ratio: No data available")
-    print()
+        print(f"[{conn_path}]: Bidirectional byte ratio: No data available")
+    
     
     
     orig_only_bytes_mean = -1
@@ -285,16 +295,17 @@ def extract_conn_characs(conn_path):
         orig_only_bytes_p95 = np.nanpercentile(orig_only['orig_bytes'], 95)
         orig_only_bytes_p05 = np.nanpercentile(orig_only['orig_bytes'], 5)
         orig_only_bytes_p01 = np.nanpercentile(orig_only['orig_bytes'], 1)
-        print(f"Orig-only bytes mean: {orig_only_bytes_mean} ({(orig_only_bytes_mean / 1_000_000):.5f} MB)")
-        print(f"Orig-only bytes std: {orig_only_bytes_std} ({(orig_only_bytes_std / 1_000_000):.5f} MB)")
-        print(f"Orig-only bytes median: {orig_only_bytes_med} ({(orig_only_bytes_med / 1_000_000):.5f} MB)")
-        print(f"Orig-only bytes 99th percentile: {orig_only_bytes_p99} ({(orig_only_bytes_p99 / 1_000_000):.5f} MB)")
-        print(f"Orig-only bytes 95th percentile: {orig_only_bytes_p95} ({(orig_only_bytes_p95 / 1_000_000):.5f} MB)")
-        print(f"Orig-only bytes 5th percentile: {orig_only_bytes_p05} ({(orig_only_bytes_p05 / 1_000_000):.5f} MB)")
-        print(f"Orig-only bytes 1st percentile: {orig_only_bytes_p01} ({(orig_only_bytes_p01 / 1_000_000):.5f} MB)")
+        if(debug):
+            print(f"Orig-only bytes mean: {orig_only_bytes_mean} ({(orig_only_bytes_mean / 1_000_000):.5f} MB)")
+            print(f"Orig-only bytes std: {orig_only_bytes_std} ({(orig_only_bytes_std / 1_000_000):.5f} MB)")
+            print(f"Orig-only bytes median: {orig_only_bytes_med} ({(orig_only_bytes_med / 1_000_000):.5f} MB)")
+            print(f"Orig-only bytes 99th percentile: {orig_only_bytes_p99} ({(orig_only_bytes_p99 / 1_000_000):.5f} MB)")
+            print(f"Orig-only bytes 95th percentile: {orig_only_bytes_p95} ({(orig_only_bytes_p95 / 1_000_000):.5f} MB)")
+            print(f"Orig-only bytes 5th percentile: {orig_only_bytes_p05} ({(orig_only_bytes_p05 / 1_000_000):.5f} MB)")
+            print(f"Orig-only bytes 1st percentile: {orig_only_bytes_p01} ({(orig_only_bytes_p01 / 1_000_000):.5f} MB)")
+            print()
     else:
-        print("Orig-only bytes: No data available")
-    print()
+        print(f"[{conn_path}]: Orig-only bytes: No data available")
     
     resp_only_bytes_mean = -1
     resp_only_bytes_std = -1
@@ -311,16 +322,17 @@ def extract_conn_characs(conn_path):
         resp_only_bytes_p95 = np.nanpercentile(resp_only['resp_bytes'], 95)
         resp_only_bytes_p05 = np.nanpercentile(resp_only['resp_bytes'], 5)
         resp_only_bytes_p01 = np.nanpercentile(resp_only['resp_bytes'], 1)
-        print(f"Resp-only bytes mean: {resp_only_bytes_mean} ({(resp_only_bytes_mean / 1_000_000):.5f} MB)")
-        print(f"Resp-only bytes std: {resp_only_bytes_std} ({(resp_only_bytes_std / 1_000_000):.5f} MB)")
-        print(f"Resp-only bytes median: {resp_only_bytes_med} ({(resp_only_bytes_med / 1_000_000):.5f} MB)")
-        print(f"Resp-only bytes 99th percentile: {resp_only_bytes_p99} ({(resp_only_bytes_p99 / 1_000_000):.5f} MB)")
-        print(f"Resp-only bytes 95th percentile: {resp_only_bytes_p95} ({(resp_only_bytes_p95 / 1_000_000):.5f} MB)")
-        print(f"Resp-only bytes 5th percentile: {resp_only_bytes_p05} ({(resp_only_bytes_p05 / 1_000_000):.5f} MB)")
-        print(f"Resp-only bytes 1st percentile: {resp_only_bytes_p01} ({(resp_only_bytes_p01 / 1_000_000):.5f} MB)")
+        if(debug):
+            print(f"Resp-only bytes mean: {resp_only_bytes_mean} ({(resp_only_bytes_mean / 1_000_000):.5f} MB)")
+            print(f"Resp-only bytes std: {resp_only_bytes_std} ({(resp_only_bytes_std / 1_000_000):.5f} MB)")
+            print(f"Resp-only bytes median: {resp_only_bytes_med} ({(resp_only_bytes_med / 1_000_000):.5f} MB)")
+            print(f"Resp-only bytes 99th percentile: {resp_only_bytes_p99} ({(resp_only_bytes_p99 / 1_000_000):.5f} MB)")
+            print(f"Resp-only bytes 95th percentile: {resp_only_bytes_p95} ({(resp_only_bytes_p95 / 1_000_000):.5f} MB)")
+            print(f"Resp-only bytes 5th percentile: {resp_only_bytes_p05} ({(resp_only_bytes_p05 / 1_000_000):.5f} MB)")
+            print(f"Resp-only bytes 1st percentile: {resp_only_bytes_p01} ({(resp_only_bytes_p01 / 1_000_000):.5f} MB)")
+            print()
     else:
-        print("Resp-only bytes: No data available")
-    print()
+        print(f"[{conn_path}]: Resp-only bytes: No data available")
     
     # (4) Packet-Level Behavior
     df['orig_pkts'] = pd.to_numeric(df['orig_pkts'], errors='coerce')
@@ -328,10 +340,11 @@ def extract_conn_characs(conn_path):
     orig_pkts_total = df['orig_pkts'].sum()
     resp_pkts_total = df['resp_pkts'].sum()
     pkts_ratio = orig_pkts_total / (resp_pkts_total + 1e-9) # 1e-9 to avoid div/0
-    print(f"Total origin pkts: {orig_pkts_total}")
-    print(f"Total resp pkts: {resp_pkts_total}")
-    print(f"Pkt orig/resp ratio: {pkts_ratio}")
-    print()
+    if(debug):
+        print(f"Total origin pkts: {orig_pkts_total}")
+        print(f"Total resp pkts: {resp_pkts_total}")
+        print(f"Pkt orig/resp ratio: {pkts_ratio}")
+        print()
     
     bidirectional_pkts = df[(df['resp_pkts'] > 0) & (df['orig_pkts'] > 0)]
     orig_only_pkts = df[(df['orig_pkts'] > 0) & (df['resp_pkts'] == 0)]
@@ -352,16 +365,17 @@ def extract_conn_characs(conn_path):
         pkts_ratio_p95 = np.nanpercentile(bidirectional_pkts['orig_pkts'] / bidirectional_pkts['resp_pkts'], 95)
         pkts_ratio_p05 = np.nanpercentile(bidirectional_pkts['orig_pkts'] / bidirectional_pkts['resp_pkts'], 5)
         pkts_ratio_p01 = np.nanpercentile(bidirectional_pkts['orig_pkts'] / bidirectional_pkts['resp_pkts'], 1)
-        print(f"Bidirectional pkt ratio (orig/resp) mean: {pkts_ratio_mean}")
-        print(f"Bidirectional pkt ratio (orig/resp) std: {pkts_ratio_std}")
-        print(f"Bidirectional pkt ratio (orig/resp) median: {pkts_ratio_med}")
-        print(f"Bidirectional pkt ratio (orig/resp) 99th percentile: {pkts_ratio_p99}")
-        print(f"Bidirectional pkt ratio (orig/resp) 95th percentile: {pkts_ratio_p95}")
-        print(f"Bidirectional pkt ratio (orig/resp) 5th percentile: {pkts_ratio_p05}")
-        print(f"Bidirectional pkt ratio (orig/resp) 1st percentile: {pkts_ratio_p01}")
+        if(debug):
+            print(f"Bidirectional pkt ratio (orig/resp) mean: {pkts_ratio_mean}")
+            print(f"Bidirectional pkt ratio (orig/resp) std: {pkts_ratio_std}")
+            print(f"Bidirectional pkt ratio (orig/resp) median: {pkts_ratio_med}")
+            print(f"Bidirectional pkt ratio (orig/resp) 99th percentile: {pkts_ratio_p99}")
+            print(f"Bidirectional pkt ratio (orig/resp) 95th percentile: {pkts_ratio_p95}")
+            print(f"Bidirectional pkt ratio (orig/resp) 5th percentile: {pkts_ratio_p05}")
+            print(f"Bidirectional pkt ratio (orig/resp) 1st percentile: {pkts_ratio_p01}")
+            print()
     else:
-        print("Bidirectional pkt ratio: No data available")
-    print()
+        print(f"[{conn_path}]: Bidirectional pkt ratio: No data available")
     
     orig_only_pkts_mean = -1
     orig_only_pkts_std = -1
@@ -378,16 +392,17 @@ def extract_conn_characs(conn_path):
         orig_only_pkts_p95 = np.nanpercentile(orig_only_pkts['orig_pkts'], 95)
         orig_only_pkts_p05 = np.nanpercentile(orig_only_pkts['orig_pkts'], 5)
         orig_only_pkts_p01 = np.nanpercentile(orig_only_pkts['orig_pkts'], 1)
-        print(f"Orig-only pkt mean: {orig_only_pkts_mean}")
-        print(f"Orig-only pkt std: {orig_only_pkts_std}")
-        print(f"Orig-only pkt median: {orig_only_pkts_med}")
-        print(f"Orig-only pkt 99th percentile: {orig_only_pkts_p99}")
-        print(f"Orig-only pkt 95th percentile: {orig_only_pkts_p95}")
-        print(f"Orig-only pkt 5th percentile: {orig_only_pkts_p05}")
-        print(f"Orig-only pkt 1st percentile: {orig_only_pkts_p01}")
+        if(debug):
+            print(f"Orig-only pkt mean: {orig_only_pkts_mean}")
+            print(f"Orig-only pkt std: {orig_only_pkts_std}")
+            print(f"Orig-only pkt median: {orig_only_pkts_med}")
+            print(f"Orig-only pkt 99th percentile: {orig_only_pkts_p99}")
+            print(f"Orig-only pkt 95th percentile: {orig_only_pkts_p95}")
+            print(f"Orig-only pkt 5th percentile: {orig_only_pkts_p05}")
+            print(f"Orig-only pkt 1st percentile: {orig_only_pkts_p01}")
+            print()
     else:
-        print("Orig-only pkt: No data available")
-    print()
+        print(f"[{conn_path}]: Orig-only pkt: No data available")
     
     resp_only_pkts_mean = -1
     resp_only_pkts_std = -1
@@ -404,25 +419,222 @@ def extract_conn_characs(conn_path):
         resp_only_pkts_p95 = np.nanpercentile(resp_only_pkts['resp_pkts'], 95)
         resp_only_pkts_p05 = np.nanpercentile(resp_only_pkts['resp_pkts'], 5)
         resp_only_pkts_p01 = np.nanpercentile(resp_only_pkts['resp_pkts'], 1)
-        print(f"Resp-only pkt mean: {resp_only_pkts_mean}")
-        print(f"Resp-only pkt std: {resp_only_pkts_std}")
-        print(f"Resp-only pkt median: {resp_only_pkts_med}")
-        print(f"Resp-only pkt 99th percentile: {resp_only_pkts_p99}")
-        print(f"Resp-only pkt 95th percentile: {resp_only_pkts_p95}")
-        print(f"Resp-only pkt 5th percentile: {resp_only_pkts_p05}")
-        print(f"Resp-only pkt 1st percentile: {resp_only_pkts_p01}")
+        if(debug):
+            print(f"Resp-only pkt mean: {resp_only_pkts_mean}")
+            print(f"Resp-only pkt std: {resp_only_pkts_std}")
+            print(f"Resp-only pkt median: {resp_only_pkts_med}")
+            print(f"Resp-only pkt 99th percentile: {resp_only_pkts_p99}")
+            print(f"Resp-only pkt 95th percentile: {resp_only_pkts_p95}")
+            print(f"Resp-only pkt 5th percentile: {resp_only_pkts_p05}")
+            print(f"Resp-only pkt 1st percentile: {resp_only_pkts_p01}")
+            print()
     else:
-        print("Resp-only pkt: No data available")
-    print()
+        print(f"[{conn_path}]: Resp-only pkt: No data available")
     
-    # (5) Connection State Distribution
+    # (5) Rate Data
+    bidirectional_bytes_per_second = (bidirectional['orig_bytes'] + bidirectional['resp_bytes']) / bidirectional['duration']
+    orig_only_bytes_per_second = (orig_only['orig_bytes'] + orig_only['resp_bytes']) / orig_only['duration']
+    resp_only_bytes_per_second = (resp_only['orig_bytes'] + resp_only['resp_bytes']) / resp_only['duration']
+    
+    bidirectional_bytes_per_second = bidirectional_bytes_per_second[bidirectional_bytes_per_second > 0] # filter out 0s
+    orig_only_bytes_per_second = orig_only_bytes_per_second[orig_only_bytes_per_second > 0]             # filter out 0s
+    resp_only_bytes_per_second = resp_only_bytes_per_second[resp_only_bytes_per_second > 0]             # filter out 0s
+    
+    bidirectional_bps_mean = -1
+    bidirectional_bps_std = -1
+    bidirectional_bps_med = -1
+    bidirectional_bps_p99 = -1
+    bidirectional_bps_p95 = -1
+    bidirectional_bps_p05 = -1
+    bidirectional_bps_p01 = -1
+    if len(bidirectional_bytes_per_second) > 0:
+        bidirectional_bps_mean = bidirectional_bytes_per_second.mean()
+        bidirectional_bps_std = bidirectional_bytes_per_second.std()
+        bidirectional_bps_med = bidirectional_bytes_per_second.median()
+        bidirectional_bps_p99 = np.nanpercentile(bidirectional_bytes_per_second, 99)
+        bidirectional_bps_p95 = np.nanpercentile(bidirectional_bytes_per_second, 95)
+        bidirectional_bps_p05 = np.nanpercentile(bidirectional_bytes_per_second, 5)
+        bidirectional_bps_p01 = np.nanpercentile(bidirectional_bytes_per_second, 1)
+        if(debug):
+            print(f"Bidirectional bytes per second mean: {bidirectional_bps_mean} ({(bidirectional_bps_mean / 1_000_000):.5f} MB/s)")
+            print(f"Bidirectional bytes per second std: {bidirectional_bps_std} ({(bidirectional_bps_std / 1_000_000):.5f} MB/s)")
+            print(f"Bidirectional bytes per second median: {bidirectional_bps_med} ({(bidirectional_bps_med / 1_000_000):.5f} MB/s)")
+            print(f"Bidirectional bytes per second 99th percentile: {bidirectional_bps_p99} ({(bidirectional_bps_p99 / 1_000_000):.5f} MB/s)")
+            print(f"Bidirectional bytes per second 95th percentile: {bidirectional_bps_p95} ({(bidirectional_bps_p95 / 1_000_000):.5f} MB/s)")
+            print(f"Bidirectional bytes per second 5th percentile: {bidirectional_bps_p05} ({(bidirectional_bps_p05 / 1_000_000):.5f} MB/s)")
+            print(f"Bidirectional bytes per second 1st percentile: {bidirectional_bps_p01} ({(bidirectional_bps_p01 / 1_000_000):.5f} MB/s)")
+            print()
+    else:
+        print("Bidirectional bytes per second: No data available")
+    
+        
+    orig_only_bps_mean = -1
+    orig_only_bps_std = -1
+    orig_only_bps_med = -1
+    orig_only_bps_p99 = -1
+    orig_only_bps_p95 = -1
+    orig_only_bps_p05 = -1
+    orig_only_bps_p01 = -1
+    if len(orig_only_bytes_per_second) > 0:
+        orig_only_bps_mean = orig_only_bytes_per_second.mean()
+        orig_only_bps_std = orig_only_bytes_per_second.std()
+        orig_only_bps_med = orig_only_bytes_per_second.median()
+        orig_only_bps_p99 = np.nanpercentile(orig_only_bytes_per_second, 99)
+        orig_only_bps_p95 = np.nanpercentile(orig_only_bytes_per_second, 95)
+        orig_only_bps_p05 = np.nanpercentile(orig_only_bytes_per_second, 5)
+        orig_only_bps_p01 = np.nanpercentile(orig_only_bytes_per_second, 1)
+        if(debug):
+            print(f"Orig-only bytes per second mean: {orig_only_bps_mean} ({(orig_only_bps_mean / 1_000_000):.5f} MB/s)")
+            print(f"Orig-only bytes per second std: {orig_only_bps_std} ({(orig_only_bps_std / 1_000_000):.5f} MB/s)")
+            print(f"Orig-only bytes per second median: {orig_only_bps_med} ({(orig_only_bps_med / 1_000_000):.5f} MB/s)")
+            print(f"Orig-only bytes per second 99th percentile: {orig_only_bps_p99} ({(orig_only_bps_p99 / 1_000_000):.5f} MB/s)")
+            print(f"Orig-only bytes per second 95th percentile: {orig_only_bps_p95} ({(orig_only_bps_p95 / 1_000_000):.5f} MB/s)")
+            print(f"Orig-only bytes per second 5th percentile: {orig_only_bps_p05} ({(orig_only_bps_p05 / 1_000_000):.5f} MB/s)")
+            print(f"Orig-only bytes per second 1st percentile: {orig_only_bps_p01} ({(orig_only_bps_p01 / 1_000_000):.5f} MB/s)")
+            print()
+    else:
+        print("Orig-only bytes per second: No data available")
+    
+    
+    resp_only_bps_mean = -1
+    resp_only_bps_std = -1
+    resp_only_bps_med = -1
+    resp_only_bps_p99 = -1
+    resp_only_bps_p95 = -1
+    resp_only_bps_p05 = -1
+    resp_only_bps_p01 = -1
+    if len(resp_only_bytes_per_second) > 0:
+        resp_only_bps_mean = resp_only_bytes_per_second.mean()
+        resp_only_bps_std = resp_only_bytes_per_second.std()
+        resp_only_bps_med = resp_only_bytes_per_second.median()
+        resp_only_bps_p99 = np.nanpercentile(resp_only_bytes_per_second, 99)
+        resp_only_bps_p95 = np.nanpercentile(resp_only_bytes_per_second, 95)
+        resp_only_bps_p05 = np.nanpercentile(resp_only_bytes_per_second, 5)
+        resp_only_bps_p01 = np.nanpercentile(resp_only_bytes_per_second, 1)
+        if(debug):
+            print(f"Resp-only bytes per second mean: {resp_only_bps_mean} ({(resp_only_bps_mean / 1_000_000):.5f} MB/s)")
+            print(f"Resp-only bytes per second std: {resp_only_bps_std} ({(resp_only_bps_std / 1_000_000):.5f} MB/s)")
+            print(f"Resp-only bytes per second median: {resp_only_bps_med} ({(resp_only_bps_med / 1_000_000):.5f} MB/s)")
+            print(f"Resp-only bytes per second 99th percentile: {resp_only_bps_p99} ({(resp_only_bps_p99 / 1_000_000):.5f} MB/s)")
+            print(f"Resp-only bytes per second 95th percentile: {resp_only_bps_p95} ({(resp_only_bps_p95 / 1_000_000):.5f} MB/s)")
+            print(f"Resp-only bytes per second 5th percentile: {resp_only_bps_p05} ({(resp_only_bps_p05 / 1_000_000):.5f} MB/s)")
+            print(f"Resp-only bytes per second 1st percentile: {resp_only_bps_p01} ({(resp_only_bps_p01 / 1_000_000):.5f} MB/s)")
+            print()
+    else:
+        print("Resp-only bytes per second: No data available")
+    
+    
+    bidirectional_pkts_per_second = (bidirectional_pkts['orig_bytes'] + bidirectional_pkts['resp_bytes']) / bidirectional_pkts['duration']
+    orig_only_pkts_per_second = (orig_only_pkts['orig_bytes']) / orig_only_pkts['duration']
+    resp_only_pkts_per_second = (resp_only_pkts['resp_bytes']) / resp_only_pkts['duration']
+    
+    bidirectional_pkts_per_second = bidirectional_pkts_per_second[bidirectional_pkts_per_second > 0]    # filter out 0s
+    orig_only_pkts_per_second = orig_only_pkts_per_second[orig_only_pkts_per_second > 0]                # filter out 0s
+    resp_only_pkts_per_second = resp_only_pkts_per_second[resp_only_pkts_per_second > 0]                # filter out 0s
+    
+    bidirectional_pps_mean = -1
+    bidirectional_pps_std = -1
+    bidirectional_pps_med = -1
+    bidirectional_pps_p99 = -1
+    bidirectional_pps_p95 = -1
+    bidirectional_pps_p05 = -1
+    bidirectional_pps_p01 = -1
+    if len(bidirectional_pkts_per_second) > 0:
+        bidirectional_pps_mean = bidirectional_pkts_per_second.mean()
+        bidirectional_pps_std = bidirectional_pkts_per_second.std()
+        bidirectional_pps_med = bidirectional_pkts_per_second.median()
+        bidirectional_pps_p99 = np.nanpercentile(bidirectional_pkts_per_second, 99)
+        bidirectional_pps_p95 = np.nanpercentile(bidirectional_pkts_per_second, 95)
+        bidirectional_pps_p05 = np.nanpercentile(bidirectional_pkts_per_second, 5)
+        bidirectional_pps_p01 = np.nanpercentile(bidirectional_pkts_per_second, 1)
+        if(debug):
+            print(f"Bidirectional packets per second mean: {bidirectional_pps_mean}")
+            print(f"Bidirectional packets per second std: {bidirectional_pps_std}")
+            print(f"Bidirectional packets per second median: {bidirectional_pps_med}")
+            print(f"Bidirectional packets per second 99th percentile: {bidirectional_pps_p99}")
+            print(f"Bidirectional packets per second 95th percentile: {bidirectional_pps_p95}")
+            print(f"Bidirectional packets per second 5th percentile: {bidirectional_pps_p05}")
+            print(f"Bidirectional packets per second 1st percentile: {bidirectional_pps_p01}")
+            print()
+    else:
+        print("Bidirectional packets per second: No data available")
+    
+    
+    orig_only_pps_mean = -1
+    orig_only_pps_std = -1
+    orig_only_pps_med = -1
+    orig_only_pps_p99 = -1
+    orig_only_pps_p95 = -1
+    orig_only_pps_p05 = -1
+    orig_only_pps_p01 = -1
+    if len(orig_only_pkts_per_second) > 0:
+        orig_only_pps_mean = orig_only_pkts_per_second.mean()
+        orig_only_pps_std = orig_only_pkts_per_second.std()
+        orig_only_pps_med = orig_only_pkts_per_second.median()
+        orig_only_pps_p99 = np.nanpercentile(orig_only_pkts_per_second, 99)
+        orig_only_pps_p95 = np.nanpercentile(orig_only_pkts_per_second, 95)
+        orig_only_pps_p05 = np.nanpercentile(orig_only_pkts_per_second, 5)
+        orig_only_pps_p01 = np.nanpercentile(orig_only_pkts_per_second, 1)
+        if(debug):
+            print(f"Orig-only packets per second mean: {orig_only_pps_mean}")
+            print(f"Orig-only packets per second std: {orig_only_pps_std}")
+            print(f"Orig-only packets per second median: {orig_only_pps_med}")
+            print(f"Orig-only packets per second 99th percentile: {orig_only_pps_p99}")
+            print(f"Orig-only packets per second 95th percentile: {orig_only_pps_p95}")
+            print(f"Orig-only packets per second 5th percentile: {orig_only_pps_p05}")
+            print(f"Orig-only packets per second 1st percentile: {orig_only_pps_p01}")
+            print()
+    else:
+        print("Orig-only packets per second: No data available")
+    
+    
+    resp_only_pps_mean = -1
+    resp_only_pps_std = -1
+    resp_only_pps_med = -1
+    resp_only_pps_p99 = -1
+    resp_only_pps_p95 = -1
+    resp_only_pps_p05 = -1
+    resp_only_pps_p01 = -1
+    if len(resp_only_pkts_per_second) > 0:
+        resp_only_pps_mean = resp_only_pkts_per_second.mean()
+        resp_only_pps_std = resp_only_pkts_per_second.std()
+        resp_only_pps_med = resp_only_pkts_per_second.median()
+        resp_only_pps_p99 = np.nanpercentile(resp_only_pkts_per_second, 99)
+        resp_only_pps_p95 = np.nanpercentile(resp_only_pkts_per_second, 95)
+        resp_only_pps_p05 = np.nanpercentile(resp_only_pkts_per_second, 5)
+        resp_only_pps_p01 = np.nanpercentile(resp_only_pkts_per_second, 1)
+        if(debug):
+            print(f"Resp-only packets per second mean: {resp_only_pps_mean}")
+            print(f"Resp-only packets per second std: {resp_only_pps_std}")
+            print(f"Resp-only packets per second median: {resp_only_pps_med}")
+            print(f"Resp-only packets per second 99th percentile: {resp_only_pps_p99}")
+            print(f"Resp-only packets per second 95th percentile: {resp_only_pps_p95}")
+            print(f"Resp-only packets per second 5th percentile: {resp_only_pps_p05}")
+            print(f"Resp-only packets per second 1st percentile: {resp_only_pps_p01}")
+            print()
+    else:
+        print("Resp-only packets per second: No data available")
+    
+    
+    
+    # if(debug):
+    #     print(f"bidirectional bytes per second = \n{bidirectional_bytes_per_second}\n")
+    #     print(f"orig-only bytes per second = \n{orig_only_bytes_per_second}\n")
+    #     print(f"resp-only bytes per second = \n{resp_only_bytes_per_second}\n")
+    #     print(f"bidirectional pkts per second = \n{bidirectional_pkts_per_second}\n")
+    #     print(f"orig-only pkts per second = \n{orig_only_pkts_per_second}\n")
+    #     print(f"resp-only pkts per second = \n{resp_only_pkts_per_second}\n")
+    
+    # (6) Connection State Distribution
     state_counts = df['conn_state'].value_counts(normalize=True).to_dict()
-    # print(f"Connection states and relative frequency:")
-    # print_dict(state_counts)
-    print()
+    if(debug):
+        print(f"Connection states and relative frequency:")
+        print_dict(state_counts)
+        print()
+        
     
     
-    # (6) format return dictionary and terminate function
+    # (7) format return dictionary and terminate function
     return {
         'general' : general,
         
@@ -477,7 +689,7 @@ def extract_conn_characs(conn_path):
             "ratio": pkts_ratio,                        # (4) : float
             "bidirectional_mean": pkts_ratio_mean,      # (4) : float
             "bidirectional_std": pkts_ratio_std,        # (4) : float
-             "bidirectional_median": pkts_ratio_med,         # (4) : float
+            "bidirectional_median": pkts_ratio_med,         # (4) : float
             "bidirectional_p99": pkts_ratio_p99,            # (4) : float
             "bidirectional_p95": pkts_ratio_p95,            # (4) : float
             "bidirectional_p05": pkts_ratio_p05,            # (4) : float
@@ -491,13 +703,62 @@ def extract_conn_characs(conn_path):
             "orig_only_p05": orig_only_pkts_p05,            # (4) : float
             "orig_only_p01": orig_only_pkts_p01,            # (4) : float
             
-            "resp_only_mean": resp_only_pkts_mean,      # (4) : float
-            "resp_only_std": resp_only_pkts_std,         # (4) : float
+            "resp_only_mean": resp_only_pkts_mean,          # (4) : float
+            "resp_only_std": resp_only_pkts_std,            # (4) : float
             "resp_only_median": resp_only_pkts_med,         # (4) : float
             "resp_only_p99": resp_only_pkts_p99,            # (4) : float
             "resp_only_p95": resp_only_pkts_p95,            # (4) : float
             "resp_only_p05": resp_only_pkts_p05,            # (4) : float
             "resp_only_p01": resp_only_pkts_p01             # (4) : float
+        },
+        
+        'rate_data' : {
+            'bytes_per_second': {
+                "bidirectional_mean": bidirectional_bps_mean,
+                "bidirectional_std": bidirectional_bps_std,
+                "bidirectional_median": bidirectional_bps_med,
+                "bidirectional_p99": bidirectional_bps_p99,
+                "bidirectional_p95": bidirectional_bps_p95,
+                "bidirectional_p05": bidirectional_bps_p05,
+                "bidirectional_p01": bidirectional_bps_p01,
+                "orig_only_mean": orig_only_bps_mean,
+                "orig_only_std": orig_only_bps_std,
+                "orig_only_median": orig_only_bps_med,
+                "orig_only_p99": orig_only_bps_p99,
+                "orig_only_p95": orig_only_bps_p95,
+                "orig_only_p05": orig_only_bps_p05,
+                "orig_only_p01": orig_only_bps_p01,
+                "resp_only_mean": resp_only_bps_mean,
+                "resp_only_std": resp_only_bps_std,
+                "resp_only_median": resp_only_bps_med,
+                "resp_only_p99": resp_only_bps_p99,
+                "resp_only_p95": resp_only_bps_p95,
+                "resp_only_p05": resp_only_bps_p05,
+                "resp_only_p01": resp_only_bps_p01
+            },
+            'packets_per_second': {
+                "bidirectional_mean": bidirectional_pps_mean,
+                "bidirectional_std": bidirectional_pps_std,
+                "bidirectional_median": bidirectional_pps_med,
+                "bidirectional_p99": bidirectional_pps_p99,
+                "bidirectional_p95": bidirectional_pps_p95,
+                "bidirectional_p05": bidirectional_pps_p05,
+                "bidirectional_p01": bidirectional_pps_p01,
+                "orig_only_mean": orig_only_pps_mean,
+                "orig_only_std": orig_only_pps_std,
+                "orig_only_median": orig_only_pps_med,
+                "orig_only_p99": orig_only_pps_p99,
+                "orig_only_p95": orig_only_pps_p95,
+                "orig_only_p05": orig_only_pps_p05,
+                "orig_only_p01": orig_only_pps_p01,
+                "resp_only_mean": resp_only_pps_mean,
+                "resp_only_std": resp_only_pps_std,
+                "resp_only_median": resp_only_pps_med,
+                "resp_only_p99": resp_only_pps_p99,
+                "resp_only_p95": resp_only_pps_p95,
+                "resp_only_p05": resp_only_pps_p05,
+                "resp_only_p01": resp_only_pps_p01
+            }
         },
         
         'states' : {
@@ -763,92 +1024,10 @@ def extract_http_characs(http_path):
     return {
         'general' : general
     }
-
-
-# ==== Calculate a rules score based on the log type for a SINGLE LINE ====
-
-# ========================
-# conn.log field types 
-# ========================
-# ts                : time          [General]
-# uid               : string        [General]
-# id.orig_h         : addr          [General]
-# id.orig_p         : port          [General]
-# id.resp_h         : addr          [General]
-# id.resp_p         : port          [General]
-# proto             : enum          [.]
-# service           : string        [.]
-# duration          : interval      [.]
-# orig_bytes        : count         [.]
-# resp_bytes        : count         [.]
-# conn_state        : string        [.]  
-# local_orig        : bool          [X]
-# local_resp        : bool          [X]
-# missed_bytes      : count         [X]
-# history           : string        [X]
-# orig_pkts         : count         [.]
-# orig_ip_bytes     : count         [X] --> proportional to orig_bytes
-# resp_pkts         : count         [.]
-# resp_ip_bytes     : count         [X] --> proportional to resp_bytes
-# tunnel_parents    : set[string]   [X]
-# ip_proto          : count         [X]
-def get_rules_score_conn(line: str, ruleset: list):
-    # name the columns for a dictionary
-    cols = [
-        "ts",
-        "uid",
-        "id.orig_h",
-        "id.orig_p",
-        "id.resp_h",
-        "id.resp_p",
-        "proto",
-        "service",
-        "duration",
-        "orig_bytes",
-        "resp_bytes",
-        "conn_state",
-        "local_orig",
-        "local_resp",
-        "missed_bytes",
-        "history",
-        "orig_pkts",
-        "orig_ip_bytes",
-        "resp_pkts",
-        "resp_ip_bytes",
-        "tunel_parents"
-    ]
-
-    # format the line for the dictionary
-    line = line[5:] # strip 'CONN,' from front of line
-    line = line.split(',')
-    
-    # make the dictionary
-    line_data = dict(zip(cols, line))
-    print_dict(line_data)
-    
-    # run the logic checks and build the score
-    anomaly_score = 0
-    
-    # (1) Known Origin Addresses/Ports
-    # TODO: moot point for the type of attack we were given (for now)
-    
-    # (2) Known Response Addresses/Ports
-    # TODO: moot point for the type of attack we were given (for now)
-    
-    # (3)
-
-    return
-
-def get_rules_score_dns(line: str, ruleset: list):
-    return
-
-def get_rules_score_ssl(line: str, ruleset: list):
-    return
-
-def get_rules_score_http(line: str, ruleset: list):
-    return
-
-
+            
+        
+        
+        
 
 # === Testing and Saving ====
 # CONN
@@ -901,9 +1080,7 @@ def get_rules_score_http(line: str, ruleset: list):
 # print("<<<< THIS IS THE FAUX DDOS ATTACK >>>>")
 # extract_conn_characs(conn_paths[6])
 
-# get_rules_score_conn("CONN,1762276437.802223,CL8BNR1qn4PBrDiHz6,192.168.1.226,60386,52.168.117.169,443,tcp,-,-,-,-,OTH,T,F,0,C,0,0,0,0,-,6", None)
-
-rules_to_csv_conn()
+# rules_to_csv_conn()
 
 
 # DNS
