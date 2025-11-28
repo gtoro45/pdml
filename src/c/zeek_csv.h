@@ -26,7 +26,7 @@
  * Each enum holds a value equal to the number of columns each logfile has.
  */
 typedef enum {
-    CONN = 22,  // in extracted, not training
+    CONN = 21,  // in extracted, not training
     DNS = 24,
     HTTP = 30,
     SSL = 18,

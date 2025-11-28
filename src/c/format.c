@@ -425,17 +425,17 @@ void* format(void* log_path) {
 /* Local Main Function */
 int main() {
     // create the csv file buffer
-    csv_fd = open_csv("../../buf/10_min_child1_conn.csv");   // these paths are relative to pdml/bin/
+    csv_fd = open_csv("../buf/demo_buf.csv");   // these paths are relative to pdml/bin/
 
     // set up the format() threads
     pthread_mutex_init(&m, NULL);
 
     pthread_t thread1;
-    pthread_t thread2;
+    // pthread_t thread2;
     // pthread_t thread3;
     // pthread_t thread4;
 
-    if(pthread_create(&thread1, NULL, format, "../../train_test_data/new-benign_10_min/child1/conn.log") < 0) {    // these paths are relative to pdml/bin/
+    if(pthread_create(&thread1, NULL, format, "../train_test_data/demo/conn.log") < 0) {    // these paths are relative to pdml/bin/
         perror("pthread_create");
     }
     // if(pthread_create(&thread2, NULL, format, "../src/tests/dns.log") < 0) {
@@ -450,7 +450,7 @@ int main() {
     
     
     pthread_join(thread1, NULL);
-    pthread_join(thread2, NULL);
+    // pthread_join(thread2, NULL);
     // pthread_join(thread3, NULL);
     // pthread_join(thread4, NULL);
 
