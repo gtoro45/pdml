@@ -31,9 +31,7 @@ TRAIN_SCHEMA = pd.read_csv(
 DUMMY_DF = pd.read_csv("../../train_test_data/new-benign_10_min/csv/child1/conn.csv", nrows=50)
 TRAIN_NUMERIC_COLS = DUMMY_DF.select_dtypes(include=[np.number]).columns.tolist()
 
-BUF_FILE = "../../train_test_data/lidar-attack/csv/child2/conn.csv"
-BUF_FILE = "../../train_test_data/new-benign_10_min/csv/child2/conn.csv"
-BUF_FILE = "../../train_test_data/combined_benign_conn_BNB.csv"
+BUF_FILE = "../../buf/demo_buf.csv"
 
 
 # DATA_PREFIX = f"./feature_sets/{module}/"
@@ -93,7 +91,7 @@ BUF_FILE = "../../train_test_data/combined_benign_conn_BNB.csv"
 # http_rule_set = joblib.load(HTTP_DATA_PATHS[0]) if None not in HTTP_DATA_PATHS else None
 
 # # models
-conn_model = joblib.load("./models/conn_model.joblib")
+conn_model = joblib.load("/mnt/c/Users/gabri/Desktop/School/capstone/pdml/src/python/models/conn_model.joblib")
 # dns_model = joblib.load(DNS_DATA_PATHS[0]) if None not in DNS_DATA_PATHS else None
 # ssl_model = joblib.load(SSL_DATA_PATHS[0]) if None not in SSL_DATA_PATHS else None
 
@@ -114,6 +112,7 @@ def place_in_window(line: str):
     if not line:
         return
 
+    line = line[5:]     # get rid of 'CONN,' at beginning of the line
     parts = line.split(',')
     if len(parts) != len(TRAIN_SCHEMA):
         return   # schema mismatch
@@ -186,7 +185,7 @@ def main():
                 CONN_WINDOW.clear()
             
             
-            # (7) API post request (anomalous patterns)                     
+            # (7) API post request (anomalous patterns) --> 404 implementation             
             
             # ************************************************************
             

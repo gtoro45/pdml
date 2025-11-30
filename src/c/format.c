@@ -368,7 +368,7 @@ void* format(void* log_path) {
                 }
                 // handle normal lines
                 else {
-                    printf("[%s]: %s", log_type_str, line_csv);
+                    // printf("[%s]: %s", log_type_str, line_csv);
                     // write line to the buffer file
                     int nbytes_w = write(csv_fd, line_csv, strlen(line_csv));
                     if(nbytes_w < 0) {
