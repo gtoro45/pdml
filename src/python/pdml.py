@@ -202,7 +202,8 @@ def main():
                 CONN_WINDOW.clear()
             
             
-            # (7) API post request (anomalous patterns) --> 404 implementation             
+            # (7) API post request (anomalous patterns) 
+            # TODO --> 404 implementation             
             
             # ************************************************************
             
