@@ -1,64 +1,66 @@
-==1320149== Memcheck, a memory error detector
-==1320149== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==1320149== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
-==1320149== Command: ./pdml
-==1320149== 
+==282256== Memcheck, a memory error detector
+==282256== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==282256== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==282256== Command: ./pdml
+==282256== 
 [../train_test_data/demo/conn.log]: Connection Established! (0) 
-==1320149== 
-==1320149== Process terminating with default action of signal 15 (SIGTERM)
-==1320149==    at 0x48F8117: __futex_abstimed_wait_common64 (futex-internal.c:57)
-==1320149==    by 0x48F8117: __futex_abstimed_wait_common (futex-internal.c:87)
-==1320149==    by 0x48F8117: __futex_abstimed_wait_cancelable64 (futex-internal.c:139)
-==1320149==    by 0x48FD623: __pthread_clockjoin_ex (pthread_join_common.c:105)
-==1320149==    by 0x109482: main (format.c:452)
-==1320149== 
-==1320149== HEAP SUMMARY:
-==1320149==     in use at exit: 1,424 bytes in 4 blocks
-==1320149==   total heap usage: 1,364,366 allocs, 1,364,362 frees, 170,924,233 bytes allocated
-==1320149== 
-==1320149== 128 bytes in 1 blocks are still reachable in loss record 1 of 4
-==1320149==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==1320149==    by 0x109F6A: format (format.c:393)
-==1320149==    by 0x48FBAC2: start_thread (pthread_create.c:442)
-==1320149==    by 0x498CA73: clone (clone.S:100)
-==1320149== 
-==1320149== 272 bytes in 1 blocks are possibly lost in loss record 2 of 4
-==1320149==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==1320149==    by 0x40147D9: calloc (rtld-malloc.h:44)
-==1320149==    by 0x40147D9: allocate_dtv (dl-tls.c:375)
-==1320149==    by 0x40147D9: _dl_allocate_tls (dl-tls.c:634)
-==1320149==    by 0x48FC7B4: allocate_stack (allocatestack.c:430)
-==1320149==    by 0x48FC7B4: pthread_create@@GLIBC_2.34 (pthread_create.c:647)
-==1320149==    by 0x109473: main (format.c:438)
-==1320149== 
-==1320149== 512 bytes in 1 blocks are still reachable in loss record 3 of 4
-==1320149==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==1320149==    by 0x48E5BA3: _IO_file_doallocate (filedoalloc.c:101)
-==1320149==    by 0x48F4CDF: _IO_doallocbuf (genops.c:347)
-==1320149==    by 0x48F3F5F: _IO_file_overflow@@GLIBC_2.2.5 (fileops.c:744)
-==1320149==    by 0x48F26D4: _IO_new_file_xsputn (fileops.c:1243)
-==1320149==    by 0x48F26D4: _IO_file_xsputn@@GLIBC_2.2.5 (fileops.c:1196)
-==1320149==    by 0x48DC14C: outstring_func (vfprintf-internal.c:239)
-==1320149==    by 0x48DC14C: __vfprintf_internal (vfprintf-internal.c:1263)
-==1320149==    by 0x499BCBA: __printf_chk (printf_chk.c:33)
-==1320149==    by 0x109A48: printf (stdio2.h:112)
-==1320149==    by 0x109A48: open_file_with_retry (format.c:190)
-==1320149==    by 0x109C0C: format (format.c:247)
-==1320149==    by 0x48FBAC2: start_thread (pthread_create.c:442)
-==1320149==    by 0x498CA73: clone (clone.S:100)
-==1320149== 
-==1320149== 512 bytes in 1 blocks are definitely lost in loss record 4 of 4
-==1320149==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==1320149==    by 0x10A1F8: extract_lines (zeek_csv.c:19)
-==1320149==    by 0x109C6D: format (format.c:268)
-==1320149==    by 0x48FBAC2: start_thread (pthread_create.c:442)
-==1320149==    by 0x498CA73: clone (clone.S:100)
-==1320149== 
-==1320149== LEAK SUMMARY:
-==1320149==    definitely lost: 512 bytes in 1 blocks
-==1320149==    indirectly lost: 0 bytes in 0 blocks
-==1320149==      possibly lost: 272 bytes in 1 blocks
-==1320149==    still reachable: 640 bytes in 2 blocks
-==1320149==         suppressed: 0 bytes in 0 blocks
-==1320149== 
-==1320149== ERROR SUMMARY: 2 errors from 2 contexts (suppressed: 0 from 0)
+==282256== 
+==282256== Process terminating with default action of signal 15 (SIGTERM)
+==282256==    at 0x497A88A: __libc_read (read.c:26)
+==282256==    by 0x497A88A: read (read.c:24)
+==282256==    by 0x10A20B: read (unistd.h:38)
+==282256==    by 0x10A20B: extract_lines (zeek_csv.c:24)
+==282256==    by 0x109C6D: format (format.c:268)
+==282256==    by 0x48FAAC2: start_thread (pthread_create.c:442)
+==282256==    by 0x498BA73: clone (clone.S:100)
+==282256== 
+==282256== HEAP SUMMARY:
+==282256==     in use at exit: 5,008 bytes in 4 blocks
+==282256==   total heap usage: 1,391,720 allocs, 1,391,716 frees, 184,931,529 bytes allocated
+==282256== 
+==282256== 128 bytes in 1 blocks are still reachable in loss record 1 of 4
+==282256==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==282256==    by 0x109F6A: format (format.c:393)
+==282256==    by 0x48FAAC2: start_thread (pthread_create.c:442)
+==282256==    by 0x498BA73: clone (clone.S:100)
+==282256== 
+==282256== 272 bytes in 1 blocks are possibly lost in loss record 2 of 4
+==282256==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==282256==    by 0x40147D9: calloc (rtld-malloc.h:44)
+==282256==    by 0x40147D9: allocate_dtv (dl-tls.c:375)
+==282256==    by 0x40147D9: _dl_allocate_tls (dl-tls.c:634)
+==282256==    by 0x48FB7B4: allocate_stack (allocatestack.c:430)
+==282256==    by 0x48FB7B4: pthread_create@@GLIBC_2.34 (pthread_create.c:647)
+==282256==    by 0x109473: main (format.c:438)
+==282256== 
+==282256== 512 bytes in 1 blocks are definitely lost in loss record 3 of 4
+==282256==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==282256==    by 0x10A1F8: extract_lines (zeek_csv.c:19)
+==282256==    by 0x109C6D: format (format.c:268)
+==282256==    by 0x48FAAC2: start_thread (pthread_create.c:442)
+==282256==    by 0x498BA73: clone (clone.S:100)
+==282256== 
+==282256== 4,096 bytes in 1 blocks are still reachable in loss record 4 of 4
+==282256==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==282256==    by 0x48E4BA3: _IO_file_doallocate (filedoalloc.c:101)
+==282256==    by 0x48F3CDF: _IO_doallocbuf (genops.c:347)
+==282256==    by 0x48F2F5F: _IO_file_overflow@@GLIBC_2.2.5 (fileops.c:744)
+==282256==    by 0x48F16D4: _IO_new_file_xsputn (fileops.c:1243)
+==282256==    by 0x48F16D4: _IO_file_xsputn@@GLIBC_2.2.5 (fileops.c:1196)
+==282256==    by 0x48DB14C: outstring_func (vfprintf-internal.c:239)
+==282256==    by 0x48DB14C: __vfprintf_internal (vfprintf-internal.c:1263)
+==282256==    by 0x499ACBA: __printf_chk (printf_chk.c:33)
+==282256==    by 0x109A48: printf (stdio2.h:112)
+==282256==    by 0x109A48: open_file_with_retry (format.c:190)
+==282256==    by 0x109C0C: format (format.c:247)
+==282256==    by 0x48FAAC2: start_thread (pthread_create.c:442)
+==282256==    by 0x498BA73: clone (clone.S:100)
+==282256== 
+==282256== LEAK SUMMARY:
+==282256==    definitely lost: 512 bytes in 1 blocks
+==282256==    indirectly lost: 0 bytes in 0 blocks
+==282256==      possibly lost: 272 bytes in 1 blocks
+==282256==    still reachable: 4,224 bytes in 2 blocks
+==282256==         suppressed: 0 bytes in 0 blocks
+==282256== 
+==282256== ERROR SUMMARY: 2 errors from 2 contexts (suppressed: 0 from 0)

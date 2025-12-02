@@ -91,7 +91,9 @@ BUF_FILE = "../../buf/demo_buf.csv"
 # http_rule_set = joblib.load(HTTP_DATA_PATHS[0]) if None not in HTTP_DATA_PATHS else None
 
 # # models
-conn_model = joblib.load("/mnt/c/Users/gabri/Desktop/School/capstone/pdml/src/python/models/conn_model.joblib")
+conn_model = joblib.load("/home/gabrieltoro45/capstone/pdml/src/python/models/conn_model.joblib")                   # DESKTOP
+# conn_model = joblib.load("/mnt/c/Users/gabri/Desktop/School/capstone/pdml/src/python/models/conn_model.joblib")     # LAPTOP
+
 # dns_model = joblib.load(DNS_DATA_PATHS[0]) if None not in DNS_DATA_PATHS else None
 # ssl_model = joblib.load(SSL_DATA_PATHS[0]) if None not in SSL_DATA_PATHS else None
 
@@ -147,7 +149,19 @@ def get_window_score():
     return pred, score
 
 
+# ==== Helper Functions ====
+def print_window(window: list):
+    
+    return
+
 # ==== Main Function ====
+class Colors:
+    RED = '\033[91m'
+    GREEN = '\033[92m'
+    YELLOW = '\033[93m'
+    BLUE = '\033[94m'
+    RESET = '\033[0m'
+
 def main():
     # Dummy loop for formatting, will be changed to watcher function in watcher.py
     print(f"Reading from BUF_FILE = {BUF_FILE}")
@@ -180,7 +194,10 @@ def main():
             # (6) Get the XGBoost window score (line is passed through to know which global window to look at)
             if len(CONN_WINDOW) == WINDOW_SIZE:
                 prediction, window_score = get_window_score()
-                print(f"{prediction} | {window_score}")
+                if prediction == 1:
+                    print(f"{Colors.RED}{prediction} | {window_score} <-- Anomalous Window{Colors.RESET}")
+                else:
+                    print(f"{Colors.GREEN}{prediction} | {window_score}{Colors.RESET}")
                 print(f"Lines read: {transaction_cycles}")
                 CONN_WINDOW.clear()
             
