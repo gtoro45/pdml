@@ -8,6 +8,8 @@ import numpy as np
 import xgb
 import copy
 
+import requests
+
 # ******************************************************
 # THIS CODE IS RAN PER NODE/CHILD IN THE KUBERNETES 
 # CLUSTER, AND THEREFORE TAKES THAT IN AS INPUT FOR THE
@@ -91,8 +93,8 @@ BUF_FILE = "../../buf/demo_buf.csv"
 # http_rule_set = joblib.load(HTTP_DATA_PATHS[0]) if None not in HTTP_DATA_PATHS else None
 
 # # models
-conn_model = joblib.load("/home/gabrieltoro45/capstone/pdml/src/python/models/conn_model.joblib")                   # DESKTOP
-# conn_model = joblib.load("/mnt/c/Users/gabri/Desktop/School/capstone/pdml/src/python/models/conn_model.joblib")     # LAPTOP
+# conn_model = joblib.load("/home/gabrieltoro45/capstone/pdml/src/python/models/conn_model.joblib")                   # DESKTOP
+conn_model = joblib.load("/mnt/c/Users/gabri/Desktop/School/capstone/pdml/src/python/models/conn_model.joblib")     # LAPTOP
 
 # dns_model = joblib.load(DNS_DATA_PATHS[0]) if None not in DNS_DATA_PATHS else None
 # ssl_model = joblib.load(SSL_DATA_PATHS[0]) if None not in SSL_DATA_PATHS else None
@@ -196,9 +198,28 @@ def main():
                 prediction, window_score = get_window_score()
                 if prediction == 1:
                     print(f"{Colors.RED}{prediction} | {window_score} <-- Anomalous Window{Colors.RESET}")
+                    # Send the API request (**404 Integration**)\
+                    IP = "10.247.47.216"    # Jaxson's temp IP
+                    PORT = 3001             # Exposed port
+                    TOKEN = "b862d2b4f286bfe0ace308a577b402fce3fca9a94980509cdd5a7d7995089568"  # X-Internal-Token value
+                    CONF = "high" if window_score >= 0.7 else "low"
+                    
+                    url = f"http://{IP}:{PORT}/internal/alert"
+                    payload = {
+                        "source": "pdml-subsystem",
+                        "type": "application",
+                        "severity": CONF,
+                        "confidence": float(window_score),  # must be 0.0–1.0 (DB check constraint)
+                        "message": "Remote connectivity test",
+                        "data": {"from": "remote machine"},
+                    }
+
+                    r = requests.post(url, json=payload, headers={"X-Internal-Token": TOKEN})
+                    print(r.status_code, r.text)
+                    
                 else:
                     print(f"{Colors.GREEN}{prediction} | {window_score}{Colors.RESET}")
-                print(f"Lines read: {transaction_cycles}")
+                print(f"Lines processed: {transaction_cycles}")
                 CONN_WINDOW.clear()
             
             
