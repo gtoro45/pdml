@@ -152,8 +152,25 @@ def get_window_score():
 
 
 # ==== Helper Functions ====
-def print_window(window: list):
+def send_request(window_score):
+    # Send the API request (**404 Integration**)
+    # IP = "10.247.47.216"    # Jaxson's temp IP
+    # PORT = 3001             # Exposed port
+    # TOKEN = "b862d2b4f286bfe0ace308a577b402fce3fca9a94980509cdd5a7d7995089568"  # X-Internal-Token value
+    # CONF = "high" if window_score >= 0.7 else "low"
     
+    # url = f"http://{IP}:{PORT}/internal/alert"
+    # payload = {
+    #     "source": "pdml-subsystem",
+    #     "type": "application",
+    #     "severity": CONF,
+    #     "confidence": float(window_score),  # must be 0.0–1.0 (DB check constraint)
+    #     "message": "Remote connectivity test",
+    #     "data": {"from": "remote machine"},
+    # }
+
+    # r = requests.post(url, json=payload, headers={"X-Internal-Token": TOKEN})
+    # print(r.status_code, r.text)
     return
 
 # ==== Main Function ====
@@ -162,6 +179,7 @@ class Colors:
     GREEN = '\033[92m'
     YELLOW = '\033[93m'
     BLUE = '\033[94m'
+    ORANGE = '\033[38;5;208m'
     RESET = '\033[0m'
 
 def main():
@@ -196,40 +214,19 @@ def main():
             # (6) Get the XGBoost window score (line is passed through to know which global window to look at)
             if len(CONN_WINDOW) == WINDOW_SIZE:
                 prediction, window_score = get_window_score()
-                if prediction == 1:
-                    print(f"{Colors.RED}{prediction} | {window_score} <-- Anomalous Window{Colors.RESET}")
-                    # Send the API request (**404 Integration**)\
-                    IP = "10.247.47.216"    # Jaxson's temp IP
-                    PORT = 3001             # Exposed port
-                    TOKEN = "b862d2b4f286bfe0ace308a577b402fce3fca9a94980509cdd5a7d7995089568"  # X-Internal-Token value
-                    CONF = "high" if window_score >= 0.7 else "low"
-                    
-                    url = f"http://{IP}:{PORT}/internal/alert"
-                    payload = {
-                        "source": "pdml-subsystem",
-                        "type": "application",
-                        "severity": CONF,
-                        "confidence": float(window_score),  # must be 0.0–1.0 (DB check constraint)
-                        "message": "Remote connectivity test",
-                        "data": {"from": "remote machine"},
-                    }
-
-                    r = requests.post(url, json=payload, headers={"X-Internal-Token": TOKEN})
-                    print(r.status_code, r.text)
-                    
+                if window_score >= 0.9:
+                    print(f"{Colors.RED}{prediction} | {window_score:.4f} <-- Anomalous Window{Colors.RESET}")
+                    send_request(window_score)
+                elif window_score >= 0.7:
+                    print(f"{Colors.ORANGE}{prediction} | {window_score:.4f} <-- Suspicious Window{Colors.RESET}")
+                    send_request(window_score)
+                elif window_score >= 0.5:
+                    print(f"{Colors.YELLOW}{prediction} | {window_score:.4f} <-- Flagged Window{Colors.RESET}")
+                    send_request(window_score)
                 else:
-                    print(f"{Colors.GREEN}{prediction} | {window_score}{Colors.RESET}")
+                    print(f"{Colors.GREEN}{prediction} | {window_score:.4f}{Colors.RESET}")
                 print(f"Lines processed: {transaction_cycles}")
                 CONN_WINDOW.clear()
-            
-            
-            # (7) API post request (anomalous patterns) 
-            # TODO --> 404 implementation             
-            
-            # ************************************************************
-            
-            # sleep(1)
-
     return 0   
 
 main()

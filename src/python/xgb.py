@@ -9,6 +9,7 @@ def window_features(df, window_size=200):
     Convert row-level Zeek conn data into window-level statistical features.
     This fixes the fundamental problem in your current ML pipeline.
     """
+    
     windows = []
     num_rows = len(df)
 
@@ -20,6 +21,9 @@ def window_features(df, window_size=200):
 
         # numerical columns only
         numeric = chunk.select_dtypes(include=[np.number])
+        
+        # drop ts column
+        if 'ts' in numeric.columns: numeric = numeric.drop(columns=['ts'])
 
         if numeric.shape[1] == 0:
             continue
@@ -183,6 +187,7 @@ def main():
         for path, df in zip(benign_paths, benign_dfs):
             evaluate_on_windows(xgb_model, df, "BENIGN (pure): " + path, window_size=WINDOW_SIZE)
         print()
+        print()
         
         # # --------------------------------------------------------
         # # Evaluate — pure attack
@@ -190,12 +195,14 @@ def main():
         for path, df in zip(pure_attack_paths, pure_attack_dfs):
             evaluate_on_windows(xgb_model, df, "ATTACK (pure): " + path, window_size=WINDOW_SIZE)
         print()
+        print()
         
         # # --------------------------------------------------------
         # # Evaluate — mixed attack sets
         # # --------------------------------------------------------
         for path, df in zip(mixed_attack_paths, mixed_attack_dfs):
             evaluate_on_windows(xgb_model, df, "ATTACK (mixed): " + path, window_size=WINDOW_SIZE)
+        print()
         print()
     
 
