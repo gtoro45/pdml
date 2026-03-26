@@ -33,7 +33,7 @@ TRAIN_SCHEMA = pd.read_csv(
 DUMMY_DF = pd.read_csv("../../train_test_data/new-benign_10_min/csv/child1/conn.csv", nrows=50)
 TRAIN_NUMERIC_COLS = DUMMY_DF.select_dtypes(include=[np.number]).columns.tolist()
 
-BUF_FILE = "../../buf/demo_buf.csv"
+BUF_FILE = "../../buf/buffer.csv"
 
 
 # DATA_PREFIX = f"./feature_sets/{module}/"
@@ -94,7 +94,7 @@ BUF_FILE = "../../buf/demo_buf.csv"
 
 # # models
 # conn_model = joblib.load("/home/gabrieltoro45/capstone/pdml/src/python/models/conn_model.joblib")                   # DESKTOP
-conn_model = joblib.load("/mnt/c/Users/gabri/Desktop/School/capstone/pdml/src/python/models/conn_model.joblib")     # LAPTOP
+conn_model = joblib.load("/home/child4/Desktop/team2/pdml/src/python/models/conn_model.joblib")     # LAPTOP
 
 # dns_model = joblib.load(DNS_DATA_PATHS[0]) if None not in DNS_DATA_PATHS else None
 # ssl_model = joblib.load(SSL_DATA_PATHS[0]) if None not in SSL_DATA_PATHS else None

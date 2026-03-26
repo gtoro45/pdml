@@ -6,6 +6,7 @@
 #include <sys/time.h>
 #include <sys/wait.h>
 #include <errno.h>
+#include <limits.h>
 
 // the mutex to allow for safe writing to stdout/file
 pthread_mutex_t m;
@@ -200,7 +201,7 @@ int open_file_with_retry(char* path) {
  */
 int open_csv(char* path) {
     int fd;
-    fd = open(path, O_WRONLY | O_CREAT | O_TRUNC, S_IRWXO);
+    fd = open(path, O_WRONLY);  // file will exist
     if(fd < 0) {
         perror("csv file could not be created");
         exit(1);
@@ -422,106 +423,30 @@ void* format(void* log_path) {
     close(fd2);
 }
 
-/* Local Main Function */
-int main() {
-    // create the csv file buffer
-    csv_fd = open_csv("../buf/demo_buf.csv");   // these paths are relative to pdml/bin/
-
-    // set up the format() threads
-    pthread_mutex_init(&m, NULL);
-
-    pthread_t thread1;
-    // pthread_t thread2;
-    // pthread_t thread3;
-    // pthread_t thread4;
-
-    if(pthread_create(&thread1, NULL, format, "../train_test_data/demo/conn.log") < 0) {    // these paths are relative to pdml/bin/
-        perror("pthread_create");
+/*  Local Main Function */
+int main(int argc, char* argv[]) {
+    // check cli args
+    if(argc != 2) {
+        printf("Unexpected args. Correct usage: ./pdml <conn.log path>\n");
+        exit(-1);
     }
-    // if(pthread_create(&thread2, NULL, format, "../src/tests/dns.log") < 0) {
-    //     perror("pthread_create");
-    // }
-    // if(pthread_create(&thread3, NULL, format, "../src/tests/ssl.log") < 0) {
-    //     perror("pthread_create");
-    // }
-    // if(pthread_create(&thread4, NULL, format, "../src/tests/weird.log") < 0) {
-    //     perror("pthread_create");
-    // }
-    
-    
-    pthread_join(thread1, NULL);
-    // pthread_join(thread2, NULL);
-    // pthread_join(thread3, NULL);
-    // pthread_join(thread4, NULL);
+    char* conn_path = argv[1];
 
-    pthread_mutex_destroy(&m);
+    // DIAGNOSTIC: Print exactly where we are and what we are opening
+    char cwd[1024];
+    if (getcwd(cwd, sizeof(cwd)) != NULL) {
+        printf("[DEBUG] Current Working Directory: %s\n", cwd);
+    }
+    
+    char* target_path = "../buf/buffer.csv";
+    printf("[DEBUG] Attempting to open: %s\n", target_path);
+    
+    // create the csv file buffer
+    csv_fd = open_csv("../buf/buffer.csv");   // these paths are relative to pdml/bin/
+
+    // run the formatter
+    format(conn_path);
 
     return 0;
 }
-
-/* Cluster Main Function */
-// int main(int argc, char* argv[]) {
-//     if(argc <= 1) {
-//         perror("Missing path argument to log files");
-//         exit(1);
-//     }
-//     char* folder_path = argv[1];
-//     char* module_type = argv[2];
-
-//     // Build the log file paths
-//     char conn_path[256];
-//     char dns_path[256];
-//     char http_path[256];
-//     char ssl_path[256];
-//     char weird_path[256];
-    
-//     switch(module_type) {
-//         case "daemon-logs": {
-//             snprintf(conn_path, sizeof(conn_path), "%s/conn.log", folder_path);
-//             snprintf(dns_path, sizeof(conn_path), "%s/dns.log", folder_path);
-//             snprintf(http_path, sizeof(conn_path), "%s/http.log", folder_path);
-//             snprintf(ssl_path, sizeof(conn_path), "%s/ssl.log", folder_path);
-//             snprintf(weird_path, sizeof(conn_path), "%s/weird.log", folder_path);
-//             break;
-//         }
-
-//         case "zeek-logs-camera": {
-//             snprintf(conn_path, sizeof(conn_path), "%s/conn.log", folder_path);
-//             snprintf(dns_path, sizeof(conn_path), "%s/dns.log", folder_path);
-//             snprintf(http_path, sizeof(conn_path), "%s/http.log", folder_path);
-//             snprintf(ssl_path, sizeof(conn_path), "NULL");
-//             snprintf(weird_path, sizeof(conn_path), "%s/weird.log", folder_path);
-//             break;
-//         }
-
-//         case "zeek-logs-lidar": {
-//             snprintf(conn_path, sizeof(conn_path), "%s/conn.log", folder_path);
-//             snprintf(dns_path, sizeof(conn_path), "%s/dns.log", folder_path);
-//             snprintf(http_path, sizeof(conn_path), "NULL");
-//             snprintf(ssl_path, sizeof(conn_path), "NULL");
-//             snprintf(weird_path, sizeof(conn_path), "%s/weird.log", folder_path);
-//             break;
-//         }
-
-//         case "zeek-logs-nginx": {
-//             snprintf(conn_path, sizeof(conn_path), "%s/conn.log", folder_path);
-//             snprintf(dns_path, sizeof(conn_path), "%s/dns.log", folder_path);
-//             snprintf(http_path, sizeof(conn_path), "%s/http.log", folder_path);
-//             snprintf(ssl_path, sizeof(conn_path), "%s/ssl.log", folder_path);
-//             snprintf(weird_path, sizeof(conn_path), "%s/weird.log", folder_path);
-//             break;
-//         }
-//     }
-
-//     printf("Paths found: \n");
-//     printf("\t%s\n", conn_path); 
-//     printf("\t%s\n", dns_path); 
-//     printf("\t%s\n", http_path); 
-//     printf("\t%s\n", ssl_path); 
-//     printf("\t%s\n", weird_path);
-
-//     // Launch the threads on the files
-//     // TODO
-
-// }
 

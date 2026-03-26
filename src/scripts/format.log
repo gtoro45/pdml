@@ -1,6 +1,18 @@
-==4862== Memcheck, a memory error detector
-==4862== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==4862== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
-==4862== Command: ./pdml
-==4862== 
-[../train_test_data/demo/conn.log]: Connection Established! (0) 
+==849647== Memcheck, a memory error detector
+==849647== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==849647== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==849647== Command: ./pdml ../../gcri/logs
+==849647== 
+[DEBUG] Current Working Directory: /home/child4/Desktop/team2/pdml/bin
+[DEBUG] Attempting to open: ../buf/buffer.csv
+[../../gcri/logs] Zeek log file being established... (0)
+[../../gcri/logs] Zeek log file being established... (5)
+[../../gcri/logs] Zeek log file being established... (10)
+[../../gcri/logs] Zeek log file being established... (15)
+[../../gcri/logs] Zeek log file being established... (20)
+[../../gcri/logs] Zeek log file being established... (25)
+[../../gcri/logs] Zeek log file being established... (30)
+[../../gcri/logs] Zeek log file being established... (35)
+[../../gcri/logs] Zeek log file being established... (40)
+[../../gcri/logs] Zeek log file being established... (45)
+[../../gcri/logs] Zeek log file being established... (50)

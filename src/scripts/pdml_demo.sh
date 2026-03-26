@@ -20,7 +20,7 @@ FORMAT_BINARY_PATH=../c
 pushd $FORMAT_BINARY_PATH
 make clean
 make debug
-mv *.o pdml ../../bin/
+mv -f *.o pdml ../../bin/
 pushd ../../bin/
 taskset -c 0-3 valgrind -s \
                 --leak-check=full \
@@ -33,5 +33,5 @@ popd
 # (3) Launch pdml.py --> READING from demo_buf.csv
 python3 ../python/pdml.py
 
-# (4) Dummy wait so script doesn't exit
-wait
+# # (4) Dummy wait so script doesn't exit
+# wait
