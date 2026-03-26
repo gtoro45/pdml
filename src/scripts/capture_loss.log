@@ -3,8 +3,8 @@
 #empty_field	(empty)
 #unset_field	-
 #path	capture_loss
-#open	2026-03-26-15-27-01
+#open	2026-03-26-15-22-58
 #fields	ts	ts_delta	peer	gaps	acks	percent_lost
 #types	time	interval	string	count	count	double
-1774556821.953659	54.297230	zeek	0	0	0.0
-#close	2026-03-26-15-27-01
+1774556578.708097	4.996598	zeek	0	0	0.0
+#close	2026-03-26-15-22-58

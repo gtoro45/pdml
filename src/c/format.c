@@ -201,7 +201,7 @@ int open_file_with_retry(char* path) {
  */
 int open_csv(char* path) {
     int fd;
-    fd = open(path, O_WRONLY);  // file will exist
+    fd = open(path, O_WRONLY | O_CREAT | O_TRUNC, 0666);  // file will exist
     if(fd < 0) {
         perror("csv file could not be created");
         exit(1);
@@ -433,19 +433,21 @@ int main(int argc, char* argv[]) {
     char* conn_path = argv[1];
 
     // DIAGNOSTIC: Print exactly where we are and what we are opening
-    char cwd[1024];
-    if (getcwd(cwd, sizeof(cwd)) != NULL) {
-        printf("[DEBUG] Current Working Directory: %s\n", cwd);
-    }
+    // char cwd[1024];
+    // if (getcwd(cwd, sizeof(cwd)) != NULL) {
+    //     printf("[DEBUG] Current Working Directory: %s\n", cwd);
+    // }
     
-    char* target_path = "../buf/buffer.csv";
-    printf("[DEBUG] Attempting to open: %s\n", target_path);
+    // char* target_path = "../buf/buffer.csv";
+    // printf("[DEBUG] Attempting to open: %s\n", target_path);
     
     // create the csv file buffer
     csv_fd = open_csv("../buf/buffer.csv");   // these paths are relative to pdml/bin/
 
-    // run the formatter
-    format(conn_path);
+    // run the formatter with the correct file specified
+    char full_log_path[1024];
+    snprintf(full_log_path, sizeof(full_log_path), "%s/conn.log", conn_path);
+    format(full_log_path);
 
     return 0;
 }

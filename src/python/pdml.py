@@ -93,8 +93,9 @@ BUF_FILE = "../../buf/buffer.csv"
 # http_rule_set = joblib.load(HTTP_DATA_PATHS[0]) if None not in HTTP_DATA_PATHS else None
 
 # # models
-# conn_model = joblib.load("/home/gabrieltoro45/capstone/pdml/src/python/models/conn_model.joblib")                   # DESKTOP
-conn_model = joblib.load("/home/child4/Desktop/team2/pdml/src/python/models/conn_model.joblib")     # LAPTOP
+# conn_model = joblib.load("/home/gabrieltoro45/capstone/pdml/src/python/models/conn_model.joblib")  # DESKTOP
+conn_model = joblib.load("/mnt/c/Users/gabri/Desktop/School/capstone/pdml/src/python/models/conn_model.joblib")  # LAPTOP
+# conn_model = joblib.load("/home/child4/Desktop/team2/pdml/src/python/models/conn_model.joblib")     # CLUSTER
 
 # dns_model = joblib.load(DNS_DATA_PATHS[0]) if None not in DNS_DATA_PATHS else None
 # ssl_model = joblib.load(SSL_DATA_PATHS[0]) if None not in SSL_DATA_PATHS else None
@@ -152,12 +153,12 @@ def get_window_score():
 
 
 # ==== Helper Functions ====
-def send_request(window_score):
+def send_request(window_score, severity):
     # Send the API request (**404 Integration**)
     # IP = "10.247.47.216"    # Jaxson's temp IP
     # PORT = 3001             # Exposed port
     # TOKEN = "b862d2b4f286bfe0ace308a577b402fce3fca9a94980509cdd5a7d7995089568"  # X-Internal-Token value
-    # CONF = "high" if window_score >= 0.7 else "low"
+    # CONF = severity
     
     # url = f"http://{IP}:{PORT}/internal/alert"
     # payload = {
@@ -216,13 +217,13 @@ def main():
                 prediction, window_score = get_window_score()
                 if window_score >= 0.9:
                     print(f"{Colors.RED}{prediction} | {window_score:.4f} <-- Anomalous Window{Colors.RESET}")
-                    send_request(window_score)
+                    send_request(window_score, "severe")
                 elif window_score >= 0.7:
                     print(f"{Colors.ORANGE}{prediction} | {window_score:.4f} <-- Suspicious Window{Colors.RESET}")
-                    send_request(window_score)
+                    send_request(window_score, "suspicious")
                 elif window_score >= 0.5:
                     print(f"{Colors.YELLOW}{prediction} | {window_score:.4f} <-- Flagged Window{Colors.RESET}")
-                    send_request(window_score)
+                    send_request(window_score, "flagged")
                 else:
                     print(f"{Colors.GREEN}{prediction} | {window_score:.4f}{Colors.RESET}")
                 print(f"Lines processed: {transaction_cycles}")

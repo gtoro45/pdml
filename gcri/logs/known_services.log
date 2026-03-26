@@ -3,9 +3,7 @@
 #empty_field	(empty)
 #unset_field	-
 #path	known_services
-#open	2026-03-25-19-48-13
+#open	2026-03-26-15-37-00
 #fields	ts	host	port_num	port_proto	service
 #types	time	addr	port	enum	set[string]
-1774485988.468269	10.43.0.1	443	tcp	(empty)
-1774486084.217006	127.0.0.1	6443	tcp	(empty)
-#close	2026-03-25-19-48-13
+1774557120.251492	127.0.0.1	43277	tcp	(empty)
