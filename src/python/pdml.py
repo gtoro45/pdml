@@ -10,18 +10,6 @@ import copy
 
 import requests
 
-# ******************************************************
-# THIS CODE IS RAN PER NODE/CHILD IN THE KUBERNETES 
-# CLUSTER, AND THEREFORE TAKES THAT IN AS INPUT FOR THE
-# MODELS AND RULES TO LOAD PROPERLY FROM CORRECT PATHS
-# ******************************************************
-# parser = argparse.ArgumentParser(description='Process logs with specified node/child (module)')
-# parser.add_argument('--module', type=str, required=True, help='node/child to process data from')
-# args = parser.parse_args()
-# module = args.module
-
-# BUF_FILE = f"../../buf/{module}.csv"
-
 # === LOAD TRAINING SCHEMA ===
 # We must load a CSV used in training because THAT defines column order + names.
 TRAIN_SCHEMA = pd.read_csv(
@@ -35,83 +23,17 @@ TRAIN_NUMERIC_COLS = DUMMY_DF.select_dtypes(include=[np.number]).columns.tolist(
 
 BUF_FILE = "../../buf/buffer.csv"
 
-
-# DATA_PREFIX = f"./feature_sets/{module}/"
-
-# available_data = {
-#     "node1" : ["conn"], #, "dns", "http", "ssl"],
-#     "node2" : ["conn"], #, "dns", "http", "ssl"],
-#     "cam"   : ["conn"],
-#     "lidar" : ["conn"],
-#     "nginx" : ["conn"], # "dns"]
-# }
-# if module not in available_data:
-#     raise ValueError(f"Unknown module '{module}'. Must be one of: {', '.join(available_data.keys())}")
-
-
-# # ==== Paths to Models and Rules, and CSV Buffer for each log type ====
-# CONN_DATA_PATHS = []
-# DNS_DATA_PATHS = []
-# SSL_DATA_PATHS = []
-# HTTP_DATA_PATHS = []
-# for log_type in ["conn", "dns", "http", "ssl"]:
-#     if log_type in available_data[module]:
-#         model_path = os.path.join(DATA_PREFIX, f"{log_type}_model.joblib")
-#         rule_path  = os.path.join(DATA_PREFIX, f"{log_type}_rules.joblib")
-#         fft_path   = os.path.join(DATA_PREFIX, f"{log_type}_fft.joblib") 
-
-#         if log_type == "conn":
-#             CONN_DATA_PATHS = [model_path, rule_path]
-#         elif log_type == "dns":
-#             DNS_DATA_PATHS = [model_path, rule_path]
-#         elif log_type == "http":
-#             HTTP_DATA_PATHS = [rule_path]
-#         elif log_type == "ssl":
-#             SSL_DATA_PATHS = [model_path, rule_path]
-#     else:
-#         if log_type == "conn":
-#             CONN_DATA_PATHS = [None, None]
-#         elif log_type == "dns":
-#             DNS_DATA_PATHS = [None, None]
-#         elif log_type == "http":
-#             HTTP_DATA_PATHS = [None, None]
-#         elif log_type == "ssl":
-#             SSL_DATA_PATHS = [None, None]
-
-# print(f"\nLoaded module: {module}")     # DEBUG
-# print(f"BUF_FILE: {BUF_FILE}")          # DEBUG
-# print("conn ->", CONN_DATA_PATHS)       # DEBUG
-# print("dns  ->", DNS_DATA_PATHS)        # DEBUG
-# print("http ->", HTTP_DATA_PATHS)       # DEBUG
-# print("ssl  ->", SSL_DATA_PATHS)        # DEBUG
-
-# ==== Instantiate the Models, Rules, and Buffers ====
-# rules
-# conn_rule_set = joblib.load(CONN_DATA_PATHS[1]) if None not in CONN_DATA_PATHS else None
-# dns_rule_set = joblib.load(DNS_DATA_PATHS[1]) if None not in DNS_DATA_PATHS else None
-# ssl_rule_set = joblib.load(SSL_DATA_PATHS[1]) if None not in SSL_DATA_PATHS else None
-# http_rule_set = joblib.load(HTTP_DATA_PATHS[0]) if None not in HTTP_DATA_PATHS else None
-
 # # models
 # conn_model = joblib.load("/home/gabrieltoro45/capstone/pdml/src/python/models/conn_model.joblib")  # DESKTOP
 conn_model = joblib.load("/mnt/c/Users/gabri/Desktop/School/capstone/pdml/src/python/models/conn_model.joblib")  # LAPTOP
-# conn_model = joblib.load("/home/child4/Desktop/team2/pdml/src/python/models/conn_model.joblib")     # CLUSTER
-
-# dns_model = joblib.load(DNS_DATA_PATHS[0]) if None not in DNS_DATA_PATHS else None
-# ssl_model = joblib.load(SSL_DATA_PATHS[0]) if None not in SSL_DATA_PATHS else None
+# conn_model = joblib.load("/home/child4/Desktop/team2/pdml/src/python/models/conn_model.joblib")     # CLUSTER (Child 4)
+# conn_model = joblib.load("/home/child2/Desktop/team2/pdml/src/python/models/conn_model.joblib")     # CLUSTER (Child 2)
+# conn_model = joblib.load("/home/child1/Desktop/team2/pdml/src/python/models/conn_model.joblib")     # CLUSTER (Child 1)
 
 # buffers (priority queues for broader statistical analysis, sorted by timestamp)
 conn_count = 0
-# dns_count = 0
-# ssl_count = 0
-# http_count = 0
-
 WINDOW_SIZE = 200
-
 CONN_WINDOW = deque(maxlen=WINDOW_SIZE)
-DNS_WINDOW = deque(maxlen=WINDOW_SIZE)
-SSL_WINDOW = deque(maxlen=WINDOW_SIZE)
-HTTP_WINDOW = deque(maxlen=WINDOW_SIZE)
 
 def place_in_window(line: str):
     if not line:
@@ -155,22 +77,22 @@ def get_window_score():
 # ==== Helper Functions ====
 def send_request(window_score, severity):
     # Send the API request (**404 Integration**)
-    # IP = "10.247.47.216"    # Jaxson's temp IP
-    # PORT = 3001             # Exposed port
-    # TOKEN = "b862d2b4f286bfe0ace308a577b402fce3fca9a94980509cdd5a7d7995089568"  # X-Internal-Token value
-    # CONF = severity
+    IP = "192.168.50.32"    # Child 4 IP contains Visualization API
+    PORT = 4000             # Exposed port
+    TOKEN = "b862d2b4f286bfe0ace308a577b402fce3fca9a94980509cdd5a7d7995089568"  # X-Internal-Token value
+    CONF = severity
     
-    # url = f"http://{IP}:{PORT}/internal/alert"
-    # payload = {
-    #     "source": "pdml-subsystem",
-    #     "type": "application",
-    #     "severity": CONF,
-    #     "confidence": float(window_score),  # must be 0.0–1.0 (DB check constraint)
-    #     "message": "Remote connectivity test",
-    #     "data": {"from": "remote machine"},
-    # }
+    url = f"http://{IP}:{PORT}/internal/alert"
+    payload = {
+        "source": "pdml-subsystem-child-4",
+        "type": "malignant-transaction-window",
+        "severity": CONF,
+        "confidence": float(window_score),  # must be 0.0–1.0 (DB check constraint)
+        "message": "Remote connectivity test",
+        "data": {"from": "child 4"},
+    }
 
-    # r = requests.post(url, json=payload, headers={"X-Internal-Token": TOKEN})
+    r = requests.post(url, json=payload, headers={"X-Internal-Token": TOKEN})
     # print(r.status_code, r.text)
     return
 
