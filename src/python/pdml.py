@@ -32,7 +32,7 @@ conn_model = joblib.load("/mnt/c/Users/gabri/Desktop/School/capstone/pdml/src/py
 
 # buffers (priority queues for broader statistical analysis, sorted by timestamp)
 conn_count = 0
-WINDOW_SIZE = 200
+WINDOW_SIZE = 30 #200
 CONN_WINDOW = deque(maxlen=WINDOW_SIZE)
 
 def place_in_window(line: str):
@@ -57,7 +57,7 @@ def place_in_window(line: str):
 # ==== Retreival Functions ====
 def get_window_score():
     if len(CONN_WINDOW) < WINDOW_SIZE:
-        return 0, 0.0
+        return 0, 0.0, "window too small"
 
     # Concatenate window into a dataframe exactly like xgb.py
     window_df = pd.concat(list(CONN_WINDOW), ignore_index=True)
@@ -67,9 +67,9 @@ def get_window_score():
     tx_rate = WINDOW_SIZE / window_duration if window_duration > 0 else float('inf')
     FLOOD_THRESHOLD = 1000 # transactions per second
     flood_ratio = tx_rate / FLOOD_THRESHOLD
-    if flood_ratio >= 1.5: return 1, 0.9
-    if flood_ratio >= 1.2: return 1, 0.7
-    if flood_ratio >= 1.0: return 1, 0.5
+    if flood_ratio >= 1.5: return 1, 0.9, f"Flood Threshold {FLOOD_THRESHOLD} exceeded"
+    if flood_ratio >= 1.2: return 1, 0.7, f"Flood Threshold {FLOOD_THRESHOLD} exceeded"
+    if flood_ratio >= 1.0: return 1, 0.5, f"Flood Threshold {FLOOD_THRESHOLD} exceeded"
     
     
     # Extract window-level feature vector (same shape as training)
@@ -81,7 +81,8 @@ def get_window_score():
     pred = conn_model.predict(features)[0]
     score = conn_model.predict_proba(features)[0, 1]
 
-    return pred, score
+    return pred, score, "XGBoost Model Detection"
+
 
 
 # ==== Helper Functions ====
@@ -146,15 +147,15 @@ def main():
             
             # (6) Get the XGBoost window score (line is passed through to know which global window to look at)
             if len(CONN_WINDOW) == WINDOW_SIZE:
-                prediction, window_score = get_window_score()
+                prediction, window_score, message = get_window_score()
                 if window_score >= 0.9:
-                    print(f"{Colors.RED}{prediction} | {window_score:.4f} <-- Anomalous Window{Colors.RESET}")
+                    print(f"{Colors.RED}{prediction} | {window_score:.4f} <-- Anomalous Window [{message}]{Colors.RESET}")
                     send_request(window_score, "severe")
                 elif window_score >= 0.7:
-                    print(f"{Colors.ORANGE}{prediction} | {window_score:.4f} <-- Suspicious Window{Colors.RESET}")
+                    print(f"{Colors.ORANGE}{prediction} | {window_score:.4f} <-- Suspicious Window [{message}]{Colors.RESET}")
                     send_request(window_score, "suspicious")
                 elif window_score >= 0.5:
-                    print(f"{Colors.YELLOW}{prediction} | {window_score:.4f} <-- Flagged Window{Colors.RESET}")
+                    print(f"{Colors.YELLOW}{prediction} | {window_score:.4f} <-- Flagged Window [{message}]{Colors.RESET}")
                     send_request(window_score, "flagged")
                 else:
                     print(f"{Colors.GREEN}{prediction} | {window_score:.4f}{Colors.RESET}")

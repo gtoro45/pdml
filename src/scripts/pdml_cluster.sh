@@ -9,8 +9,8 @@ pushd $ZEEK_CONN_LOG_PATH > /dev/null
 
 # Use nohup to detach and ensure it doesn't die when the script ends
 # 'local' ensures standard logging policies are loaded
-# sudo nohup /opt/zeek/bin/zeek -i lo local > /dev/null 2>&1 &        # GCRI Cluster
-sudo nohup /usr/local/zeek/bin/zeek -i lo local > /dev/null 2>&1 &    # Laptop
+sudo nohup /opt/zeek/bin/zeek -i any > /dev/null 2>&1 &        # GCRI Cluster
+# sudo nohup /usr/local/zeek/bin/zeek -i any > /dev/null 2>&1 &    # Laptop
 
 # Store the PID so you can kill it later
 ZEEK_PID=$!
