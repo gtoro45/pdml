@@ -94,7 +94,13 @@ def evaluate_on_windows(model, df, label_name, window_size=200):
 
     print("***********************************************************************")
 
-
+class Colors:
+    RED = '\033[91m'
+    GREEN = '\033[92m'
+    YELLOW = '\033[93m'
+    BLUE = '\033[94m'
+    ORANGE = '\033[38;5;208m'
+    RESET = '\033[0m'
 
 #############################################################
 # 4. MAIN TEST HARNESS (UPDATED: mixed sets NOT used for training)
@@ -171,14 +177,13 @@ def main():
     # --------------------------------------------------------
     # Train models
     # --------------------------------------------------------
-    WINDOW_SIZES = [200]
+    WINDOW_SIZES = [30, 60, 90, 150, 200]
     for WINDOW_SIZE in WINDOW_SIZES:
         # print(f"\n### Training Window-Based Random Forest (WINDOW_SIZE = {WINDOW_SIZE}) ###")
         # rf_model = train_rf_window(X_benign_train, X_attack_train, window_size=WINDOW_SIZE)
 
-        print(f"\n### Training Window-Based XGBoost (WINDOW_SIZE = {WINDOW_SIZE}) ###")
+        print(f"{Colors.ORANGE}\n### Training Window-Based XGBoost (WINDOW_SIZE = {WINDOW_SIZE}) ### {Colors.RESET}")
         xgb_model = train_xgb_window(X_benign_train, X_attack_train, window_size=WINDOW_SIZE)
-        joblib.dump(xgb_model, "./models/conn_model.joblib")
         
         # --------------------------------------------------------
         # Evaluate — pure benign first
@@ -200,10 +205,13 @@ def main():
         # # --------------------------------------------------------
         # # Evaluate — mixed attack sets
         # # --------------------------------------------------------
-        for path, df in zip(mixed_attack_paths, mixed_attack_dfs):
-            evaluate_on_windows(xgb_model, df, "ATTACK (mixed): " + path, window_size=WINDOW_SIZE)
+        # for path, df in zip(mixed_attack_paths, mixed_attack_dfs):
+        #     evaluate_on_windows(xgb_model, df, "ATTACK (mixed): " + path, window_size=WINDOW_SIZE)
+        # print()
+        
+        print("------------------------------------------------------------------------------------------")
         print()
-        print()
+    joblib.dump(xgb_model, "./models/conn_model.joblib")
     
 
 #############################################################
@@ -211,3 +219,4 @@ def main():
 #############################################################
 if __name__ == "__main__":
     main()
+    

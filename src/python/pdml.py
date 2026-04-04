@@ -62,6 +62,16 @@ def get_window_score():
     # Concatenate window into a dataframe exactly like xgb.py
     window_df = pd.concat(list(CONN_WINDOW), ignore_index=True)
 
+    # NEW: establish a rate threshold to detect a flood attack
+    window_duration = window_df['ts'].max() - window_df["ts"].min()
+    tx_rate = WINDOW_SIZE / window_duration if window_duration > 0 else float('inf')
+    FLOOD_THRESHOLD = 1000 # transactions per second
+    flood_ratio = tx_rate / FLOOD_THRESHOLD
+    if flood_ratio >= 1.5: return 1, 0.9
+    if flood_ratio >= 1.2: return 1, 0.7
+    if flood_ratio >= 1.0: return 1, 0.5
+    
+    
     # Extract window-level feature vector (same shape as training)
     features_df = xgb.window_features(window_df, WINDOW_SIZE)
 
