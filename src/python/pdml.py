@@ -7,7 +7,8 @@ import pandas as pd
 import numpy as np
 import xgb
 import copy
-
+import time
+import math
 import requests
 
 # === LOAD TRAINING SCHEMA ===
@@ -116,6 +117,7 @@ class Colors:
     RESET = '\033[0m'
 
 def main():
+    probe_start = time.time()
     # Dummy loop for formatting, will be changed to watcher function in watcher.py
     print(f"Reading from BUF_FILE = {BUF_FILE}")
     with open(BUF_FILE, 'r') as file:    
@@ -129,16 +131,6 @@ def main():
             line = line.strip()
             # if not line: continue
             transaction_cycles += 1
-            
-            # ***************** SINGLE TRANSACTION TESTS *****************
-            # (1) acquire the rules score (simple rules, known ips, etc.)   --> leave for 404/discard: this is NOT great for random traffic 
-            
-            # (2) acquire the model score (isolation forest outlier)        --> leave for 404/discard: maybe, depends if forest model is capable enough
-            
-            # (3) calculate the anomaly score (rules + model score)         --> leave for 404/discard
-            
-            # (4) API post request (anomalous transaction)                  --> leave for 404/discard
-            # ************************************************************
             
             # ******************* SLIDING WINDOW TESTS *******************
             # (5) Add line to the corresponding window (prev. 100 transactions)
@@ -158,7 +150,7 @@ def main():
                     send_request(window_score, "flagged")
                 else:
                     print(f"{Colors.GREEN}{prediction} | {window_score:.4f}{Colors.RESET}")
-                print(f"Lines processed: {transaction_cycles}")
+                print(f"Lines processed: {transaction_cycles} [t = {int(time.time()-probe_start)//60:02d}:{int(time.time()-probe_start)%60:02d}]")
                 CONN_WINDOW.clear()
     return 0   
 
