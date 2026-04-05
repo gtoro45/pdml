@@ -177,7 +177,7 @@ def main():
     # --------------------------------------------------------
     # Train models
     # --------------------------------------------------------
-    WINDOW_SIZES = [30] #, 60, 90, 150, 200]
+    WINDOW_SIZES = [400] #, 60, 90, 150, 200]
     for WINDOW_SIZE in WINDOW_SIZES:
         # print(f"\n### Training Window-Based Random Forest (WINDOW_SIZE = {WINDOW_SIZE}) ###")
         # rf_model = train_rf_window(X_benign_train, X_attack_train, window_size=WINDOW_SIZE)

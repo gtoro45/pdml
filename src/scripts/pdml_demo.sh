@@ -26,7 +26,7 @@ taskset -c 0-3 valgrind -s \
                 --leak-check=full \
                 --show-leak-kinds=all \
                 --track-origins=yes \
-                ./pdml > ../src/scripts/format.log 2>&1 &  
+                ./pdml "/mnt/c/Users/gabri/Desktop/School/capstone/pdml/train_test_data/demo" > ../src/scripts/format.log 2>&1 &  
 popd
 popd
 

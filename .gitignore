@@ -4,3 +4,5 @@ src/logs/*
 .vscode/
 tests/
 src/*.o
+*.zip
+*.pcapng

@@ -32,7 +32,7 @@ conn_model = joblib.load("/mnt/c/Users/gabri/Desktop/School/capstone/pdml/src/py
 
 # buffers (priority queues for broader statistical analysis, sorted by timestamp)
 conn_count = 0
-WINDOW_SIZE = 30 #200
+WINDOW_SIZE = 400
 CONN_WINDOW = deque(maxlen=WINDOW_SIZE)
 
 def place_in_window(line: str):
@@ -70,7 +70,6 @@ def get_window_score():
     if flood_ratio >= 1.5: return 1, 0.9, f"Flood Threshold {FLOOD_THRESHOLD} exceeded"
     if flood_ratio >= 1.2: return 1, 0.7, f"Flood Threshold {FLOOD_THRESHOLD} exceeded"
     if flood_ratio >= 1.0: return 1, 0.5, f"Flood Threshold {FLOOD_THRESHOLD} exceeded"
-    
     
     # Extract window-level feature vector (same shape as training)
     features_df = xgb.window_features(window_df, WINDOW_SIZE)

@@ -246,6 +246,7 @@ void* format(void* log_path) {
     // open the file once
     char* path = (char*) log_path;
     int fd = open_file_with_retry(path);
+    sleep(2);   // small sleep
 
     // mark the kind of log file the function is extracting
     LogType log_type = get_type(path);
@@ -432,15 +433,6 @@ int main(int argc, char* argv[]) {
     }
     char* conn_path = argv[1];
 
-    // DIAGNOSTIC: Print exactly where we are and what we are opening
-    // char cwd[1024];
-    // if (getcwd(cwd, sizeof(cwd)) != NULL) {
-    //     printf("[DEBUG] Current Working Directory: %s\n", cwd);
-    // }
-    
-    // char* target_path = "../buf/buffer.csv";
-    // printf("[DEBUG] Attempting to open: %s\n", target_path);
-    
     // create the csv file buffer
     csv_fd = open_csv("../buf/buffer.csv");   // these paths are relative to pdml/bin/
 
