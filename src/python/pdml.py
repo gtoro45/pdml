@@ -11,6 +11,12 @@ import time
 import math
 import requests
 
+# === TIMING ===
+PDML_SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+LATENCY_EVENT_LOG = os.path.join(PDML_SCRIPT_DIR, "pdml_latency_events.log")   # must match --pdml arg in measure_latency.py
+_latency_file = open(LATENCY_EVENT_LOG, "a", buffering=1)   # line-buffered
+_window_fire_counter = 0   # increments each time a window is evaluated and printed
+
 # === LOAD TRAINING SCHEMA ===
 # We must load a CSV used in training because THAT defines column order + names.
 TRAIN_SCHEMA = pd.read_csv(
@@ -137,21 +143,46 @@ def main():
             place_in_window(copy.deepcopy(line))
             
             # (6) Get the XGBoost window score (line is passed through to know which global window to look at)
+            # if len(CONN_WINDOW) == WINDOW_SIZE:
+            #     prediction, window_score, message = get_window_score()
+            #     if window_score >= 0.9:
+            #         print(f"{Colors.RED}{prediction} | {window_score:.4f} <-- Anomalous Window [{message}]{Colors.RESET}")
+            #         #send_request(window_score, "severe")
+            #     elif window_score >= 0.7:
+            #         print(f"{Colors.ORANGE}{prediction} | {window_score:.4f} <-- Suspicious Window [{message}]{Colors.RESET}")
+            #         #send_request(window_score, "suspicious")
+            #     elif window_score >= 0.5:
+            #         print(f"{Colors.YELLOW}{prediction} | {window_score:.4f} <-- Flagged Window [{message}]{Colors.RESET}")
+            #         #send_request(window_score, "flagged")
+            #     else:
+            #         print(f"{Colors.GREEN}{prediction} | {window_score:.4f}{Colors.RESET}")
+            #     print(f"Lines processed: {transaction_cycles} [t = {int(time.time()-probe_start)//60:02d}:{int(time.time()-probe_start)%60:02d}]")
+            #     CONN_WINDOW.clear()
             if len(CONN_WINDOW) == WINDOW_SIZE:
                 prediction, window_score, message = get_window_score()
+ 
+                # ── LATENCY PATCH: record fire time before printing ──
+                global _window_fire_counter
+                _fire_t = time.time()
+                _latency_file.write(f"WINDOW_FIRE {_window_fire_counter} {_fire_t}\n")
+                _latency_file.flush()
+                _window_fire_counter += 1
+                # ────────────────────────────────────────────────────
+ 
                 if window_score >= 0.9:
                     print(f"{Colors.RED}{prediction} | {window_score:.4f} <-- Anomalous Window [{message}]{Colors.RESET}")
-                    send_request(window_score, "severe")
+                    #send_request(window_score, "severe")
                 elif window_score >= 0.7:
                     print(f"{Colors.ORANGE}{prediction} | {window_score:.4f} <-- Suspicious Window [{message}]{Colors.RESET}")
-                    send_request(window_score, "suspicious")
+                    #send_request(window_score, "suspicious")
                 elif window_score >= 0.5:
                     print(f"{Colors.YELLOW}{prediction} | {window_score:.4f} <-- Flagged Window [{message}]{Colors.RESET}")
-                    send_request(window_score, "flagged")
+                    #send_request(window_score, "flagged")
                 else:
                     print(f"{Colors.GREEN}{prediction} | {window_score:.4f}{Colors.RESET}")
                 print(f"Lines processed: {transaction_cycles} [t = {int(time.time()-probe_start)//60:02d}:{int(time.time()-probe_start)%60:02d}]")
                 CONN_WINDOW.clear()
+            
     return 0   
 
 main()

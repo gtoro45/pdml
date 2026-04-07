@@ -1,6 +1,6 @@
-==50224== Memcheck, a memory error detector
-==50224== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==50224== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
-==50224== Command: ./pdml /mnt/c/Users/gabri/Desktop/School/capstone/pdml/train_test_data/demo
-==50224== 
+==23484== Memcheck, a memory error detector
+==23484== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==23484== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==23484== Command: ./pdml /mnt/c/Users/gabri/Desktop/School/capstone/pdml/train_test_data/demo
+==23484== 
 [/mnt/c/Users/gabri/Desktop/School/capstone/pdml/train_test_data/demo/conn.log]: Connection Established! (0) 

@@ -1,0 +1,29 @@
+====================================================
+  PDML PIPELINE LATENCY SUMMARY
+====================================================
+  Windows fired : 60
+  UIDs in conn  : 24321
+  UIDs in buf   : 24321
+  UIDs matched  : 24321 / 24321
+
+  Leg 1  conn.log  → buffer.csv  (per uid) (n=24071):
+    mean  = 52.9 ms
+    p50   = 32.6 ms
+    p95   = 65.6 ms
+    p99   = 627.9 ms
+    max   = 3215.6 ms
+
+  Leg 2  buffer.csv → pdml print  (per window) (n=60):
+    mean  = 4881.2 ms
+    p50   = 4921.4 ms
+    p95   = 5212.8 ms
+    p99   = 5353.3 ms
+    max   = 5426.8 ms
+
+  E2E    conn.log  → pdml print   (per window) (n=60):
+    mean  = 4967.8 ms
+    p50   = 4958.4 ms
+    p95   = 5255.5 ms
+    p99   = 5365.7 ms
+    max   = 5457.7 ms
+====================================================

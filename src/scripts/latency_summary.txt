@@ -1,0 +1,14 @@
+====================================================
+  PDML PIPELINE LATENCY SUMMARY
+====================================================
+  Windows fired : 0
+  UIDs in conn  : 768
+  UIDs in buf   : 1378
+  UIDs matched  : 65 / 1378
+
+  Leg 1  conn.log  → buffer.csv  (per uid): no data
+
+  Leg 2  buffer.csv → pdml print  (per window): no data
+
+  E2E    conn.log  → pdml print   (per window): no data
+====================================================
