@@ -6,3 +6,4 @@ tests/
 src/*.o
 *.zip
 *.pcapng
+KUBEDATA/
